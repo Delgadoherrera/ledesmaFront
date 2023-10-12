@@ -64,14 +64,14 @@ export default function BasicTable({
         });
 
         break;
-        case "buyMaterial":
-          setShowModal(true);
-          setConfigModal({
-            ...configModal,
-            bodyReq: "Comprar material?",
-            tittle: "Comprar material",
-            action: "buyMaterial",
-          });  
+      case "buyMaterial":
+        setShowModal(true);
+        setConfigModal({
+          ...configModal,
+          bodyReq: "Comprar material?",
+          tittle: "Comprar material",
+          action: "buyMaterial",
+        });
       default:
         break;
     }
@@ -81,6 +81,23 @@ export default function BasicTable({
       setProducts(data);
     });
   }, []);
+  React.useEffect(() => {
+    const closeMenu = (e: MouseEvent) => {
+      if (anchorEl && !anchorEl.contains(e.target as Node)) {
+        handleClose();
+      }
+    };
+
+    if (open) {
+      document.addEventListener("click", closeMenu);
+    } else {
+      document.removeEventListener("click", closeMenu);
+    }
+
+    return () => {
+      document.removeEventListener("click", closeMenu);
+    };
+  }, [open, anchorEl]);
   return (
     <>
       {showMopdal && (
@@ -127,19 +144,18 @@ export default function BasicTable({
                     {row.unidadMedida}
                   </TableCell>
                   <TableCell align="right">
-                    <Button>
+                    <Button
+                      onClick={(e: any) => {
+                        handleClick(e);
+                        setElement(row);
+                        setConfigModal({
+                          ...configModal,
+                          element: row,
+                        });
+                      }}
+                    >
                       <div>
-                        <IonIcon
-                          onClick={(e: any) => {
-                            handleClick(e);
-                            setElement(row);
-                            setConfigModal({
-                              ...configModal,
-                              element: row,
-                            });
-                          }}
-                          icon={menu}
-                        ></IonIcon>
+                        <IonIcon icon={menu}></IonIcon>
                         <Menu
                           id="basic-menu"
                           anchorEl={anchorEl}
