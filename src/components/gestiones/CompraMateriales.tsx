@@ -35,9 +35,6 @@ export default function CargaMateriales({
     console.log("values", values);
   }, [values]);
 
-  const objetoFecha = Date.now();
-  const nowDate = new Date(objetoFecha);
-  const fechaMensaje = nowDate.toLocaleDateString("en-ZA");
 
   const handleSend = async (data: any) => {
     console.log("sendEdit", "data", data, "id", id);

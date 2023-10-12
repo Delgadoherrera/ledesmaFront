@@ -8,7 +8,7 @@ export interface Materiales {
 export interface Compras {
   idCompra: string;
   idMaterial: string;
-  fechaCompra: Date;
+  fechaCompra: string;
   precioDolar:number;
   precioPesos:number;
   catalogo_material:any;

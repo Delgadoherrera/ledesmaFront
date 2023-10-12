@@ -17,7 +17,7 @@ function ButtonGroup({ tabSelected }: { tabSelected: (value: any) => void }) {
         onEnter={() => tabSelected("catalogo de materiales")}
       ></Tab>
       {/*   <Tab
-        eventKey="Otros"
+        eventKey="Otros"  
         title="Otras pestañas"
         onEnter={() => tabSelected("Otras pestañas")}
       ></Tab> */}

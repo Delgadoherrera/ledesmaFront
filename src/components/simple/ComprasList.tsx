@@ -101,6 +101,8 @@ export default function BasicTable({
           <TableHead>
             <TableRow>
               <TableCell>Descripción</TableCell>
+              <TableCell align="right">Fecha</TableCell>
+
               <TableCell align="right">Id Material</TableCell>
 
               <TableCell align="right">idCompra</TableCell>
@@ -121,6 +123,9 @@ export default function BasicTable({
                   <TableCell component="th" scope="row" align="left">
                     {row.catalogo_material.descripcion}
                   </TableCell>
+                  <TableCell component="th" scope="row" align="right">
+                    {row.fechaCompra}
+                  </TableCell>
                   <TableCell align="right">{row.idMaterial}</TableCell>
 
                   <TableCell align="right">{row.idCompra}</TableCell>
@@ -138,10 +143,10 @@ export default function BasicTable({
                           onClick={(e: any) => {
                             handleClick(e);
                             setElement(row);
-                            setConfigModal({
+                            setConfigModal({fecha
                               ...configModal,
                               element: row,
-                            });
+                            });fecha
                           }}
                           icon={menu}
                         ></IonIcon>

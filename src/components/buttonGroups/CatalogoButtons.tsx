@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { component } from "../../features/dataReducer/dataReducer";
 
-function FillExample({ tab }: { tab: (value: any) => void; }) {
+function FillExample({ tab }: { tab: (value: any) => void }) {
   const dispatch = useDispatch();
   return (
     <IonItem>
