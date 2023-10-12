@@ -144,18 +144,19 @@ export default function BasicTable({
                     {row.unidadMedida}
                   </TableCell>
                   <TableCell align="right">
-                    <Button
-                      onClick={(e: any) => {
-                        handleClick(e);
-                        setElement(row);
-                        setConfigModal({
-                          ...configModal,
-                          element: row,
-                        });
-                      }}
-                    >
                       <div>
-                        <IonIcon icon={menu}></IonIcon>
+                        <IonIcon
+                        size="small"
+                          icon={menu}
+                          onClick={(e: any) => {
+                            handleClick(e);
+                            setElement(row);
+                            setConfigModal({
+                              ...configModal,
+                              element: row,
+                            });
+                          }}
+                        ></IonIcon>
                         <Menu
                           id="basic-menu"
                           anchorEl={anchorEl}
@@ -203,7 +204,6 @@ export default function BasicTable({
                           </MenuItem>
                         </Menu>
                       </div>
-                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
