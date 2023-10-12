@@ -3,7 +3,6 @@ import Tabs from "react-bootstrap/Tabs";
 import CatButtons from "../buttonGroups/CatalogoButtons";
 
 function ButtonGroup({ tabSelected }: { tabSelected: (value: any) => void }) {
-  tabSelected("compras")
   return (
     <Tabs
       defaultActiveKey="profile"
