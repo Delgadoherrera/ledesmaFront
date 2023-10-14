@@ -94,6 +94,8 @@ export default function ModalList({
             <EditMaterial
               id={configModal.element.id}
               handleClose={handleClose}
+              element={element}
+
             />
           )}
 

@@ -2,28 +2,27 @@ import * as React from "react";
 1;
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import {
-  Button,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Button, MenuItem, Select } from "@mui/material";
 
 import { ProductServices } from "../../Services/ProductService";
 
 export default function CargaMateriales({
   handleClose,
   id,
+  element,
 }: {
   handleClose: any;
   id: string;
+  element: any;
 }) {
   const [values, setValues] = React.useState({
     descripcion: "",
-    medida: "",
-    unidadMedida: "",
+    medida: element.medida,
+    unidadMedida: element.unidadMedida.unidadMedida,
   });
   const productService = new ProductServices();
 
+  console.log("elementelementelement", element);
   const limpiarFormulario = () => {
     return setValues({
       descripcion: "",
@@ -91,6 +90,7 @@ export default function CargaMateriales({
               id="outlined-basic"
               label="Medida"
               variant="outlined"
+              value={values.medida}
               onChange={(e) => setValues({ ...values, medida: e.target.value })}
             />
           </>
@@ -102,6 +102,7 @@ export default function CargaMateriales({
               id="outlined-basic"
               label="Medida"
               variant="outlined"
+              value={values.medida}
               onChange={(e) => setValues({ ...values, medida: e.target.value })}
             />
           </>
@@ -113,6 +114,7 @@ export default function CargaMateriales({
               id="outlined-basic"
               label="Medida"
               variant="outlined"
+              value={values.medida}
               onChange={(e) => setValues({ ...values, medida: e.target.value })}
             />
           </>
@@ -124,6 +126,7 @@ export default function CargaMateriales({
               id="outlined-basic"
               label="Medida"
               variant="outlined"
+              value={values.medida}
               onChange={(e) => setValues({ ...values, medida: e.target.value })}
             />
           </>
