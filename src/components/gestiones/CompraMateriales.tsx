@@ -9,12 +9,14 @@ import { ProductServices } from "../../Services/ProductService";
 export default function CargaMateriales({
   handleClose,
   id,
+  element,
 }: {
   handleClose: any;
   id: string;
+  element: any;
 }) {
   const [values, setValues] = React.useState({
-    precioDolar: 0,
+    conversion: 0,
     precioPesos: 0,
     medida: "",
     unidadMedida: "",
@@ -23,9 +25,11 @@ export default function CargaMateriales({
   const [valorDolar, setValorDolar] = React.useState(0);
   const productService = new ProductServices();
 
+  console.log("elementelementelement", element);
+
   const limpiarFormulario = () => {
     return setValues({
-      precioDolar: 0,
+      conversion: 0,
       precioPesos: 0,
       medida: "",
       unidadMedida: "",
@@ -34,7 +38,6 @@ export default function CargaMateriales({
   React.useEffect(() => {
     console.log("values", values);
   }, [values]);
-
 
   const handleSend = async (data: any) => {
     console.log("sendEdit", "data", data, "id", id);
@@ -47,12 +50,12 @@ export default function CargaMateriales({
       const val = values.precioPesos / dolares.blue.value_avg;
 
       const datos = {
-        precioDolar: val,
+        conversion: val,
         precioPesos: values.precioPesos,
         medida: values.medida,
-        unidadMedida: values.unidadMedida,
+        medidaId: element.unidadMedida.id,
       };
-      setValues({ ...values, precioDolar: val });
+      setValues({ ...values, conversion: val });
       try {
         const response = await productService.comprarMaterial(datos, id);
         console.log("Respuestasolicitud:", response);
@@ -62,10 +65,7 @@ export default function CargaMateriales({
         console.error("Error al realiza:", error);
       }
     } catch (error) {
-      console.error(
-        "Error al consultar Dólar Blue:",
-        error
-      );
+      console.error("Error al consultar Dólar Blue:", error);
     }
   };
 

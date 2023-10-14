@@ -16,7 +16,7 @@ export default function CargaMateriales() {
     descripcion: "",
     medida: "",
     unidadMedida: "",
-    id: 0,
+    id: null,
   });
   const [formErrors, setFormErrors] = useState<any>({});
   const productService = new ProductServices();
@@ -45,15 +45,20 @@ export default function CargaMateriales() {
       descripcion: "",
       medida: "",
       unidadMedida: "",
-      id: 0,
+      id: null,
     });
     setFormErrors({});
   };
 
   const handleSend = async () => {
+    const data = {
+      descripcion: values.descripcion,
+      medida: values.medida,
+      unidadMedida: values.unidadMedida,
+    };
     if (validateForm()) {
       try {
-        const response = await productService.AgregarProducto(values);
+        const response = await productService.AgregarProducto(data);
         console.log("Respuesta de la solicitud:", response);
         response.status === 200 && limpiarFormulario();
       } catch (error) {
@@ -64,13 +69,13 @@ export default function CargaMateriales() {
 
   return (
     <Box
-    component="form"
-    sx={{
-      "& > :not(style)": { m: 1, width: "25ch" },
-    }}
-    noValidate
-    autoComplete="off"
-    className="CargaMaterialesContainer"
+      component="form"
+      sx={{
+        "& > :not(style)": { m: 1, width: "25ch" },
+      }}
+      noValidate
+      autoComplete="off"
+      className="CargaMaterialesContainer"
     >
       <Typography variant="h6">Carga de materiales</Typography>
       <TextField
@@ -110,7 +115,7 @@ export default function CargaMateriales() {
           helperText={formErrors.medida}
         />
       )}
-            {values.unidadMedida === "Lts" && (
+      {values.unidadMedida === "Lts" && (
         <TextField
           label="Medida"
           variant="outlined"
@@ -130,7 +135,7 @@ export default function CargaMateriales() {
           helperText={formErrors.medida}
         />
       )}
-            {values.unidadMedida === "Cm" && (
+      {values.unidadMedida === "Cm" && (
         <TextField
           label="Medida"
           variant="outlined"
@@ -140,7 +145,7 @@ export default function CargaMateriales() {
           helperText={formErrors.medida}
         />
       )}
-      
+
       <Button variant="contained" color="primary" onClick={handleSend}>
         Enviar
       </Button>

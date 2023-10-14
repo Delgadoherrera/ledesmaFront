@@ -101,6 +101,8 @@ export default function ModalList({
             <CompraMateriales
               id={configModal.element.id}
               handleClose={handleClose}
+              element={element}
+
             />
           )}
 

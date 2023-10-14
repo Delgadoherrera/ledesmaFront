@@ -83,6 +83,8 @@ export default function BasicTable({
       setProducts(data);
     });
   }, []);
+
+  console.log('COMPRAS REALIZADAS:',products)
   return (
     <>
       {showMopdal && (
@@ -129,7 +131,7 @@ export default function BasicTable({
                   <TableCell align="right">{row.idMaterial}</TableCell>
 
                   <TableCell align="right">{row.idCompra}</TableCell>
-                  <TableCell align="right">{row.precioDolar}</TableCell>
+                  <TableCell align="right">{row.cotizacion.conversion}</TableCell>
                   <TableCell
                     onClick={() => console.log("clic on table")}
                     align="right"
