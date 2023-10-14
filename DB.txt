@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS catalogo_material (
   id INT NOT NULL AUTO_INCREMENT,
   descripcion TEXT NOT NULL, 
   medida VARCHAR(40) NOT NULL, 
+  estado VARCHAR(40), 
   PRIMARY KEY (id)
 );
 
