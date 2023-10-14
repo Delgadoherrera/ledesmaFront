@@ -16,7 +16,7 @@ export default function CargaMateriales({
   element: any;
 }) {
   const [values, setValues] = React.useState({
-    descripcion: "",
+    descripcion: element.descripcion,
     medida: element.medida,
     unidadMedida: element.unidadMedida.unidadMedida,
   });
