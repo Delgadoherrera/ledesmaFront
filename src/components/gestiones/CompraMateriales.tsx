@@ -91,65 +91,14 @@ export default function CargaMateriales({
           }
         />
 
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={values.unidadMedida}
-          onSelect={() => console.log("seleccionado ")}
-          label="Age"
-          onChange={(e) =>
-            setValues({ ...values, unidadMedida: e.target.value })
-          }
-        >
-          <MenuItem value={"Lts"}>Litros</MenuItem>
-          <MenuItem value={"Kg"}>Kg</MenuItem>
-          <MenuItem value={"Cm"}>Cm</MenuItem>
-          <MenuItem value={"Mts"}>Mts</MenuItem>
-        </Select>
-
-        {values.unidadMedida === "Mts" && (
-          <>
-            <TextField
-              id="outlined-basic"
-              label="Medida"
-              variant="outlined"
-              onChange={(e) => setValues({ ...values, medida: e.target.value })}
-            />
-          </>
-        )}
-
-        {values.unidadMedida === "Cm" && (
-          <>
-            <TextField
-              id="outlined-basic"
-              label="Medida"
-              variant="outlined"
-              onChange={(e) => setValues({ ...values, medida: e.target.value })}
-            />
-          </>
-        )}
-
-        {values.unidadMedida === "Lts" && (
-          <>
-            <TextField
-              id="outlined-basic"
-              label="Medida"
-              variant="outlined"
-              onChange={(e) => setValues({ ...values, medida: e.target.value })}
-            />
-          </>
-        )}
-
-        {values.unidadMedida === "Kg" && (
-          <>
-            <TextField
-              id="outlined-basic"
-              label="Medida"
-              variant="outlined"
-              onChange={(e) => setValues({ ...values, medida: e.target.value })}
-            />
-          </>
-        )}
+        <>
+          <TextField
+            id="outlined-basic"
+            label={`Medida  en ${element.unidadMedida.unidadMedida}`}
+            variant="outlined"
+            onChange={(e) => setValues({ ...values, medida: e.target.value })}
+          />
+        </>
 
         <Button variant="outlined" onClick={() => handleSend(values)}>
           Enviar

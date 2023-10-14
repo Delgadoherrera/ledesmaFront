@@ -84,7 +84,7 @@ export default function BasicTable({
     });
   }, []);
 
-  console.log('COMPRAS REALIZADAS:',products)
+  console.log("COMPRAS REALIZADAS:", products);
   return (
     <>
       {showMopdal && (
@@ -104,9 +104,9 @@ export default function BasicTable({
             <TableRow>
               <TableCell>Descripción</TableCell>
               <TableCell align="right">Fecha</TableCell>
-
+              <TableCell align="right">Unidad Medida</TableCell>
+              <TableCell align="right">Medida</TableCell>
               <TableCell align="right">Id Material</TableCell>
-
               <TableCell align="right">idCompra</TableCell>
               <TableCell align="right">DOLARES</TableCell>
               <TableCell align="right">PESOS</TableCell>
@@ -126,12 +126,20 @@ export default function BasicTable({
                     {row.catalogo_material.descripcion}
                   </TableCell>
                   <TableCell component="th" scope="row" align="right">
-                    {row.fechaCompra}
+                    {row.cotizacion.fechaCotizacion}
+                  </TableCell>
+                  <TableCell component="th" scope="row" align="right">
+                    {row.unidadMedida.unidadMedida}
+                  </TableCell>
+                  <TableCell component="th" scope="row" align="right">
+                    {row.medida}
                   </TableCell>
                   <TableCell align="right">{row.idMaterial}</TableCell>
 
                   <TableCell align="right">{row.idCompra}</TableCell>
-                  <TableCell align="right">{row.cotizacion.conversion}</TableCell>
+                  <TableCell align="right">
+                    {row.cotizacion.conversion}
+                  </TableCell>
                   <TableCell
                     onClick={() => console.log("clic on table")}
                     align="right"
