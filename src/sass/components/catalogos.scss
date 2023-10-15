@@ -1,5 +1,6 @@
 .search-container {
     width: 100% !important;
+
     .css-q0jhri-MuiInputBase-root-MuiInput-root {
         width: 100%;
     }
@@ -8,4 +9,12 @@
 .selectedTab {
     background-color: $selected;
     border-radius: 5px;
+}
+
+
+.containerGastoMes {
+    background-color: $selected;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
 }

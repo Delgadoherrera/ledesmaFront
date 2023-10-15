@@ -47,14 +47,21 @@ export default function BasicTable({
 
     // Filtrar los productos en base al término de búsqueda
     const filtered = searchTerm
-      ? products.filter((product) =>
-          product.catalogo_material.descripcion
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
+      ? products.filter(
+          (product) =>
+            product.catalogo_material.descripcion
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            product.idCompra
+              .toString()
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
         )
       : products;
 
-    setFilteredProducts(filtered);
+    setFilteredProducts(filtered); // Update the filtered products here
+    setSelectedMonth("");
+    calcularGastoDelMes(filtered);
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -119,10 +126,24 @@ export default function BasicTable({
     filterProductsByMonth(selectedMonth);
   };
 
+  const calcularGastoDelMes = () => {
+    let totalExpense = 0;
+    filteredProducts.forEach((product: any) => {
+      // Verificar que precioPesos sea un número
+      const price = parseFloat(product.precioPesos);
+      if (!isNaN(price)) {
+        totalExpense += price;
+      }
+    });
+
+    // Formatear el número a dos decimales sin ceros a la izquierda
+    return totalExpense.toFixed(2);
+  };
   React.useEffect(() => {
     productService.ListarCompras().then((data) => {
       console.log("data", data);
       setProducts(data);
+      setFilteredProducts(data);
     });
   }, []);
 
@@ -142,10 +163,27 @@ export default function BasicTable({
       <div className="search-container">
         <Input
           type="text"
-          placeholder="Buscar materiales..."
+          placeholder="Buscar en compras..."
           value={search}
           onChange={handleSearch}
         />
+        {(selectedMonth === "allYear" && (
+          <div className="containerGastoMes">
+            Total: ${calcularGastoDelMes()}
+          </div>
+        )) ||
+          (selectedMonth === "" && (
+            <div className="containerGastoMes">
+              Total: ${calcularGastoDelMes()}
+            </div>
+          ))}
+
+        {selectedMonth !== "allYear" && selectedMonth !== "" ? (
+          <div className="containerGastoMes">
+            Total mes: ${calcularGastoDelMes()}
+          </div>
+        ) : null}
+
         <Select
           value={selectedMonth}
           onChange={handleMonthChange}
