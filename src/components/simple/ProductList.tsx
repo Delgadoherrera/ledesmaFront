@@ -17,7 +17,7 @@ import {
   refresh,
 } from "ionicons/icons";
 import { Button } from "primereact/button";
-import { Menu, MenuItem } from "@mui/material";
+import { Input, Menu, MenuItem } from "@mui/material";
 import ModalList from "./Modals";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
@@ -148,9 +148,9 @@ export default function BasicTable({
         />
       )}
       <div className="search-container">
-        <input
+        <Input
           type="text"
-          placeholder="Buscar productos..."
+          placeholder="Buscar materiales..."
           value={search}
           onChange={handleSearch}
         />
