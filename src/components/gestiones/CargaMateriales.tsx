@@ -32,7 +32,7 @@ export default function CargaMateriales() {
       errors.unidadMedida = "La unidad de medida es requerida.";
     }
 
-    if (values.unidadMedida === "Mts" && !values.medida) {
+    if (!values.medida) {
       errors.medida = "La medida es requerida.";
     }
 
@@ -60,7 +60,7 @@ export default function CargaMateriales() {
       try {
         const response = await productService.AgregarProducto(data);
         console.log("Respuesta de la solicitud:", response);
-        response.status === 200 && limpiarFormulario();
+        response.status === 201 && limpiarFormulario();
       } catch (error) {
         console.error("Error al realizar la solicitud:", error);
       }
@@ -152,6 +152,5 @@ export default function CargaMateriales() {
         Limpiar
       </Button>
     </Box>
-    
   );
 }
