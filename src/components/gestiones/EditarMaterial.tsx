@@ -58,7 +58,7 @@ export default function CargaMateriales({
         }}
         noValidate
         autoComplete="off"
-        className="CargaMaterialesContainer"
+        className="editCargaMaterialesContainer"
       >
         <TextField
           id="outlined-basic"

@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS compra_material (
   idCompra INT NOT NULL AUTO_INCREMENT,
   idMaterial INT NOT NULL,  
   fechaCompra DATE NOT NULL,
+  unidades INT NOT NULL,  
   precioPesos DECIMAL(8, 2),
-  medida VARCHAR(40) NOT NULL, 
-  medidaId INT NOT NULL, -- Cambié "medida" por "medidaId" y es una referencia a catalogo_unidad_medida
+  medidaId INT NOT NULL, 
   PRIMARY KEY (idCompra),
   FOREIGN KEY (idMaterial) REFERENCES catalogo_material(id),
   FOREIGN KEY (medidaId) REFERENCES catalogo_unidad_medida(id)
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS cotizacion (
   idCotizacion INT NOT NULL AUTO_INCREMENT,
   fechaCotizacion DATE NOT NULL,
   conversion DECIMAL(8, 2) NOT NULL,
-  compraId INT NOT NULL, -- Cambié "idCotizacion" por "compraId" y es una referencia a compra_material
+  compraId INT NOT NULL, 
   PRIMARY KEY (idCotizacion), 
   FOREIGN KEY (compraId) REFERENCES compra_material(idCompra)
 );

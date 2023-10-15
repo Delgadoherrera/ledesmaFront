@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS compra_material (
   idMaterial INT NOT NULL,  
   fechaCompra DATE NOT NULL,
   precioPesos DECIMAL(8, 2),
-  medida VARCHAR(40) NOT NULL, 
+  unidades INT NOT NULL,  
   medidaId INT NOT NULL, 
   PRIMARY KEY (idCompra),
   FOREIGN KEY (idMaterial) REFERENCES catalogo_material(id),

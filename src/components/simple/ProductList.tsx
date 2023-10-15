@@ -115,7 +115,6 @@ export default function BasicTable({
     productService.ListarProductos().then((data) => {
       setFilteredProducts(data);
       setProducts(data);
-      
     });
   }, [refresh]);
   React.useEffect(() => {
@@ -159,9 +158,10 @@ export default function BasicTable({
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Descripción</TableCell>
+              <TableCell>Id</TableCell>
 
-              <TableCell align="right">Id</TableCell>
+              <TableCell align="right">Descripción</TableCell>
+
               <TableCell align="right">Unidad medida</TableCell>
 
               <TableCell align="right">Medida</TableCell>
@@ -178,9 +178,10 @@ export default function BasicTable({
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row" align="left">
-                    {row.descripcion}
+                    {row.id}
                   </TableCell>
-                  <TableCell align="right">{row.id}</TableCell>
+
+                  <TableCell align="right">{row.descripcion}</TableCell>
                   <TableCell
                     onClick={() => console.log("clic on table")}
                     align="right"

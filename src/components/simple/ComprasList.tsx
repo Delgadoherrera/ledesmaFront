@@ -35,7 +35,7 @@ export default function BasicTable({
   const [search, setSearch] = React.useState("");
   const [filteredProducts, setFilteredProducts] =
     React.useState<Compras[]>(products);
-  const [selectedMonth, setSelectedMonth] = React.useState(""); // Estado para el mes seleccionado
+  const [selectedMonth, setSelectedMonth] = React.useState("allYear"); // Estado para el mes seleccionado
 
   console.log("selectedMonth", selectedMonth);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -61,7 +61,7 @@ export default function BasicTable({
 
     setFilteredProducts(filtered); // Update the filtered products here
     setSelectedMonth("");
-    calcularGastoDelMes(filtered);
+    calcularGastoDelMes();
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -128,13 +128,14 @@ export default function BasicTable({
 
   const calcularGastoDelMes = () => {
     let totalExpense = 0;
-    filteredProducts.forEach((product: any) => {
-      // Verificar que precioPesos sea un número
-      const price = parseFloat(product.precioPesos);
-      if (!isNaN(price)) {
-        totalExpense += price;
-      }
-    });
+    Array.isArray(filteredProducts) &&
+      filteredProducts.forEach((product: any) => {
+        // Verificar que precioPesos sea un número
+        const price = parseFloat(product.precioPesos);
+        if (!isNaN(price)) {
+          totalExpense += price;
+        }
+      });
 
     // Formatear el número a dos decimales sin ceros a la izquierda
     return totalExpense.toFixed(2);
@@ -212,10 +213,7 @@ export default function BasicTable({
             <TableRow>
               <TableCell>Descripción</TableCell>
               <TableCell align="right">Fecha</TableCell>
-              <TableCell align="right">Unidad Medida</TableCell>
-              <TableCell align="right">Medida</TableCell>
-              <TableCell align="right">Id Material</TableCell>
-              <TableCell align="right">idCompra</TableCell>
+              <TableCell align="right">Cantidad</TableCell>
               <TableCell align="right">DOLARES</TableCell>
               <TableCell align="right">PESOS</TableCell>
               {/*      <TableCell align="right">
@@ -237,14 +235,10 @@ export default function BasicTable({
                     {row.cotizacion.fechaCotizacion}
                   </TableCell>
                   <TableCell component="th" scope="row" align="right">
-                    {row.unidadMedida.unidadMedida}
+                    {row.unidades}
                   </TableCell>
-                  <TableCell component="th" scope="row" align="right">
-                    {row.medida}
-                  </TableCell>
-                  <TableCell align="right">{row.idMaterial}</TableCell>
+ 
 
-                  <TableCell align="right">{row.idCompra}</TableCell>
                   <TableCell align="right">
                     {row.cotizacion.conversion}
                   </TableCell>

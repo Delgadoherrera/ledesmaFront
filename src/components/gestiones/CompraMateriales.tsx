@@ -19,7 +19,7 @@ export default function CargaMateriales({
     conversion: 0,
     precioPesos: 0,
     medida: "",
-    unidadMedida: "",
+    unidades: 0,
   });
 
   const [valorDolar, setValorDolar] = React.useState(0);
@@ -32,7 +32,7 @@ export default function CargaMateriales({
       conversion: 0,
       precioPesos: 0,
       medida: "",
-      unidadMedida: "",
+      unidades: 0,
     });
   };
   React.useEffect(() => {
@@ -53,6 +53,7 @@ export default function CargaMateriales({
         conversion: val,
         precioPesos: values.precioPesos,
         medida: values.medida,
+        unidades: values.unidades,
         medidaId: element.unidadMedida.id,
       };
       setValues({ ...values, conversion: val });
@@ -79,7 +80,7 @@ export default function CargaMateriales({
         }}
         noValidate
         autoComplete="off"
-        className="CargaMaterialesContainer"
+        className="editCargaMaterialesContainer"
       >
         <TextField
           id="outlined-basic"
@@ -94,9 +95,12 @@ export default function CargaMateriales({
         <>
           <TextField
             id="outlined-basic"
-            label={`Medida  en ${element.unidadMedida.unidadMedida}`}
+            type="number"
+            label={`Unidades`}
             variant="outlined"
-            onChange={(e) => setValues({ ...values, medida: e.target.value })}
+            onChange={(e) =>
+              setValues({ ...values, unidades: parseInt(e.target.value) })
+            }
           />
         </>
 
@@ -112,18 +116,18 @@ export default function CargaMateriales({
         </Button> */}
       </Box>
       <div>
-          <Button variant="outlined" onClick={() => handleSend(values)}>
-            Enviar
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={(e) => {
-              limpiarFormulario();
-            }}
-          >
-            Cancelar
-          </Button>
-        </div>
+        <Button variant="outlined" onClick={() => handleSend(values)}>
+          Enviar
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={(e) => {
+            limpiarFormulario();
+          }}
+        >
+          Cancelar
+        </Button>
+      </div>
     </>
   );
 }

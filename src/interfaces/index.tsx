@@ -12,4 +12,5 @@ export interface Compras {
   precioDolar: number;
   precioPesos: number;
   catalogo_material: any;
+  unidades: any;
 }
