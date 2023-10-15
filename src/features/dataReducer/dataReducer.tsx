@@ -2,30 +2,31 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 
 interface DataState {
-  component: string;
+  refreshThis: boolean;
 }
 
 const initialState: DataState = {
-  component: "",
+  refreshThis: false,
 };
 
 const dataReducer = createSlice({
   name: "counter",
   initialState,
   reducers: {
-    component: (state, action: PayloadAction<any>) => {
-      state.component = action.payload;
+    refreshThis: (state, action: PayloadAction<any>) => {
+      console.log('REFRESCANDO,',action.payload)
+      state.refreshThis = action.payload;
     },
   },
 });
 
-export const { component } = dataReducer.actions;
+export const { refreshThis } = dataReducer.actions;
 
 const selectCounterState = (state: { counter: DataState }) => state.counter;
 
 export const selectCount = createSelector(
   [selectCounterState],
-  (counter) => counter.component
+  (counter) => counter.refreshThis
 );
 
 export default dataReducer.reducer;

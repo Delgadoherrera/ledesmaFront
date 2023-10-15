@@ -9,10 +9,18 @@ import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces/index";
 import { IonIcon } from "@ionic/react";
-import { menu, options, optionsOutline, optionsSharp } from "ionicons/icons";
+import {
+  menu,
+  options,
+  optionsOutline,
+  optionsSharp,
+  refresh,
+} from "ionicons/icons";
 import { Button } from "primereact/button";
 import { Menu, MenuItem } from "@mui/material";
 import ModalList from "./Modals";
+import { useDispatch, useSelector } from "react-redux";
+import { refreshThis } from "../../features/dataReducer/dataReducer";
 
 export default function BasicTable({
   closeModal,
@@ -31,9 +39,35 @@ export default function BasicTable({
     bodyReq: "",
     element: element,
   });
+  const [search, setSearch] = React.useState("");
+  const [filteredProducts, setFilteredProducts] =
+    React.useState<Materiales[]>(products);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const dispatch = useDispatch();
+  const refresh = useSelector(
+    (refreshThis: any) => refreshThis.counter.refreshThis
+  );
+
+  React.useEffect(() => {
+    if (refresh === true) {
+      dispatch(refreshThis(false));
+    }
+  }, [refresh]);
+  console.log("REFRESH", refresh);
+
+  console.log("REFRESH", refresh);
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchTerm = event.target.value;
+    setSearch(searchTerm);
+
+    // Filtrar los productos en base al término de búsqueda
+    const filtered = searchTerm
+      ? products.filter((product) =>
+          product.descripcion.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : products;
+
+    setFilteredProducts(filtered);
   };
 
   console.log("element", element);
@@ -41,7 +75,9 @@ export default function BasicTable({
     setAnchorEl(null);
   };
   const productService = new ProductServices();
-
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
   const handleAction = (e: any, action: any, element: Materiales) => {
     switch (action) {
       case "deleteMaterial":
@@ -78,9 +114,10 @@ export default function BasicTable({
   };
   React.useEffect(() => {
     productService.ListarProductos().then((data) => {
+      setFilteredProducts(data);
       setProducts(data);
     });
-  }, []);
+  }, [refresh]);
   React.useEffect(() => {
     const closeMenu = (e: MouseEvent) => {
       if (anchorEl && !anchorEl.contains(e.target as Node)) {
@@ -110,7 +147,14 @@ export default function BasicTable({
           configModal={configModal}
         />
       )}
-
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Buscar productos..."
+          value={search}
+          onChange={handleSearch}
+        />
+      </div>
       <TableContainer component={Paper} className="tableMateriales">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -127,8 +171,8 @@ export default function BasicTable({
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.isArray(products) &&
-              products.map((row, index) => (
+            {Array.isArray(filteredProducts) &&
+              filteredProducts.map((row, index) => (
                 <TableRow
                   key={row.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

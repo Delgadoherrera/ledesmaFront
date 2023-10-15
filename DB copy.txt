@@ -1,0 +1,39 @@
+DROP DATABASE IF EXISTS ledesmaCia;
+CREATE DATABASE ledesmaCia;
+USE ledesmaCia;
+
+CREATE TABLE IF NOT EXISTS catalogo_material (
+  id INT NOT NULL AUTO_INCREMENT,
+  descripcion TEXT NOT NULL, 
+  medida VARCHAR(40) NOT NULL, 
+  estado VARCHAR(40), 
+  unidadMedidaId INT NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS catalogo_unidad_medida (
+  id INT NOT NULL AUTO_INCREMENT,
+  unidadMedida VARCHAR(128) NOT NULL, 
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS compra_material (
+  idCompra INT NOT NULL AUTO_INCREMENT,
+  idMaterial INT NOT NULL,  
+  fechaCompra DATE NOT NULL,
+  precioPesos DECIMAL(8, 2),
+  medida VARCHAR(40) NOT NULL, 
+  medidaId INT NOT NULL, 
+  PRIMARY KEY (idCompra),
+  FOREIGN KEY (idMaterial) REFERENCES catalogo_material(id),
+  FOREIGN KEY (medidaId) REFERENCES catalogo_unidad_medida(id)
+);
+
+CREATE TABLE IF NOT EXISTS cotizacion (
+  idCotizacion INT NOT NULL AUTO_INCREMENT,
+  fechaCotizacion DATE NOT NULL,
+  conversion DECIMAL(8, 2) NOT NULL,
+  compraId INT NOT NULL, 
+  PRIMARY KEY (idCotizacion), 
+  FOREIGN KEY (compraId) REFERENCES compra_material(idCompra)
+);

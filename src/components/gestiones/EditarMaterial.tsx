@@ -3,8 +3,9 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button, MenuItem, Select } from "@mui/material";
-
+import { useDispatch } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
+import { refreshThis } from "../../features/dataReducer/dataReducer";
 
 export default function CargaMateriales({
   handleClose,
@@ -21,7 +22,7 @@ export default function CargaMateriales({
     unidadMedida: element.unidadMedida.unidadMedida,
   });
   const productService = new ProductServices();
-
+  const dispatch = useDispatch();
   console.log("elementelementelement", element);
   const limpiarFormulario = () => {
     return setValues({
@@ -41,6 +42,7 @@ export default function CargaMateriales({
       console.log("Respuesta de la solicitud:", response);
       handleClose();
       response.status === 200 && limpiarFormulario();
+      response.status === 200 && dispatch(refreshThis(true))
     } catch (error) {
       console.error("Error al realizar la solicitud:", error);
     }

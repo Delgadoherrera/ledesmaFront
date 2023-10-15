@@ -64,7 +64,7 @@ export class ProductServices {
   async editarMaterial(data: any, id: any): Promise<any> {
     console.log("PRODUCIT EDIT", data, "IDMATERIAL", id);
     try {
-      const response: AxiosResponse<any> = await axios.post(
+      const response: AxiosResponse<any> = await axios.put(
         `https://ledesma.missingpets.art/materiales/editar/${id}`,
         { data: data },
         {
