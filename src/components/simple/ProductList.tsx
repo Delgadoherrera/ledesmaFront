@@ -166,8 +166,8 @@ export default function BasicTable({
 
               <TableCell align="right">Medida</TableCell>
               <TableCell align="right">
-                <IonIcon icon={options}></IonIcon>
-              </TableCell>
+{/*                 <IonIcon icon={options}></IonIcon>
+ */}              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

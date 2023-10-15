@@ -87,9 +87,16 @@ export default function CargaMateriales({
           label="Precio en pesos "
           value={values.precioPesos}
           variant="outlined"
-          onChange={(e) =>
-            setValues({ ...values, precioPesos: parseFloat(e.target.value) })
-          }
+          onChange={(e) => {
+            const inputValue = parseFloat(e.target.value);
+            if (!isNaN(inputValue)) {
+              setValues({ ...values, precioPesos: inputValue });
+            } else {
+              // Puedes manejar la entrada inválida aquí, como mostrar un mensaje de error.
+              // Por ejemplo:
+              // setValues({ ...values, precioPesos: 0 }); // O algún otro valor predeterminado
+            }
+          }}
         />
 
         <>
