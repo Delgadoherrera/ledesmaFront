@@ -7,11 +7,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
-import { Compras } from "../../interfaces/index";
+import { Compras, Materiales } from "../../interfaces/index";
 import { IonIcon } from "@ionic/react";
 import { menu, options, optionsOutline, optionsSharp } from "ionicons/icons";
 import { Button } from "primereact/button";
-import { Menu, MenuItem } from "@mui/material";
+import { Input, Menu, MenuItem, Select } from "@mui/material";
 import ModalList from "./Modals";
 import axios from "axios";
 
@@ -32,12 +32,30 @@ export default function BasicTable({
     bodyReq: "",
     element: element,
   });
+  const [search, setSearch] = React.useState("");
+  const [filteredProducts, setFilteredProducts] =
+    React.useState<Compras[]>(products);
+  const [selectedMonth, setSelectedMonth] = React.useState(""); // Estado para el mes seleccionado
 
+  console.log("selectedMonth", selectedMonth);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchTerm = event.target.value;
+    setSearch(searchTerm);
 
-  console.log("element", element);
+    // Filtrar los productos en base al término de búsqueda
+    const filtered = searchTerm
+      ? products.filter((product) =>
+          product.catalogo_material.descripcion
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
+        )
+      : products;
+
+    setFilteredProducts(filtered);
+  };
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -77,6 +95,30 @@ export default function BasicTable({
         break;
     }
   };
+  const filterProductsByMonth = (month: any) => {
+    if (month === "allYear") {
+      // Si no se ha seleccionado un mes, muestra todos los productos
+      console.log("TODOS LOS PRODUC");
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter((product: any) => {
+        console.log("Fecha de cotización:", product.cotizacion.fechaCotizacion);
+        const cotizacionDate = new Date(product.cotizacion.fechaCotizacion);
+        const cotizacionMonth = cotizacionDate.getMonth();
+        console.log("Mes de la fecha:", cotizacionDate.getMonth());
+
+        return cotizacionMonth === month;
+      });
+      setFilteredProducts(filtered);
+    }
+  };
+  // Manejar el cambio de mes seleccionado
+  const handleMonthChange = (event: any) => {
+    const selectedMonth = event.target.value;
+    setSelectedMonth(selectedMonth);
+    filterProductsByMonth(selectedMonth);
+  };
+
   React.useEffect(() => {
     productService.ListarCompras().then((data) => {
       console.log("data", data);
@@ -97,7 +139,35 @@ export default function BasicTable({
           configModal={configModal}
         />
       )}
+      <div className="search-container">
+        <Input
+          type="text"
+          placeholder="Buscar materiales..."
+          value={search}
+          onChange={handleSearch}
+        />
+        <Select
+          value={selectedMonth}
+          onChange={handleMonthChange}
+          placeholder="Seleccionar mes"
+        >
+          <MenuItem value="allYear">Todos los meses</MenuItem>
+          <MenuItem value={0}>Enero</MenuItem>
+          <MenuItem value={1}>Febrero</MenuItem>
+          <MenuItem value={2}>Marzo</MenuItem>
+          <MenuItem value={3}>Abril</MenuItem>
+          <MenuItem value={4}>Mayo</MenuItem>
+          <MenuItem value={5}>Junio</MenuItem>
+          <MenuItem value={6}>Julio</MenuItem>
+          <MenuItem value={7}>Agosto</MenuItem>
+          <MenuItem value={8}>Septiembre</MenuItem>
+          <MenuItem value={9}>Octubre</MenuItem>
+          <MenuItem value={10}>Noviembre</MenuItem>
+          <MenuItem value={11}>Diciembre</MenuItem>
 
+          {/* Agregar el resto de los meses */}
+        </Select>
+      </div>
       <TableContainer component={Paper} className="tableCompras">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -116,8 +186,8 @@ export default function BasicTable({
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.isArray(products) &&
-              products.map((row, index) => (
+            {Array.isArray(filteredProducts) &&
+              filteredProducts.map((row, index) => (
                 <TableRow
                   key={row.idCompra}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

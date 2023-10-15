@@ -1,8 +1,11 @@
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import CatButtons from "../buttonGroups/CatalogoButtons";
+import { useIonViewWillEnter } from "@ionic/react";
 
 function ButtonGroup({ tabSelected }: { tabSelected: (value: any) => void }) {
+  useIonViewWillEnter(()=> tabSelected('compras'))
+
   return (
     <Tabs
       defaultActiveKey="profile"
@@ -15,10 +18,10 @@ function ButtonGroup({ tabSelected }: { tabSelected: (value: any) => void }) {
         title="Compras"
         onEnter={() => tabSelected("compras")}
       ></Tab>
-      {/*   <Tab
-        eventKey="Otros"
-        title="Otras pestañas"
-        onEnter={() => tabSelected("Otras pestañas")}
+      {/*       <Tab
+        eventKey="Resumenes"
+        title="Dashboard"
+        onEnter={() => tabSelected("Dashboard")}
       ></Tab> */}
     </Tabs>
   );

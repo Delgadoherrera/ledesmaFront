@@ -111,6 +111,19 @@ export default function CargaMateriales({
           Limpiar
         </Button> */}
       </Box>
+      <div>
+          <Button variant="outlined" onClick={() => handleSend(values)}>
+            Enviar
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={(e) => {
+              limpiarFormulario();
+            }}
+          >
+            Cancelar
+          </Button>
+        </div>
     </>
   );
 }

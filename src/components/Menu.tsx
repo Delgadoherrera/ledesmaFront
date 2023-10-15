@@ -66,6 +66,7 @@ const appPages: AppPage[] = [
     iosIcon: logoUsd,
     mdIcon: logoUsd,
   },
+  
   /*   {
     title: "Configuración",
     url: "/page/Configuración",

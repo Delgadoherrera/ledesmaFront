@@ -53,7 +53,6 @@ export default function BasicTable({
       dispatch(refreshThis(false));
     }
   }, [refresh]);
-  console.log("REFRESH", refresh);
 
   console.log("REFRESH", refresh);
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,6 +115,7 @@ export default function BasicTable({
     productService.ListarProductos().then((data) => {
       setFilteredProducts(data);
       setProducts(data);
+      
     });
   }, [refresh]);
   React.useEffect(() => {

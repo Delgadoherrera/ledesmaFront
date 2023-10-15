@@ -1,9 +1,11 @@
 .search-container {
     width: 100% !important;
-
-
-
     .css-q0jhri-MuiInputBase-root-MuiInput-root {
         width: 100%;
     }
+}
+
+.selectedTab {
+    background-color: $selected;
+    border-radius: 5px;
 }

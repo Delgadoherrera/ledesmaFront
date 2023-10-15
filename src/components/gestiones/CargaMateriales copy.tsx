@@ -121,19 +121,21 @@ export default function CargaMateriales() {
             />
           </>
         )}
-
-        <Button variant="outlined" onClick={() => handleSend(values)}>
-          Enviar
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={(e) => {
-            limpiarFormulario();
-          }}
-        >
-          Cancelar
-        </Button>
+    
       </Box>
+      <div>
+          <Button variant="outlined" onClick={() => handleSend(values)}>
+            Enviar
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={(e) => {
+              limpiarFormulario();
+            }}
+          >
+            Cancelar
+          </Button>
+        </div>
     </>
   );
 }

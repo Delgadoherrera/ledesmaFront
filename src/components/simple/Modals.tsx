@@ -8,6 +8,8 @@ import { IonItem } from "@ionic/react";
 import { ProductServices } from "../../Services/ProductService";
 import EditMaterial from "../gestiones/EditarMaterial";
 import CompraMateriales from "../gestiones/CompraMateriales";
+import { refreshThis } from "../../features/dataReducer/dataReducer";
+import { useDispatch } from "react-redux";
 
 const style = {
   position: "absolute" as "absolute",
@@ -44,8 +46,8 @@ export default function ModalList({
     setOpen(false);
   };
   const materials = new ProductServices();
+  const dispatch = useDispatch();
 
-  console.log("configModal", configModal);
   const handleActions = (j: any) => {
     if (j === "accept") {
       console.log("j", j);
@@ -56,21 +58,12 @@ export default function ModalList({
           try {
             const response = materials.eliminarMaterial(element.id);
             console.log("response", response);
+            dispatch(refreshThis(true))
             closeModal(false);
           } catch (err) {
             console.log("err", err);
           }
-          break;
-        case "editMaterial":
-          console.log("editMaterial:", element, "action:", action);
-          try {
-            const response = materials.eliminarMaterial(element.id);
-            console.log("response", response);
-            closeModal(false);
-          } catch (err) {
-            console.log("err", err);
-          }
-          break;
+          break;   
         default:
           break;
       }

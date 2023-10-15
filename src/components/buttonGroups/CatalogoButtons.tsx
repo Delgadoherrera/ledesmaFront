@@ -1,15 +1,30 @@
 import { IonButton, IonButtons, IonItem } from "@ionic/react";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { component } from "../../features/dataReducer/dataReducer";
+import { useState } from "react";
 
 function FillExample({ tab }: { tab: (value: any) => void }) {
   const dispatch = useDispatch();
+  const [selectedTab, setSelectedTab] = useState("Stock disponible");
+
+  const handleTabClick = (tabName: string) => {
+    setSelectedTab(tabName);
+    tab(tabName);
+  };
+
   return (
     <IonItem>
       <IonButtons>
-        <IonButton onClick={() => tab("Stock disponible")}>Listado</IonButton>
-        <IonButton onClick={() => tab("Carga de materiales")}>
+        <IonButton
+          className={selectedTab === "Stock disponible" ? "selectedTab" : ""}
+          onClick={() => handleTabClick("Stock disponible")}
+        >
+          Listado
+        </IonButton>
+        <IonButton
+          className={selectedTab === "Carga de materiales" ? "selectedTab" : ""}
+          onClick={() => handleTabClick("Carga de materiales")}
+        >
           Carga de materiales
         </IonButton>
       </IonButtons>

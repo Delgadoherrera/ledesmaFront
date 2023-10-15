@@ -1,8 +1,11 @@
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import CatButtons from "../buttonGroups/CatalogoButtons";
+import { useIonViewWillEnter } from "@ionic/react";
 
 function ButtonGroup({ tabSelected }: { tabSelected: (value: any) => void }) {
+
+  useIonViewWillEnter(()=> tabSelected('catalogo de materiales'))
 
   return (
     <Tabs

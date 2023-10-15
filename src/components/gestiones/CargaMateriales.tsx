@@ -77,7 +77,6 @@ export default function CargaMateriales() {
       autoComplete="off"
       className="CargaMaterialesContainer"
     >
-      <Typography variant="h6">Carga de materiales</Typography>
       <TextField
         label="Descripción"
         variant="outlined"
@@ -153,5 +152,6 @@ export default function CargaMateriales() {
         Limpiar
       </Button>
     </Box>
+    
   );
 }
