@@ -121,4 +121,25 @@ export class ProductServices {
       return null;
     }
   }
+
+  async AgregarCombo(data: any, comboName: any): Promise<any> {
+    try {
+      const response: AxiosResponse<any> = await axios.post(
+        `https://ledesma.missingpets.art/combos/nuevoCombo/${comboName}`,
+        data,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("res addCombo", response);
+      return response;
+    } catch (error) {
+      console.error("Error agregando material:", error);
+      return null;
+    }
+  }
 }

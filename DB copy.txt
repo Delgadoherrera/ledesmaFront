@@ -37,3 +37,19 @@ CREATE TABLE IF NOT EXISTS cotizacion (
   PRIMARY KEY (idCotizacion), 
   FOREIGN KEY (compraId) REFERENCES compra_material(idCompra)
 );
+
+CREATE TABLE IF NOT EXISTS combo_material (
+  id INT NOT NULL AUTO_INCREMENT,
+  nombreCombo TEXT NOT NULL,
+  estado VARCHAR(40),
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS combo_material_item (
+  id INT NOT NULL AUTO_INCREMENT,
+  combo_material_id INT NOT NULL,
+  material_id INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (combo_material_id) REFERENCES combo_material(id),
+  FOREIGN KEY (material_id) REFERENCES catalogo_material(id)
+);

@@ -58,12 +58,12 @@ export default function ModalList({
           try {
             const response = materials.eliminarMaterial(element.id);
             console.log("response", response);
-            dispatch(refreshThis(true))
+            dispatch(refreshThis(true));
             closeModal(false);
           } catch (err) {
             console.log("err", err);
           }
-          break;   
+          break;
         default:
           break;
       }
@@ -88,7 +88,6 @@ export default function ModalList({
               id={configModal.element.id}
               handleClose={handleClose}
               element={element}
-
             />
           )}
 
@@ -97,14 +96,19 @@ export default function ModalList({
               id={configModal.element.id}
               handleClose={handleClose}
               element={element}
-
             />
           )}
 
-          {configModal.action !== "editMaterial" && (
-            <Button onClick={(e) => handleActions("accept")}>Aceptar</Button>
-          )}
-          <Button onClick={() => closeModal(false)}>Cancelar</Button>
+          {configModal.action !== "editMaterial" ||
+            (configModal.action !== "buyMaterial" && (
+              <>
+                <Button onClick={(e) => handleActions("accept")}>
+                  Aceptar
+                </Button>
+
+                <Button onClick={() => closeModal(false)}>Cancelar</Button>
+              </>
+            ))}
         </Box>
       </Modal>
     </div>

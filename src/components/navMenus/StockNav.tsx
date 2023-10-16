@@ -4,8 +4,7 @@ import CatButtons from "../buttonGroups/CatalogoButtons";
 import { useIonViewWillEnter } from "@ionic/react";
 
 function ButtonGroup({ tabSelected }: { tabSelected: (value: any) => void }) {
-
-  useIonViewWillEnter(()=> tabSelected('catalogo de materiales'))
+  useIonViewWillEnter(() => tabSelected("catalogo de materiales"));
 
   return (
     <Tabs
@@ -19,8 +18,8 @@ function ButtonGroup({ tabSelected }: { tabSelected: (value: any) => void }) {
         title="Catálogo de materiales"
         onEnter={() => tabSelected("catalogo de materiales")}
       ></Tab>
-      {/*   <Tab
-        eventKey="Otros"  
+{/*       <Tab
+        eventKey="Otros"
         title="Otras pestañas"
         onEnter={() => tabSelected("Otras pestañas")}
       ></Tab> */}

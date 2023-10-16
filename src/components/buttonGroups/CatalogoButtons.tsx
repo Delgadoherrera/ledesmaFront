@@ -19,13 +19,19 @@ function FillExample({ tab }: { tab: (value: any) => void }) {
           className={selectedTab === "Stock disponible" ? "selectedTab" : ""}
           onClick={() => handleTabClick("Stock disponible")}
         >
-          Listado
+          Listado de materiales
         </IonButton>
         <IonButton
           className={selectedTab === "Carga de materiales" ? "selectedTab" : ""}
           onClick={() => handleTabClick("Carga de materiales")}
         >
           Carga de materiales
+        </IonButton>
+        <IonButton
+          className={selectedTab === "Combo de materiales" ? "selectedTab" : ""}
+          onClick={() => handleTabClick("Combo de materiales")}
+        >
+          Combo de materiales
         </IonButton>
       </IonButtons>
     </IonItem>

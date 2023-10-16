@@ -1,0 +1,29 @@
+.tittleComboDeMaterialesContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $selected;
+    text-align: center;
+
+}
+
+.tittleComboDeMiMaterialesContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 0, 0, 0.208);
+    text-align: center;
+
+
+
+
+}
+
+.tableMateriales {
+    background-color:rgb(255, 255, 255) !important;
+    max-height: 400px;
+    button {
+        background-color: transparent;
+        color: rgba(111, 113, 117, 0.993)
+    }
+}

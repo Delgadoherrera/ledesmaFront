@@ -1,6 +1,5 @@
 import { IonContent } from "@ionic/react";
 import StockNav from "./navMenus/StockNav";
-import { component } from "../features/dataReducer/dataReducer";
 import { useDispatch, useSelector } from "react-redux";
 import CargaMateriales from "./gestiones/CargaMateriales";
 import { useEffect, useState } from "react";
@@ -39,6 +38,7 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
           {tabSelected === "compras" && <ComprasList closeModal={a} />}
         </>
       )}
+      
     </>
   );
 };

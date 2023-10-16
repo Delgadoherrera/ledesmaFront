@@ -2,9 +2,10 @@ import * as React from "react";
 1;
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Button, MenuItem, Select } from "@mui/material";
+import { Button, MenuItem, Select, Typography } from "@mui/material";
 import axios from "axios";
 import { ProductServices } from "../../Services/ProductService";
+import { IonItem } from "@ionic/react";
 
 export default function CargaMateriales({
   handleClose,
@@ -69,10 +70,9 @@ export default function CargaMateriales({
       console.error("Error al consultar Dólar Blue:", error);
     }
   };
-
+  console.log("element", element);
   return (
     <>
-      <b> Carga de materiales</b>
       <Box
         component="form"
         sx={{
@@ -82,6 +82,12 @@ export default function CargaMateriales({
         autoComplete="off"
         className="editCargaMaterialesContainer"
       >
+        <div className="descripcionCompra">
+          <Typography>descripcion: {element.descripcion}</Typography>
+          <Typography>
+            Medida: {element.medida} {element.unidadMedida.unidadMedida}
+          </Typography>
+        </div>
         <TextField
           id="outlined-basic"
           label="Precio en pesos "
@@ -98,7 +104,6 @@ export default function CargaMateriales({
             }
           }}
         />
-
         <>
           <TextField
             id="outlined-basic"
@@ -110,7 +115,6 @@ export default function CargaMateriales({
             }
           />
         </>
-
         <Button variant="outlined" onClick={() => handleSend(values)}>
           Enviar
         </Button>
@@ -123,9 +127,6 @@ export default function CargaMateriales({
         </Button> */}
       </Box>
       <div>
-        <Button variant="outlined" onClick={() => handleSend(values)}>
-          Enviar
-        </Button>
         <Button
           variant="outlined"
           onClick={(e) => {
