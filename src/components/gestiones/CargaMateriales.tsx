@@ -104,7 +104,6 @@ export default function CargaMateriales() {
         </Select>
         <div style={{ color: "red" }}>{formErrors.unidadMedida}</div>
       </FormControl>
-      {values.unidadMedida === "Mts" && (
         <TextField
           label="Medida"
           variant="outlined"
@@ -113,37 +112,7 @@ export default function CargaMateriales() {
           error={!!formErrors.medida}
           helperText={formErrors.medida}
         />
-      )}
-      {values.unidadMedida === "Lts" && (
-        <TextField
-          label="Medida"
-          variant="outlined"
-          value={values.medida}
-          onChange={(e) => setValues({ ...values, medida: e.target.value })}
-          error={!!formErrors.medida}
-          helperText={formErrors.medida}
-        />
-      )}
-      {values.unidadMedida === "Kg" && (
-        <TextField
-          label="Medida"
-          variant="outlined"
-          value={values.medida}
-          onChange={(e) => setValues({ ...values, medida: e.target.value })}
-          error={!!formErrors.medida}
-          helperText={formErrors.medida}
-        />
-      )}
-      {values.unidadMedida === "Cm" && (
-        <TextField
-          label="Medida"
-          variant="outlined"
-          value={values.medida}
-          onChange={(e) => setValues({ ...values, medida: e.target.value })}
-          error={!!formErrors.medida}
-          helperText={formErrors.medida}
-        />
-      )}
+    
 
       <Button variant="contained" color="primary" onClick={handleSend}>
         Enviar
