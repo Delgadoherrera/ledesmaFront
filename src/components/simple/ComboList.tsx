@@ -25,8 +25,10 @@ import { refreshThis } from "../../features/dataReducer/dataReducer";
 
 export default function BasicTable({
   elementCombo,
+  setElementCombo
 }: {
   elementCombo: (value: any) => void;
+  setElementCombo:any
 }) {
   const [products, setProducts] = React.useState<Materiales[]>([]); // Especifica el tipo Product[]
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -48,7 +50,7 @@ export default function BasicTable({
   const refresh = useSelector(
     (refreshThis: any) => refreshThis.counter.refreshThis
   );
-
+console.log('setElementCombo',setElementCombo)
   React.useEffect(() => {
     if (refresh === true) {
       dispatch(refreshThis(false));
@@ -189,6 +191,7 @@ export default function BasicTable({
                           });
                         }}
                       ></IonIcon>
+
                       <Menu
                         id="basic-menu"
                         anchorEl={anchorEl}

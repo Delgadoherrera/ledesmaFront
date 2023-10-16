@@ -21,9 +21,26 @@
 
 .tableMateriales {
     background-color:rgb(255, 255, 255) !important;
-    max-height: 400px;
+    max-height: 300px;
     button {
         background-color: transparent;
         color: rgba(111, 113, 117, 0.993)
     }
+    
+}
+
+.panelComboCreate{
+    display: flex;
+    justify-content: space-around;
+
+    input{
+        width: 120px;
+    }
+}
+
+.panelCreateCombo{
+    width: 100%;
+    display: flex;
+    margin: 20px;
+
 }

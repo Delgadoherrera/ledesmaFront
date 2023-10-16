@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces/index";
-import { IonIcon, IonInput, IonItem } from "@ionic/react";
+import { IonButton, IonIcon, IonInput, IonItem } from "@ionic/react";
 import ComboList from "../simple/ComboList";
 import {
   add,
@@ -82,6 +82,8 @@ export default function BasicTable({
     }
     const response = await material.AgregarCombo(elementCombo, comboName);
     console.log("response material", response);
+    response.status === 201 && setElementCombo([]);
+    setComboName("")
   };
 
   React.useEffect(() => {
@@ -181,12 +183,15 @@ export default function BasicTable({
       <div className="tittleComboDeMaterialesContainer">
         <span> Combo de materiales</span>
       </div>
-      <div>
+      <div className="panelCreateCombo">
         <Input
+        value={comboName}
           onChange={(e: any) => setComboName(e.target.value)}
           placeholder="Nombre del combo:"
         ></Input>
-        <Button onClick={() => sendCombo()}>CREAR COMBO</Button>
+        <IonButton onClick={() => sendCombo()}>CREAR COMBO</IonButton>
+        <IonButton onClick={() => setElementCombo([])}>LIMPIAR COMBO</IonButton>
+
       </div>
       <TableContainer component={Paper} className="tableMateriales">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -200,9 +205,7 @@ export default function BasicTable({
 
               <TableCell align="right">Medida</TableCell>
               <TableCell align="right">
-                {/*                 <IonIcon icon={options}></IonIcon>
-                 */}{" "}
-              </TableCell>
+                </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -226,7 +229,8 @@ export default function BasicTable({
                   <TableCell align="right">{row.medida}</TableCell>
 
                   <TableCell align="right">
-                    <div>
+                    <div className="panelComboCreate">
+                      <Input type="number" placeholder="Cantidad:"></Input>
                       <IonIcon
                         size="small"
                         icon={add}
@@ -240,52 +244,6 @@ export default function BasicTable({
                           });
                         }}
                       ></IonIcon>
-                      <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                          "aria-labelledby": "basic-button",
-                        }}
-                      >
-                        <MenuItem
-                          onClick={(e) => {
-                            setTodo("editMaterial");
-                            setConfigModal({
-                              ...configModal,
-                              action: "editMaterial",
-                            });
-                            handleAction(e, "editMaterial", row);
-                          }}
-                        >
-                          Editar
-                        </MenuItem>
-                        <MenuItem
-                          onClick={(e) => {
-                            setTodo("buyMaterial");
-                            setConfigModal({
-                              ...configModal,
-                              action: "buyMaterial",
-                            });
-                            handleAction(e, "buyMaterial", row);
-                          }}
-                        >
-                          Comprar
-                        </MenuItem>
-                        <MenuItem
-                          onClick={(e) => {
-                            setTodo("deleteMaterial");
-                            setConfigModal({
-                              ...configModal,
-                              action: "deleteMaterial",
-                            });
-                            handleAction(e, "deleteMaterial", row);
-                          }}
-                        >
-                          Eliminar
-                        </MenuItem>
-                      </Menu>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -294,7 +252,10 @@ export default function BasicTable({
         </Table>
       </TableContainer>
       {elementCombo.length >= 1 ? (
-        <ComboList elementCombo={elementCombo} />
+        <ComboList
+          elementCombo={elementCombo}
+          setElementCombo={setElementCombo}
+        />
       ) : null}
     </>
   );
