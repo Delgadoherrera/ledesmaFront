@@ -109,8 +109,8 @@ export default function BasicTable({
       setFilteredProducts(products);
     } else {
       const filtered = products.filter((product: any) => {
-        console.log("Fecha de cotización:", product.cotizacion.fechaCotizacion);
-        const cotizacionDate = new Date(product.cotizacion.fechaCotizacion);
+        console.log("Fecha de cotización:", product.fechaCompra);
+        const cotizacionDate = new Date(product.fechaCompra);
         const cotizacionMonth = cotizacionDate.getMonth();
         console.log("Mes de la fecha:", cotizacionDate.getMonth());
 
@@ -234,7 +234,7 @@ export default function BasicTable({
                     {row.catalogo_material.descripcion}
                   </TableCell>
                   <TableCell component="th" scope="row" align="right">
-                    {row.cotizacion.fechaCotizacion}
+                    {row.fechaCompra}
                   </TableCell>
                   <TableCell component="th" scope="row" align="right">
                     {row.unidades}

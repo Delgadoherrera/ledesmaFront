@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces/index";
-import { IonButton, IonIcon } from "@ionic/react";
+import { IonButton, IonDatetime, IonIcon } from "@ionic/react";
 import axios from "axios";
 import {
   menu,
@@ -50,7 +50,10 @@ export default function BasicTable({
   const [prices, setPrices] = React.useState<{ [materialId: number]: number }>(
     {}
   );
-
+  const [selectedMaterials, setSelectedMaterials] = React.useState<
+    { material: Materiales; price: number }[]
+  >([]);
+  const [date, setDate] = React.useState("");
   const dispatch = useDispatch();
   const refresh = useSelector(
     (refreshThis: any) => refreshThis.counter.refreshThis
@@ -80,11 +83,22 @@ export default function BasicTable({
   const handleSend = async (materiales: any, prices: any) => {
     try {
       for (const materialId in prices) {
+        console.log("materialIdmaterialId", materialId);
+        const material = products.find(
+          (item: any) => item.id === parseInt(materialId, 10)
+        );
         if (prices.hasOwnProperty(materialId)) {
           const price = prices[materialId];
+          if (price === 0) {
+            return alert(
+              "Compra no realizada, falta cargar precio:" +
+                material?.descripcion
+            );
+          }
 
-          console.log("PRICE FOR API", price);
+          console.log("PRICE FOR API", prices);
 
+          console.log("MATERIAL", material);
           const response = await axios.get(
             "https://api.bluelytics.com.ar/v2/latest"
           );
@@ -99,11 +113,15 @@ export default function BasicTable({
             const datos = {
               conversion: val,
               precioPesos: price,
-              medida: 0,
+              medida: material!.medida,
               unidades: 0,
               medidaId: 1,
+              fechaCompra: date,
             };
-            const response = await productService.comprarMaterial(datos, materialId);
+            const response = await productService.comprarMaterial(
+              datos,
+              materialId
+            );
             console.log("Respuestasolicitud:", response);
             handleClose();
             response.status === 200 && console.log("EXITOSO!");
@@ -169,14 +187,30 @@ export default function BasicTable({
                   <TableCell align="right">{row.medida}</TableCell>
                   <TableCell align="right">
                     <input
+                      min={1}
                       type="text"
-                      value={prices[row.id] || 0}
+                      value={
+                        selectedMaterials.find(
+                          (item) => item.material.id === row.id
+                        )?.price || 0
+                      }
                       onChange={(e) => {
                         const price = parseFloat(e.target.value) || 0;
-                        setPrices((prevPrices) => ({
-                          ...prevPrices,
-                          [row.id]: price,
-                        }));
+                        const existingMaterialIndex =
+                          selectedMaterials.findIndex(
+                            (item) => item.material.id === row.id
+                          );
+
+                        if (existingMaterialIndex !== -1) {
+                          const updatedMaterials = [...selectedMaterials];
+                          updatedMaterials[existingMaterialIndex].price = price;
+                          setSelectedMaterials(updatedMaterials);
+                        } else {
+                          setSelectedMaterials([
+                            ...selectedMaterials,
+                            { material: row, price: price },
+                          ]);
+                        }
                       }}
                     />
                   </TableCell>
@@ -184,12 +218,20 @@ export default function BasicTable({
               ))}
           </TableBody>
         </Table>
+
+        <input
+          required
+          type="date"
+          onChange={(e: any) => setDate(e.target.value)}
+        ></input>
         <IonButton
           onClick={(e) => {
-            handleSend(elementCombo, prices);
+            const prices = Object.fromEntries(
+              selectedMaterials.map((item) => [item.material.id, item.price])
+            );
+            handleSend(selectedMaterials, prices);
           }}
         >
-          {" "}
           Comprar
         </IonButton>
       </TableContainer>
