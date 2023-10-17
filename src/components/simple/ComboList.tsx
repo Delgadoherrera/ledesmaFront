@@ -8,7 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces/index";
-import { IonIcon } from "@ionic/react";
+import { IonButton, IonIcon } from "@ionic/react";
+import axios from "axios";
 import {
   menu,
   options,
@@ -43,12 +44,14 @@ export default function BasicTable({
     element: element,
   });
   const [search, setSearch] = React.useState("");
+  const [valorDolar, setValorDolar] = React.useState(0);
   const [filteredProducts, setFilteredProducts] =
     React.useState<Materiales[]>(products);
-  const [setMaterial, setSetMaterial] = React.useState<Materiales[]>([]);
+  const [prices, setPrices] = React.useState<{ [materialId: number]: number }>(
+    {}
+  );
 
   const dispatch = useDispatch();
-  const materialResponse = new ProductServices();
   const refresh = useSelector(
     (refreshThis: any) => refreshThis.counter.refreshThis
   );
@@ -57,45 +60,6 @@ export default function BasicTable({
       dispatch(refreshThis(false));
     }
   }, [refresh]);
-  console.log("elementCombo", elementCombo);
-  React.useEffect(() => {
-    materialResponse.ListarProductos().then((data) => {
-      console.log("MATERIALES", data);
-      setSetMaterial(data);
-    });
-  }, [refresh]);
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value;
-    setSearch(searchTerm);
-
-    // Filtrar los productos en base al término de búsqueda
-    const filtered = searchTerm
-      ? products.filter((product) =>
-          product.descripcion.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      : products;
-
-    setFilteredProducts(filtered);
-  };
-  // Función para obtener elementos con descripciones duplicadas
-  const findDuplicateDescriptions = (elementCombo: any, setMaterials: any) => {
-    const descriptionsSetMaterials = setMaterials.map((material: any) =>
-      material.descripcion.toLowerCase()
-    );
-    const duplicateDescriptions = elementCombo.filter((element: any) =>
-      descriptionsSetMaterials.includes(element.descripcion.toLowerCase())
-    );
-    return duplicateDescriptions;
-  };
-
-  // Llamada a la función para encontrar descripciones duplicadas
-  const duplicateDescriptions = findDuplicateDescriptions(
-    setMaterial,
-    elementCombo
-  );
-
-  // Ahora, duplicateDescriptions contiene los elementos con descripciones duplicadas
-  console.log("Elementos con descripciones duplicadas:", duplicateDescriptions);
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -104,66 +68,73 @@ export default function BasicTable({
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleAction = (e: any, action: any, element: Materiales) => {
-    switch (action) {
-      case "deleteMaterial":
-        setShowModal(true);
-        setConfigModal({
-          ...configModal,
-          bodyReq: "Deseas eliminar este material?",
-          tittle: "Eliminar material",
-          action: "deleteMaterial",
-        });
 
-        break;
-      case "editMaterial":
-        setShowModal(true);
-        setConfigModal({
-          ...configModal,
-          bodyReq: "Editar material?",
-          tittle: "Editar material",
-          action: "editMaterial",
-        });
+  console.log("compra:", prices);
 
-        break;
-      case "buyMaterial":
-        setShowModal(true);
-        setConfigModal({
-          ...configModal,
-          bodyReq: "Comprar material?",
-          tittle: "Comprar material",
-          action: "buyMaterial",
-        });
-      default:
-        break;
-    }
-  };
   React.useEffect(() => {
     productService.ListarProductos().then((data) => {
-      setFilteredProducts(data);
       setProducts(data);
     });
   }, [refresh]);
-  React.useEffect(() => {
-    const closeMenu = (e: MouseEvent) => {
-      if (anchorEl && !anchorEl.contains(e.target as Node)) {
-        handleClose();
+
+  const handleSend = async (materiales: any, prices: any) => {
+    try {
+      for (const materialId in prices) {
+        if (prices.hasOwnProperty(materialId)) {
+          const price = prices[materialId];
+
+          console.log("PRICE FOR API", price);
+
+          const response = await axios.get(
+            "https://api.bluelytics.com.ar/v2/latest"
+          );
+          const dolares = response.data;
+          setValorDolar(dolares.blue.value_avg);
+
+          const val = price / dolares.blue.value_avg;
+
+          console.log("VAL CONVERSION", val);
+
+          try {
+            const datos = {
+              conversion: val,
+              precioPesos: price,
+              medida: 0,
+              unidades: 0,
+              medidaId: 1,
+            };
+            const response = await productService.comprarMaterial(datos, materialId);
+            console.log("Respuestasolicitud:", response);
+            handleClose();
+            response.status === 200 && console.log("EXITOSO!");
+          } catch (error) {
+            console.error("Error al realiza:", error);
+          }
+
+          // Realizar la llamada a la API para enviar los datos
+
+          /*   const response = await productService.comprarMaterial(
+            price,
+            materialId
+          );
+          console.log(
+            `Llamada a la API para ID ${materialId} con precio ${price}:`,
+            response
+          );
+ */
+          // Puedes manejar la respuesta de la API aquí si es necesario
+        }
       }
-    };
 
-    if (open) {
-      document.addEventListener("click", closeMenu);
-    } else {
-      document.removeEventListener("click", closeMenu);
+      // Resto de la lógica después de enviar todos los datos
+    } catch (error) {
+      console.error("Error al enviar datos a la API:", error);
     }
+  };
 
-    return () => {
-      document.removeEventListener("click", closeMenu);
-    };
-  }, [open, anchorEl]);
   return (
     <>
-      <div className="tittleComboDeMiMaterialesContainer"> Mi combo</div>
+      {/* u */}{" "}
       <TableContainer component={Paper} className="tableMateriales">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -176,7 +147,8 @@ export default function BasicTable({
 
               <TableCell align="right">Medida</TableCell>
               <TableCell align="right">
-
+                {/*                 <IonIcon icon={options}></IonIcon>
+                 */}{" "}
               </TableCell>
             </TableRow>
           </TableHead>
@@ -190,83 +162,36 @@ export default function BasicTable({
                   <TableCell component="th" scope="row" align="left">
                     {row.id}
                   </TableCell>
-
                   <TableCell align="right">{row.descripcion}</TableCell>
-                  <TableCell
-                    onClick={() => console.log("clic on table")}
-                    align="right"
-                  >
+                  <TableCell align="right">
                     {row.unidadMedida.unidadMedida}
                   </TableCell>
                   <TableCell align="right">{row.medida}</TableCell>
-
                   <TableCell align="right">
-                    <div>
-                      <IonIcon
-                        size="small"
-                        icon={remove}
-                        onClick={(e: any) => {
-                          /*                           handleClick(e);
-                           */ setElementCombo(row);
-                          setConfigModal({
-                            ...configModal,
-                            element: row,
-                          });
-                        }}
-                      ></IonIcon>
-
-                      <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                          "aria-labelledby": "basic-button",
-                        }}
-                      >
-                        <MenuItem
-                          onClick={(e) => {
-                            setTodo("editMaterial");
-                            setConfigModal({
-                              ...configModal,
-                              action: "editMaterial",
-                            });
-                            handleAction(e, "editMaterial", row);
-                          }}
-                        >
-                          Editar
-                        </MenuItem>
-                        <MenuItem
-                          onClick={(e) => {
-                            setTodo("buyMaterial");
-                            setConfigModal({
-                              ...configModal,
-                              action: "buyMaterial",
-                            });
-                            handleAction(e, "buyMaterial", row);
-                          }}
-                        >
-                          Comprar
-                        </MenuItem>
-                        <MenuItem
-                          onClick={(e) => {
-                            setTodo("deleteMaterial");
-                            setConfigModal({
-                              ...configModal,
-                              action: "deleteMaterial",
-                            });
-                            handleAction(e, "deleteMaterial", row);
-                          }}
-                        >
-                          Eliminar
-                        </MenuItem>
-                      </Menu>
-                    </div>
+                    <input
+                      type="text"
+                      value={prices[row.id] || 0}
+                      onChange={(e) => {
+                        const price = parseFloat(e.target.value) || 0;
+                        setPrices((prevPrices) => ({
+                          ...prevPrices,
+                          [row.id]: price,
+                        }));
+                      }}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
           </TableBody>
         </Table>
+        <IonButton
+          onClick={(e) => {
+            handleSend(elementCombo, prices);
+          }}
+        >
+          {" "}
+          Comprar
+        </IonButton>
       </TableContainer>
     </>
   );

@@ -1,142 +1,98 @@
 import * as React from "react";
-import { Theme, useTheme } from "@mui/material/styles";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces";
-import { refreshThis } from "../../features/dataReducer/dataReducer";
 import { useSelector } from "react-redux";
+import Select from "react-select"; // Importa React-Select
 import ComboList from "../simple/ComboList";
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-function getStyles(name: string, personName: string[], theme: Theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
+import axios from "axios";
 
 export default function MultipleSelect() {
-  const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([]);
   const [materiales, setMateriales] = React.useState<Materiales[]>([]); // Inicializado como un array vacío
-  const [elementCombo, setElementCombo] = React.useState<Materiales[]>([]);
+  const [selectedMaterials, setSelectedMaterials] = React.useState<
+    Materiales[]
+  >([]);
+  const [values, setValues] = React.useState({
+    conversion: 0,
+    precioPesos: 0,
+    medida: "",
+    unidades: 0,
+  });
+
+  const productService = new ProductServices();
   const refresh = useSelector(
     (refreshThis: any) => refreshThis.counter.refreshThis
   );
-
   const materialResponse = new ProductServices();
-
-  const buscarMaterialPorDescripcion = (descripcion: string) => {
-    return materiales.find(
-      (material) => material.descripcion === descripcion
-    ) as Materiales;
-    // Usamos 'as Materiales' para indicar a TypeScript que estamos seguros de que el valor no será 'undefined'.
-  };
-
-  const agregarACombo = (e: Materiales) => {
-    const materialIndex = elementCombo.findIndex(
-      (material) => material.id === e.id
-    );
-
-    if (materialIndex === -1) {
-      setElementCombo((prevElementCombo) => [...prevElementCombo, e]);
-      // Cuando agregas un elemento a elementCombo, agrégalo también a personName
-      setPersonName((prevPersonName) => [...prevPersonName, e.descripcion]);
-    }
-  };
-
-  const quitarDelCombo = (e: Materiales) => {
-    setElementCombo((prevElementCombo) =>
-      prevElementCombo.filter((material) => material.id !== e.id)
-    );
-    // Cuando quitas un elemento de elementCombo, quítalo también de personName
-    setPersonName((prevPersonName) =>
-      prevPersonName.filter((descripcion) => descripcion !== e.descripcion)
-    );
-  };
-
-  const handleChange = (event: SelectChangeEvent<string[]>) => {
-    const {
-      target: { value },
-    } = event;
-
-    if (Array.isArray(value)) {
-      setPersonName(value);
-
-      const selectedMaterials = value.map((val) =>
-        buscarMaterialPorDescripcion(val)
-      );
-
-      setElementCombo(selectedMaterials);
-    }
-  };
+  const options = materiales.map((material) => ({
+    value: material.id, // Utiliza un identificador único
+    label:
+      material.descripcion +
+      " " +
+      (material.medida + material.unidadMedida.unidadMedida),
+    material: material, // Almacena el objeto completo
+    unidadMedida: material.unidadMedida.unidadMedida,
+  }));
 
   React.useEffect(() => {
     materialResponse.ListarProductos().then((data) => {
-      // Usamos reduce para filtrar elementos duplicados por descripción
-      const uniqueMaterials = data.reduce((unique: any, material: any) => {
-        // Comprobamos si ya hemos agregado un material con la misma descripción
-        const existingMaterial = unique.find(
-          (m) => m.descripcion === material.descripcion
-        );
-
-        if (!existingMaterial) {
-          // Si no existe un material con la misma descripción, lo agregamos
-          unique.push(material);
-        }
-
-        return unique;
-      }, []);
-
-      console.log("MATERIALES", uniqueMaterials);
-      setMateriales(uniqueMaterials);
+      setMateriales(data);
+      console.log("data", data);
     });
   }, [refresh]);
+  const handleMaterialSelect = (selectedOption: any) => {
+    console.log("handleMaterialSelect called with:", selectedOption);
+
+    if (selectedOption) {
+      const selectedMaterials = selectedOption.map(
+        (option: any) => option.material
+      );
+      setSelectedMaterials(selectedMaterials);
+    }
+  };
+
+  /*   const handleSend = async (data: any) => {
+    console.log("sendEdit", "data", data, "id", id);
+    try {
+      const response = await axios.get(
+        "https://api.bluelytics.com.ar/v2/latest"
+      );
+      const dolares = response.data;
+      setValorDolar(dolares.blue.value_avg);
+      const val = values.precioPesos / dolares.blue.value_avg;
+
+      const datos = {
+        conversion: val,
+        precioPesos: values.precioPesos,
+        medida: values.medida,
+        unidades: values.unidades,
+        medidaId: element.unidadMedida.id,
+      };
+      setValues({ ...values, conversion: val });
+      try {
+        const response = await productService.comprarMaterial(datos, id);
+        console.log("Respuestasolicitud:", response);
+        handleClose();
+        response.status === 200 && limpiarFormulario();
+      } catch (error) {
+        console.error("Error al realiza:", error);
+      }
+    } catch (error) {
+      console.error("Error al consultar Dólar Blue:", error);
+    }
+  };   */
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-name-label">Materiales</InputLabel>
-        <Select
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
-          multiple
-          value={personName}
-          onChange={handleChange}
-          input={<OutlinedInput label="Materiales" />}
-          MenuProps={MenuProps}
-        >
-          {Array.isArray(materiales) &&
-            materiales.map((material: Materiales) => (
-              <MenuItem
-                key={material.id}
-                value={material.descripcion}
-                style={getStyles(material.descripcion, personName, theme)}
-              >
-                {material.descripcion} {/* ({material.medida}
-                {material.unidadMedida.unidadMedida}) */}
-              </MenuItem>
-            ))}
-        </Select>
-      </FormControl>
-
-      <ComboList elementCombo={elementCombo} setElementCombo={quitarDelCombo} />
+      <Select
+        isMulti
+        options={options}
+        onChange={handleMaterialSelect}
+        placeholder={"Buscar elementos"}
+      />
+      <ComboList
+        elementCombo={selectedMaterials}
+        setElementCombo={handleMaterialSelect}
+      ></ComboList>
     </div>
   );
 }
