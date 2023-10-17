@@ -213,8 +213,8 @@ export default function BasicTable({
             <TableRow>
               <TableCell>Descripción</TableCell>
               <TableCell align="right">Fecha</TableCell>
-              <TableCell align="right">Cantidad</TableCell>
-              <TableCell align="right">Unidad de medida</TableCell>
+{/*               <TableCell align="right">Cantidad</TableCell>
+ */}              <TableCell align="right">Unidad de medida</TableCell>
               <TableCell align="right">Medida</TableCell>
               <TableCell align="right">DOLARES</TableCell>
               <TableCell align="right">PESOS</TableCell>
@@ -236,9 +236,9 @@ export default function BasicTable({
                   <TableCell component="th" scope="row" align="right">
                     {row.fechaCompra}
                   </TableCell>
-                  <TableCell component="th" scope="row" align="right">
+{/*                   <TableCell component="th" scope="row" align="right">
                     {row.unidades}
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell component="th" scope="row" align="right">
                     {row.unidadMedida.unidadMedida}
                   </TableCell>
