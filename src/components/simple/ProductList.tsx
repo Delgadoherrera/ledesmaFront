@@ -153,8 +153,8 @@ export default function BasicTable({
             <TableRow>
               <TableCell>Descripción</TableCell>
 
-              <TableCell>Unidad medida</TableCell>
-
+{/*               <TableCell>Unidad medida</TableCell>
+ */}
               <TableCell>Medida</TableCell>
               <TableCell>
                 {/*                 <IonIcon icon={options}></IonIcon>
@@ -170,10 +170,12 @@ export default function BasicTable({
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>{row.descripcion}</TableCell>
-                  <TableCell onClick={() => console.log("clic on table")}>
+  {/*                 <TableCell onClick={() => console.log("clic on table")}>
                     {row.unidadMedida.unidadMedida}
+                  </TableCell> */}
+                  <TableCell>
+                    {row.medida} {row.unidadMedida.unidadMedida}
                   </TableCell>
-                  <TableCell>{row.medida}</TableCell>
 
                   <TableCell>
                     <div>

@@ -53,27 +53,20 @@ export default function MultipleSelect() {
       filteredMaterials.map((material) => material.unidadMedida.unidadMedida)
     ),
   ];
-  const NoOptionsMessage = (props: any) => {
-    return (
-      <components.NoOptionsMessage {...props}>
-        No hay materiales cargados.
-      </components.NoOptionsMessage>
-    );
-  };
 
   return (
     <div>
       <div className="comboBox">
         <Select
-          options={uniqueMeasures.map((measure) => ({
-            value: measure,
-            label: measure,
+          options={uniqueDescriptions.map((description) => ({
+            value: description,
+            label: description,
           }))}
           onChange={(selectedOption: any) => {
-            setSelectedMeasure(selectedOption.value);
+            setSelectedDescription(selectedOption.value);
+            setSelectedMeasure(null);
           }}
-          placeholder={"Materiales"}
-          components={{ NoOptionsMessage }}
+          placeholder={"Buscar elementos"}
         />
         {selectedDescription && (
           <div>

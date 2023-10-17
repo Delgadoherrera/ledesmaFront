@@ -171,28 +171,24 @@ export default function BasicTable({
               ))}
           </TableBody>
         </Table>
-        {elementCombo.length > 0 ? (
-          <div className="comboBoxBottom">
-            <input
-              required
-              type="date"
-              onChange={(e: any) => setDate(e.target.value)}
-            ></input>
-            <IonButton
-              onClick={(e) => {
-                const prices = Object.fromEntries(
-                  selectedMaterials.map((item) => [
-                    item.material.id,
-                    item.price,
-                  ])
-                );
-                handleSend(selectedMaterials, prices);
-              }}
-            >
-              Comprar
-            </IonButton>
-          </div>
-        ) : null}
+        {elementCombo.length > 0 ?   <div className="comboBoxBottom">
+          <input
+            required
+            type="date"
+            onChange={(e: any) => setDate(e.target.value)}
+          ></input>
+          <IonButton
+            onClick={(e) => {
+              const prices = Object.fromEntries(
+                selectedMaterials.map((item) => [item.material.id, item.price])
+              );
+              handleSend(selectedMaterials, prices);
+            }}
+          >
+            Comprar
+          </IonButton>
+        </div>: null}
+      
       </TableContainer>
     </>
   );
