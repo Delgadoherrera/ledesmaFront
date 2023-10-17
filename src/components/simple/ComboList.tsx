@@ -136,7 +136,7 @@ export default function BasicTable({
       console.error("Error al enviar datos a la API:", error);
     }
   };
-  console.log("ELEMENTCOMBO", elementCombo);
+  console.log("selectedMaterials", selectedMaterials);
   return (
     <>
       <TableContainer component={Paper} className="tableMateriales">
@@ -180,7 +180,7 @@ export default function BasicTable({
           <IonButton
             onClick={(e) => {
               const prices = Object.fromEntries(
-                selectedMaterials.map((item) => [item.material.id, item.price])
+                elementCombo.map((item:any) => [item.material.id, item.precio])
               );
               handleSend(selectedMaterials, prices);
             }}
