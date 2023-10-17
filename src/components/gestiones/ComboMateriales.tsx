@@ -2,97 +2,167 @@ import * as React from "react";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces";
 import { useSelector } from "react-redux";
-import Select from "react-select"; // Importa React-Select
+import Select from "react-select";
 import ComboList from "../simple/ComboList";
-import axios from "axios";
+import { IonButton } from "@ionic/react";
+import { Input } from "@mui/material";
 
 export default function MultipleSelect() {
-  const [materiales, setMateriales] = React.useState<Materiales[]>([]); // Inicializado como un array vacío
-  const [selectedMaterials, setSelectedMaterials] = React.useState<
-    Materiales[]
-  >([]);
-  const [values, setValues] = React.useState({
-    conversion: 0,
-    precioPesos: 0,
-    medida: "",
-    unidades: 0,
-  });
+  const [materiales, setMateriales] = React.useState<Materiales[]>([]);
 
   const productService = new ProductServices();
+  const [selectedUnit, setSelectedUnit] = React.useState<string | null>(null);
+  const [materialValue, setMaterialValue] = React.useState<string>("");
+  const [elementCombo, setElementCombo] = React.useState<
+    Array<{ material: Materiales; precio: string }>
+  >([]);
   const refresh = useSelector(
     (refreshThis: any) => refreshThis.counter.refreshThis
   );
-  const materialResponse = new ProductServices();
-  const options = materiales.map((material) => ({
-    value: material.id, // Utiliza un identificador único
-    label:
-      material.descripcion +
-      " " +
-      (material.medida + material.unidadMedida.unidadMedida),
-    material: material, // Almacena el objeto completo
-    unidadMedida: material.unidadMedida.unidadMedida,
-  }));
+  const [selectedDescription, setSelectedDescription] = React.useState<
+    string | null
+  >(null);
+  const [selectedMeasure, setSelectedMeasure] = React.useState<string | null>(
+    null
+  );
+  console.log("elementCombo", elementCombo);
 
   React.useEffect(() => {
-    materialResponse.ListarProductos().then((data) => {
+    productService.ListarProductos().then((data: Materiales[]) => {
       setMateriales(data);
-      console.log("data", data);
     });
   }, [refresh]);
-  const handleMaterialSelect = (selectedOption: any) => {
-    console.log("handleMaterialSelect called with:", selectedOption);
 
-    if (selectedOption) {
-      const selectedMaterials = selectedOption.map(
-        (option: any) => option.material
-      );
-      setSelectedMaterials(selectedMaterials);
-    }
-  };
+  // Obtener descripciones únicas
+  const uniqueDescriptions = [
+    ...new Set(materiales.map((material) => material.descripcion)),
+  ];
 
-  /*   const handleSend = async (data: any) => {
-    console.log("sendEdit", "data", data, "id", id);
-    try {
-      const response = await axios.get(
-        "https://api.bluelytics.com.ar/v2/latest"
-      );
-      const dolares = response.data;
-      setValorDolar(dolares.blue.value_avg);
-      const val = values.precioPesos / dolares.blue.value_avg;
+  // Filtrar los materiales con la descripción seleccionada
+  const filteredMaterials = materiales.filter(
+    (material) => material.descripcion === selectedDescription
+  );
 
-      const datos = {
-        conversion: val,
-        precioPesos: values.precioPesos,
-        medida: values.medida,
-        unidades: values.unidades,
-        medidaId: element.unidadMedida.id,
-      };
-      setValues({ ...values, conversion: val });
-      try {
-        const response = await productService.comprarMaterial(datos, id);
-        console.log("Respuestasolicitud:", response);
-        handleClose();
-        response.status === 200 && limpiarFormulario();
-      } catch (error) {
-        console.error("Error al realiza:", error);
-      }
-    } catch (error) {
-      console.error("Error al consultar Dólar Blue:", error);
-    }
-  };   */
+  // Obtener las medidas únicas para la descripción seleccionada
+  const uniqueMeasures = [
+    ...new Set(filteredMaterials.map((material) => material.medida)),
+  ];
+  const unidadMedidaFilter = [
+    ...new Set(
+      filteredMaterials.map((material) => material.unidadMedida.unidadMedida)
+    ),
+  ];
 
   return (
     <div>
-      <Select
-        isMulti
-        options={options}
-        onChange={handleMaterialSelect}
-        placeholder={"Buscar elementos"}
-      />
+      <div className="comboBox">
+        <Select
+          options={uniqueDescriptions.map((description) => ({
+            value: description,
+            label: description,
+          }))}
+          onChange={(selectedOption: any) => {
+            setSelectedDescription(selectedOption.value);
+            setSelectedMeasure(null);
+          }}
+          placeholder={"Buscar elementos"}
+        />
+        {selectedDescription && (
+          <div>
+            <Select
+              options={unidadMedidaFilter.map((measure) => ({
+                value: measure,
+                label: measure,
+              }))}
+              onChange={(selectedOption: any) => {
+                setSelectedMeasure(selectedOption.value);
+                setSelectedUnit(
+                  filteredMaterials.find(
+                    (material) => material.medida === selectedOption.value
+                  )?.unidad_medida
+                );
+              }}
+              placeholder={"Unidad de medida"}
+              value={unidadMedidaFilter.map((measure) => ({
+                value: measure,
+                label: measure,
+              }))}
+            />
+          </div>
+        )}
+        {selectedDescription && (
+          <div>
+            <Select
+              options={uniqueMeasures.map((measure) => ({
+                value: measure,
+                label: measure,
+              }))}
+              onChange={(selectedOption: any) => {
+                setSelectedMeasure(selectedOption.value);
+              }}
+              placeholder={"Selecciona la medida"}
+            />
+          </div>
+        )}
+
+        {selectedDescription && (
+          <div className="inputValor">
+            $
+            <Input
+              type="number"
+              value={materialValue}
+              onChange={(e: any) => setMaterialValue(e.target.value!)}
+            />
+          </div>
+        )}
+        <IonButton
+          onClick={() => {
+            if (selectedDescription && selectedMeasure && materialValue) {
+              const selectedMaterial: any = materiales.find(
+                (material) =>
+                  material.descripcion === selectedDescription &&
+                  material.medida === selectedMeasure
+              );
+
+              if (selectedMaterial) {
+                // Verificar si el elemento ya existe en elementCombo
+                const alreadyExists = elementCombo.find((item) => {
+                  return (
+                    item.material.descripcion === selectedDescription &&
+                    item.material.medida === selectedMeasure
+                  );
+                });
+
+                if (alreadyExists) {
+                  console.log("El elemento ya existe en la lista.");
+                } else {
+                  const materialWithPrice = {
+                    material: selectedMaterial,
+                    precio: materialValue,
+                  };
+
+                  // Agregar el nuevo material con precio al arreglo existente en lugar de reemplazarlo
+                  setElementCombo([...elementCombo, materialWithPrice]);
+
+                  // Limpiar los select y el valor de entrada
+                  setSelectedDescription(null);
+                  setSelectedMeasure(null);
+                  setMaterialValue("");
+                }
+              } else {
+                console.log("No se encontró el elemento seleccionado.");
+              }
+            }
+          }}
+        >
+          +
+        </IonButton>
+      </div>
+
       <ComboList
-        elementCombo={selectedMaterials}
-        setElementCombo={handleMaterialSelect}
-      ></ComboList>
+        elementCombo={elementCombo}
+        setElementCombo={setMateriales} // Puedes implementarlo según tus necesidades
+      />
     </div>
   );
 }

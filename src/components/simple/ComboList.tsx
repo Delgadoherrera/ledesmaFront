@@ -63,7 +63,7 @@ export default function BasicTable({
       dispatch(refreshThis(false));
     }
   }, [refresh]);
-
+  console.log("elementComboelementComboelementCombo", elementCombo);
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -128,19 +128,6 @@ export default function BasicTable({
           } catch (error) {
             console.error("Error al realiza:", error);
           }
-
-          // Realizar la llamada a la API para enviar los datos
-
-          /*   const response = await productService.comprarMaterial(
-            price,
-            materialId
-          );
-          console.log(
-            `Llamada a la API para ID ${materialId} con precio ${price}:`,
-            response
-          );
- */
-          // Puedes manejar la respuesta de la API aquí si es necesario
         }
       }
 
@@ -149,25 +136,19 @@ export default function BasicTable({
       console.error("Error al enviar datos a la API:", error);
     }
   };
-
+  console.log("ELEMENTCOMBO", elementCombo);
   return (
     <>
-      {/* u */}{" "}
       <TableContainer component={Paper} className="tableMateriales">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Id</TableCell>
+              <TableCell>Descripcion</TableCell>
 
-              <TableCell align="right">Descripción</TableCell>
+              <TableCell>Unidad medida</TableCell>
 
-              <TableCell align="right">Unidad medida</TableCell>
-
-              <TableCell align="right">Medida</TableCell>
-              <TableCell align="right">
-                {/*                 <IonIcon icon={options}></IonIcon>
-                 */}{" "}
-              </TableCell>
+              <TableCell>Medida</TableCell>
+              <TableCell> Precio</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -178,62 +159,40 @@ export default function BasicTable({
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row" align="left">
-                    {row.id}
+                    {row.material.descripcion}
                   </TableCell>
-                  <TableCell align="right">{row.descripcion}</TableCell>
-                  <TableCell align="right">
-                    {row.unidadMedida.unidadMedida}
-                  </TableCell>
-                  <TableCell align="right">{row.medida}</TableCell>
-                  <TableCell align="right">
-                    <input
-                      min={1}
-                      type="text"
-                      value={
-                        selectedMaterials.find(
-                          (item) => item.material.id === row.id
-                        )?.price || 0
-                      }
-                      onChange={(e) => {
-                        const price = parseFloat(e.target.value) || 0;
-                        const existingMaterialIndex =
-                          selectedMaterials.findIndex(
-                            (item) => item.material.id === row.id
-                          );
 
-                        if (existingMaterialIndex !== -1) {
-                          const updatedMaterials = [...selectedMaterials];
-                          updatedMaterials[existingMaterialIndex].price = price;
-                          setSelectedMaterials(updatedMaterials);
-                        } else {
-                          setSelectedMaterials([
-                            ...selectedMaterials,
-                            { material: row, price: price },
-                          ]);
-                        }
-                      }}
-                    />
+                  <TableCell>
+                    {row.material.unidadMedida.unidadMedida}
                   </TableCell>
+                  <TableCell>{row.material.medida}</TableCell>
+                  <TableCell>{row.precio}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
         </Table>
-
-        <input
-          required
-          type="date"
-          onChange={(e: any) => setDate(e.target.value)}
-        ></input>
-        <IonButton
-          onClick={(e) => {
-            const prices = Object.fromEntries(
-              selectedMaterials.map((item) => [item.material.id, item.price])
-            );
-            handleSend(selectedMaterials, prices);
-          }}
-        >
-          Comprar
-        </IonButton>
+        {elementCombo.length > 0 ? (
+          <div className="comboBoxBottom">
+            <input
+              required
+              type="date"
+              onChange={(e: any) => setDate(e.target.value)}
+            ></input>
+            <IonButton
+              onClick={(e) => {
+                const prices = Object.fromEntries(
+                  selectedMaterials.map((item) => [
+                    item.material.id,
+                    item.price,
+                  ])
+                );
+                handleSend(selectedMaterials, prices);
+              }}
+            >
+              Comprar
+            </IonButton>
+          </div>
+        ) : null}
       </TableContainer>
     </>
   );
