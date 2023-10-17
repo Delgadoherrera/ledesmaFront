@@ -9,14 +9,7 @@ import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces/index";
 import { IonIcon } from "@ionic/react";
-import {
-  menu,
-  options,
-  optionsOutline,
-  optionsSharp,
-  refresh,
-} from "ionicons/icons";
-import { Button } from "primereact/button";
+import { menu } from "ionicons/icons";
 import { Input, Menu, MenuItem } from "@mui/material";
 import ModalList from "./Modals";
 import { useDispatch, useSelector } from "react-redux";
@@ -158,16 +151,15 @@ export default function BasicTable({
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Id</TableCell>
+              <TableCell>Descripción</TableCell>
 
-              <TableCell align="right">Descripción</TableCell>
+              <TableCell>Unidad medida</TableCell>
 
-              <TableCell align="right">Unidad medida</TableCell>
-
-              <TableCell align="right">Medida</TableCell>
-              <TableCell align="right">
-{/*                 <IonIcon icon={options}></IonIcon>
- */}              </TableCell>
+              <TableCell>Medida</TableCell>
+              <TableCell>
+                {/*                 <IonIcon icon={options}></IonIcon>
+                 */}{" "}
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -177,20 +169,13 @@ export default function BasicTable({
                   key={row.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row" align="left">
-                    {row.id}
-                  </TableCell>
-
-                  <TableCell align="right">{row.descripcion}</TableCell>
-                  <TableCell
-                    onClick={() => console.log("clic on table")}
-                    align="right"
-                  >
+                  <TableCell>{row.descripcion}</TableCell>
+                  <TableCell onClick={() => console.log("clic on table")}>
                     {row.unidadMedida.unidadMedida}
                   </TableCell>
-                  <TableCell align="right">{row.medida}</TableCell>
+                  <TableCell>{row.medida}</TableCell>
 
-                  <TableCell align="right">
+                  <TableCell>
                     <div>
                       <IonIcon
                         size="small"

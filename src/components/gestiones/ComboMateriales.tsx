@@ -6,6 +6,7 @@ import Select from "react-select";
 import ComboList from "../simple/ComboList";
 import { IonButton } from "@ionic/react";
 import { Input } from "@mui/material";
+import { components } from "react-select";
 
 export default function MultipleSelect() {
   const [materiales, setMateriales] = React.useState<Materiales[]>([]);
@@ -52,20 +53,27 @@ export default function MultipleSelect() {
       filteredMaterials.map((material) => material.unidadMedida.unidadMedida)
     ),
   ];
+  const NoOptionsMessage = (props: any) => {
+    return (
+      <components.NoOptionsMessage {...props}>
+        No hay materiales cargados.
+      </components.NoOptionsMessage>
+    );
+  };
 
   return (
     <div>
       <div className="comboBox">
         <Select
-          options={uniqueDescriptions.map((description) => ({
-            value: description,
-            label: description,
+          options={uniqueMeasures.map((measure) => ({
+            value: measure,
+            label: measure,
           }))}
           onChange={(selectedOption: any) => {
-            setSelectedDescription(selectedOption.value);
-            setSelectedMeasure(null);
+            setSelectedMeasure(selectedOption.value);
           }}
-          placeholder={"Buscar elementos"}
+          placeholder={"Materiales"}
+          components={{ NoOptionsMessage }}
         />
         {selectedDescription && (
           <div>
@@ -101,6 +109,7 @@ export default function MultipleSelect() {
                 setSelectedMeasure(selectedOption.value);
               }}
               placeholder={"Selecciona la medida"}
+              noOptionsMessage="asd"
             />
           </div>
         )}
