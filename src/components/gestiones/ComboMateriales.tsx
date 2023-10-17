@@ -1,262 +1,142 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import { Theme, useTheme } from "@mui/material/styles";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { ProductServices } from "../../Services/ProductService";
-import { Materiales } from "../../interfaces/index";
-import { IonButton, IonIcon, IonInput, IonItem } from "@ionic/react";
-import ComboList from "../simple/ComboList";
-import {
-  add,
-  menu,
-  options,
-  optionsOutline,
-  optionsSharp,
-  refresh,
-} from "ionicons/icons";
-import { Button } from "primereact/button";
-import { Input, Menu, MenuItem } from "@mui/material";
-import ModalList from "../simple/Modals";
-import { useDispatch, useSelector } from "react-redux";
+import { Materiales } from "../../interfaces";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
+import { useSelector } from "react-redux";
+import ComboList from "../simple/ComboList";
 
-export default function BasicTable({
-  closeModal,
-}: {
-  closeModal: (value: any) => void;
-}) {
-  const [products, setProducts] = React.useState<Materiales[]>([]); // Especifica el tipo Product[]
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const [showMopdal, setShowModal] = React.useState(false);
-  const [todo, setTodo] = React.useState("");
-  const [element, setElement] = React.useState<Materiales | null>(null);
-  const [configModal, setConfigModal] = React.useState({
-    action: "",
-    tittle: "",
-    bodyReq: "",
-    element: element,
-  });
-  const [search, setSearch] = React.useState("");
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name: string, personName: string[], theme: Theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
+export default function MultipleSelect() {
+  const theme = useTheme();
+  const [personName, setPersonName] = React.useState<string[]>([]);
+  const [materiales, setMateriales] = React.useState<Materiales[]>([]); // Inicializado como un array vacío
   const [elementCombo, setElementCombo] = React.useState<Materiales[]>([]);
-  const [comboName, setComboName] = React.useState("");
-  const material = new ProductServices();
-  const [filteredProducts, setFilteredProducts] =
-    React.useState<Materiales[]>(products);
-
-  const dispatch = useDispatch();
   const refresh = useSelector(
     (refreshThis: any) => refreshThis.counter.refreshThis
   );
 
+  const materialResponse = new ProductServices();
+
+  const buscarMaterialPorDescripcion = (descripcion: string) => {
+    return materiales.find(
+      (material) => material.descripcion === descripcion
+    ) as Materiales;
+    // Usamos 'as Materiales' para indicar a TypeScript que estamos seguros de que el valor no será 'undefined'.
+  };
+
+  const agregarACombo = (e: Materiales) => {
+    const materialIndex = elementCombo.findIndex(
+      (material) => material.id === e.id
+    );
+
+    if (materialIndex === -1) {
+      setElementCombo((prevElementCombo) => [...prevElementCombo, e]);
+      // Cuando agregas un elemento a elementCombo, agrégalo también a personName
+      setPersonName((prevPersonName) => [...prevPersonName, e.descripcion]);
+    }
+  };
+
+  const quitarDelCombo = (e: Materiales) => {
+    setElementCombo((prevElementCombo) =>
+      prevElementCombo.filter((material) => material.id !== e.id)
+    );
+    // Cuando quitas un elemento de elementCombo, quítalo también de personName
+    setPersonName((prevPersonName) =>
+      prevPersonName.filter((descripcion) => descripcion !== e.descripcion)
+    );
+  };
+
+  const handleChange = (event: SelectChangeEvent<string[]>) => {
+    const {
+      target: { value },
+    } = event;
+
+    if (Array.isArray(value)) {
+      setPersonName(value);
+
+      const selectedMaterials = value.map((val) =>
+        buscarMaterialPorDescripcion(val)
+      );
+
+      setElementCombo(selectedMaterials);
+    }
+  };
+
   React.useEffect(() => {
-    if (refresh === true) {
-      dispatch(refreshThis(false));
-    }
-  }, [refresh]);
+    materialResponse.ListarProductos().then((data) => {
+      // Usamos reduce para filtrar elementos duplicados por descripción
+      const uniqueMaterials = data.reduce((unique: any, material: any) => {
+        // Comprobamos si ya hemos agregado un material con la misma descripción
+        const existingMaterial = unique.find(
+          (m) => m.descripcion === material.descripcion
+        );
 
-  console.log("REFRESH", refresh);
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value;
-    setSearch(searchTerm);
+        if (!existingMaterial) {
+          // Si no existe un material con la misma descripción, lo agregamos
+          unique.push(material);
+        }
 
-    // Filtrar los productos en base al término de búsqueda
-    const filtered = searchTerm
-      ? products.filter((product) =>
-          product.descripcion.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      : products;
+        return unique;
+      }, []);
 
-    setFilteredProducts(filtered);
-  };
-  const sendCombo = async () => {
-    if (!comboName) {
-      alert("Debes poner un nombre al combo");
-    }
-    if (elementCombo.length === 0) {
-      alert("Debes agregar al menos un elemento al combo");
-    }
-    const response = await material.AgregarCombo(elementCombo, comboName);
-    console.log("response material", response);
-    response.status === 201 && setElementCombo([]);
-    setComboName("")
-  };
-
-  React.useEffect(() => {
-    console.log("comboName", comboName);
-  }, [elementCombo, comboName]);
-
-  const handleAddCombo = async (e: Materiales) => {
-    console.log("handleAddCombo", e);
-
-    setElementCombo((prevElementCombo) => [...prevElementCombo, e]);
-  };
-  console.log("element", element);
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const productService = new ProductServices();
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleAction = (e: any, action: any, element: Materiales) => {
-    switch (action) {
-      case "deleteMaterial":
-        setShowModal(true);
-        setConfigModal({
-          ...configModal,
-          bodyReq: "Deseas eliminar este material?",
-          tittle: "Eliminar material",
-          action: "deleteMaterial",
-        });
-
-        break;
-      case "editMaterial":
-        setShowModal(true);
-        setConfigModal({
-          ...configModal,
-          bodyReq: "Editar material?",
-          tittle: "Editar material",
-          action: "editMaterial",
-        });
-
-        break;
-      case "buyMaterial":
-        setShowModal(true);
-        setConfigModal({
-          ...configModal,
-          bodyReq: "Comprar material?",
-          tittle: "Comprar material",
-          action: "buyMaterial",
-        });
-      default:
-        break;
-    }
-  };
-  React.useEffect(() => {
-    productService.ListarProductos().then((data) => {
-      setFilteredProducts(data);
-      setProducts(data);
+      console.log("MATERIALES", uniqueMaterials);
+      setMateriales(uniqueMaterials);
     });
   }, [refresh]);
-  React.useEffect(() => {
-    const closeMenu = (e: MouseEvent) => {
-      if (anchorEl && !anchorEl.contains(e.target as Node)) {
-        handleClose();
-      }
-    };
 
-    if (open) {
-      document.addEventListener("click", closeMenu);
-    } else {
-      document.removeEventListener("click", closeMenu);
-    }
-
-    return () => {
-      document.removeEventListener("click", closeMenu);
-    };
-  }, [open, anchorEl]);
   return (
-    <>
-      {showMopdal && (
-        <ModalList
-          closeModal={setShowModal}
-          action={todo}
-          tittle="Eliminar material?"
-          bodyReq={`eliminar?`}
-          element={element}
-          configModal={configModal}
-        />
-      )}
-      {/*    <div className="search-container">
-        <Input
-          type="text"
-          placeholder="Buscar materiales..."
-          value={search}
-          onChange={handleSearch}
-        />
-      </div> */}
-      <div className="tittleComboDeMaterialesContainer">
-        <span> Combo de materiales</span>
-      </div>
-      <div className="panelCreateCombo">
-        <Input
-        value={comboName}
-          onChange={(e: any) => setComboName(e.target.value)}
-          placeholder="Nombre del combo:"
-        ></Input>
-        <IonButton onClick={() => sendCombo()}>CREAR COMBO</IonButton>
-        <IonButton onClick={() => setElementCombo([])}>LIMPIAR COMBO</IonButton>
+    <div>
+      <FormControl sx={{ m: 1, width: 300 }}>
+        <InputLabel id="demo-multiple-name-label">Materiales</InputLabel>
+        <Select
+          labelId="demo-multiple-name-label"
+          id="demo-multiple-name"
+          multiple
+          value={personName}
+          onChange={handleChange}
+          input={<OutlinedInput label="Materiales" />}
+          MenuProps={MenuProps}
+        >
+          {Array.isArray(materiales) &&
+            materiales.map((material: Materiales) => (
+              <MenuItem
+                key={material.id}
+                value={material.descripcion}
+                style={getStyles(material.descripcion, personName, theme)}
+              >
+                {material.descripcion} {/* ({material.medida}
+                {material.unidadMedida.unidadMedida}) */}
+              </MenuItem>
+            ))}
+        </Select>
+      </FormControl>
 
-      </div>
-      <TableContainer component={Paper} className="tableMateriales">
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Id</TableCell>
-
-              <TableCell align="right">Descripción</TableCell>
-
-              <TableCell align="right">Unidad medida</TableCell>
-
-              <TableCell align="right">Medida</TableCell>
-              <TableCell align="right">
-                </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Array.isArray(filteredProducts) &&
-              filteredProducts.map((row, index) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row" align="left">
-                    {row.id}
-                  </TableCell>
-
-                  <TableCell align="right">{row.descripcion}</TableCell>
-                  <TableCell
-                    onClick={() => console.log("clic on table")}
-                    align="right"
-                  >
-                    {row.unidadMedida.unidadMedida}
-                  </TableCell>
-                  <TableCell align="right">{row.medida}</TableCell>
-
-                  <TableCell align="right">
-                    <div className="panelComboCreate">
-                      <Input type="number" placeholder="Cantidad:"></Input>
-                      <IonIcon
-                        size="small"
-                        icon={add}
-                        onClick={(e: any) => {
-                          /*                           handleClick(e);
-                           */ handleAddCombo(row);
-                          setElement(row);
-                          setConfigModal({
-                            ...configModal,
-                            element: row,
-                          });
-                        }}
-                      ></IonIcon>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {elementCombo.length >= 1 ? (
-        <ComboList
-          elementCombo={elementCombo}
-          setElementCombo={setElementCombo}
-        />
-      ) : null}
-    </>
+      <ComboList elementCombo={elementCombo} setElementCombo={quitarDelCombo} />
+    </div>
   );
 }

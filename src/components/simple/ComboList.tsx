@@ -25,10 +25,10 @@ import { refreshThis } from "../../features/dataReducer/dataReducer";
 
 export default function BasicTable({
   elementCombo,
-  setElementCombo
+  setElementCombo,
 }: {
-  elementCombo: (value: any) => void;
-  setElementCombo:any
+  elementCombo: any;
+  setElementCombo: any;
 }) {
   const [products, setProducts] = React.useState<Materiales[]>([]); // Especifica el tipo Product[]
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -45,19 +45,25 @@ export default function BasicTable({
   const [search, setSearch] = React.useState("");
   const [filteredProducts, setFilteredProducts] =
     React.useState<Materiales[]>(products);
+  const [setMaterial, setSetMaterial] = React.useState<Materiales[]>([]);
 
   const dispatch = useDispatch();
+  const materialResponse = new ProductServices();
   const refresh = useSelector(
     (refreshThis: any) => refreshThis.counter.refreshThis
   );
-console.log('setElementCombo',setElementCombo)
   React.useEffect(() => {
     if (refresh === true) {
       dispatch(refreshThis(false));
     }
   }, [refresh]);
-
-  console.log("REFRESH", refresh);
+  console.log("elementCombo", elementCombo);
+  React.useEffect(() => {
+    materialResponse.ListarProductos().then((data) => {
+      console.log("MATERIALES", data);
+      setSetMaterial(data);
+    });
+  }, [refresh]);
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value;
     setSearch(searchTerm);
@@ -71,8 +77,26 @@ console.log('setElementCombo',setElementCombo)
 
     setFilteredProducts(filtered);
   };
+  // Función para obtener elementos con descripciones duplicadas
+  const findDuplicateDescriptions = (elementCombo: any, setMaterials: any) => {
+    const descriptionsSetMaterials = setMaterials.map((material: any) =>
+      material.descripcion.toLowerCase()
+    );
+    const duplicateDescriptions = elementCombo.filter((element: any) =>
+      descriptionsSetMaterials.includes(element.descripcion.toLowerCase())
+    );
+    return duplicateDescriptions;
+  };
 
-  console.log("element", element);
+  // Llamada a la función para encontrar descripciones duplicadas
+  const duplicateDescriptions = findDuplicateDescriptions(
+    setMaterial,
+    elementCombo
+  );
+
+  // Ahora, duplicateDescriptions contiene los elementos con descripciones duplicadas
+  console.log("Elementos con descripciones duplicadas:", duplicateDescriptions);
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -152,8 +176,7 @@ console.log('setElementCombo',setElementCombo)
 
               <TableCell align="right">Medida</TableCell>
               <TableCell align="right">
-                {/*                 <IonIcon icon={options}></IonIcon>
-                 */}{" "}
+
               </TableCell>
             </TableRow>
           </TableHead>
@@ -183,8 +206,8 @@ console.log('setElementCombo',setElementCombo)
                         size="small"
                         icon={remove}
                         onClick={(e: any) => {
-/*                           handleClick(e);
- */                          setElement(row);
+                          /*                           handleClick(e);
+                           */ setElementCombo(row);
                           setConfigModal({
                             ...configModal,
                             element: row,
