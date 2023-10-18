@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Compras, Materiales } from "../../interfaces/index";
-import { IonIcon } from "@ionic/react";
+import { IonIcon, IonNote } from "@ionic/react";
 import { menu, options, optionsOutline, optionsSharp } from "ionicons/icons";
 import { Button } from "primereact/button";
 import { Input, Menu, MenuItem, Select } from "@mui/material";
@@ -114,13 +114,14 @@ export default function BasicTable({
         const cotizacionDate = new Date(product.fechaCompra);
         const cotizacionMonth = cotizacionDate.getMonth();
         const cotizacionYear = cotizacionDate.getFullYear();
-  
+
         const isMonthMatch = month === "allYear" || cotizacionMonth === month;
-        const isYearMatch = year === "allYears" || cotizacionYear === parseInt(year);
-  
+        const isYearMatch =
+          year === "allYears" || cotizacionYear === parseInt(year);
+
         return isMonthMatch && isYearMatch;
       });
-  
+
       setFilteredProducts(filtered);
     }
   };
@@ -177,33 +178,32 @@ export default function BasicTable({
         />
         {(selectedMonth === "allYear" && (
           <div className="containerGastoMes">
-            Total: ${calcularGastoDelMes()}
+            <IonNote>Total: ${calcularGastoDelMes()}</IonNote>
           </div>
         )) ||
           (selectedMonth === "" && (
             <div className="containerGastoMes">
-              Total: ${calcularGastoDelMes()}
+              <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
             </div>
           ))}
 
         {selectedMonth !== "allYear" && selectedMonth !== "" ? (
           <div className="containerGastoMes">
-            Total mes: ${calcularGastoDelMes()}
+            <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
           </div>
         ) : null}
-<Select
-  className="selectYearContainer"
-  value={selectedYear}
-  onChange={handleYearChange}
-  placeholder="Seleccionar año"
->
-  <MenuItem value="allYears">Todos los años</MenuItem>
-  <MenuItem value={2023}>2023</MenuItem> 
-  <MenuItem value={2022}>2022</MenuItem> 
-  <MenuItem value={2021}>2021</MenuItem> 
-  <MenuItem value={2020}>2020</MenuItem> 
-
-</Select>
+        <Select
+          className="selectYearContainer"
+          value={selectedYear}
+          onChange={handleYearChange}
+          placeholder="Seleccionar año"
+        >
+          <MenuItem value="allYears">Todos los años</MenuItem>
+          <MenuItem value={2023}>2023</MenuItem>
+          <MenuItem value={2022}>2022</MenuItem>
+          <MenuItem value={2021}>2021</MenuItem>
+          <MenuItem value={2020}>2020</MenuItem>
+        </Select>
         <Select
           className="selectMonthContainer"
           value={selectedMonth}
