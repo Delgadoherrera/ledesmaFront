@@ -1,6 +1,12 @@
-.CargaMaterialesContainer{
+.CargaMaterialesContainer {
     display: flex;
 }
 
-.editCargaMaterialesContainer{
+.editCargaMaterialesContainer {
+    background-color: red !important;
+
+    div {
+        text-align: left !important;
+
+    }
 }
