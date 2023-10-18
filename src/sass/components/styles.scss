@@ -17,18 +17,13 @@ $selected: rgba(182, 99, 197, 0.331);
 $secondary : rgba(54, 45, 56, 0.371);
 
 
-.menu.open {
-    background-color: blue !important;
 
-}
 
-.menu.close {
-    background-color: red !important;
+ion-toolbar {}
 
-}
+ion-fab {
+    top: 0;
+    margin: 1px;
+    color: rgba(0, 0, 0, 0.63) !important;
 
-.menu-button {
-    background-color: red !important;
-    position: fixed;
-    z-index: 500;
 }

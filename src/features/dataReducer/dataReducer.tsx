@@ -3,10 +3,12 @@ import { createSelector } from "reselect";
 
 interface DataState {
   refreshThis: boolean;
+  openMenu: boolean;
 }
 
 const initialState: DataState = {
   refreshThis: false,
+  openMenu: false,
 };
 
 const dataReducer = createSlice({
@@ -14,19 +16,31 @@ const dataReducer = createSlice({
   initialState,
   reducers: {
     refreshThis: (state, action: PayloadAction<any>) => {
-      console.log('REFRESCANDO,',action.payload)
+      console.log("REFRESCANDO,", action.payload);
       state.refreshThis = action.payload;
+    },
+    openMenu: (state, action: PayloadAction<any>) => {
+      console.log("REFRESCANDO,", action.payload);
+      state.openMenu = action.payload;
     },
   },
 });
 
 export const { refreshThis } = dataReducer.actions;
+export const { openMenu } = dataReducer.actions;
 
 const selectCounterState = (state: { counter: DataState }) => state.counter;
 
 export const selectCount = createSelector(
   [selectCounterState],
-  (counter) => counter.refreshThis
+  (counter) => counter.refreshThis,
+  
+);
+
+export const isOpenMenu = createSelector(
+  [selectCounterState],
+  (counter) => counter.openMenu,
+  
 );
 
 export default dataReducer.reducer;
