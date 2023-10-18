@@ -42,7 +42,7 @@ export default function CargaMateriales({
       console.log("Respuesta de la solicitud:", response);
       handleClose();
       response.status === 200 && limpiarFormulario();
-      response.status === 200 && dispatch(refreshThis(true))
+      response.status === 200 && dispatch(refreshThis(true));
     } catch (error) {
       console.error("Error al realizar la solicitud:", error);
     }
@@ -137,14 +137,14 @@ export default function CargaMateriales({
         <Button variant="outlined" onClick={() => handleSend(values)}>
           Enviar
         </Button>
-        {/*         <Button
+        <Button
           variant="outlined"
           onClick={(e) => {
-            limpiarFormulario();
+            handleClose();
           }}
         >
-          Limpiar
-        </Button> */}
+          Cancelar
+        </Button>
       </Box>
     </>
   );

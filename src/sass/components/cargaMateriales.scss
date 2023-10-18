@@ -3,10 +3,31 @@
 }
 
 .editCargaMaterialesContainer {
-    background-color: red !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .descripcionCompra {
+        display: flex;
+        justify-content: center;
+
+        ion-badge {
+            background-color: $selected;
+            align-items: center;
+            color: $contrast;
+        }
+
+
+
+    }
 
     div {
         text-align: left !important;
 
+    }
+
+    button {
+        margin: 3px !important;
     }
 }

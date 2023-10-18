@@ -105,9 +105,10 @@ export default function CargaMateriales() {
           error={!!formErrors.unidadMedida}
         >
           <MenuItem value={"Lts"}>Litros</MenuItem>
-          <MenuItem value={"Kg"}>Kg</MenuItem>
-          <MenuItem value={"Cm"}>Cm</MenuItem>
-          <MenuItem value={"Mts"}>Mts</MenuItem>
+          <MenuItem value={"Kg"}>Kilogramos</MenuItem>
+          <MenuItem value={"Cm"}>Centímetros</MenuItem>
+          <MenuItem value={"Mts"}>Metros</MenuItem>
+          <MenuItem value={"Uni"}>Unidades</MenuItem>
         </Select>
         <div style={{ color: "red" }}>{formErrors.unidadMedida}</div>
       </FormControl>

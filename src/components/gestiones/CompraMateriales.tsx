@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import { Button, MenuItem, Select, Typography } from "@mui/material";
 import axios from "axios";
 import { ProductServices } from "../../Services/ProductService";
-import { IonItem } from "@ionic/react";
+import { IonBackButton, IonBadge, IonBreadcrumb, IonItem } from "@ionic/react";
 
 export default function CargaMateriales({
   handleClose,
@@ -83,10 +83,10 @@ export default function CargaMateriales({
         className="editCargaMaterialesContainer"
       >
         <div className="descripcionCompra">
-          <Typography>descripcion: {element.descripcion}</Typography>
-          <Typography>
-            Medida: {element.medida} {element.unidadMedida.unidadMedida}
-          </Typography>
+          <IonBadge>
+            {element.descripcion} {element.medida}{" "}
+            {element.unidadMedida.unidadMedida}
+          </IonBadge>
         </div>
         <TextField
           id="outlined-basic"
@@ -131,6 +131,7 @@ export default function CargaMateriales({
           variant="outlined"
           onClick={(e) => {
             limpiarFormulario();
+            handleClose();
           }}
         >
           Cancelar
