@@ -71,64 +71,29 @@ export default function MultipleSelect() {
   return (
     <div>
       <div className="comboBox">
-        <Select
-          options={uniqueDescriptions.map((description) => ({
-            value: description,
-            label: description,
-          }))}
-          onChange={(selectedOption: any) => {
-            setSelectedDescription(selectedOption.value);
-            setSelectedMeasure(null);
-          }}
-          placeholder={"Buscar elementos"}
-        />
-        {/*       {selectedDescription && (
-          <div>
-            <Select
-              options={unidadMedidaFilter.map((measure) => ({
-                value: measure,
-                label: measure,
-              }))}
-              onChange={(selectedOption: any) => {
-                setSelectedMeasure(selectedOption.value);
-                setSelectedUnit(
-                  filteredMaterials.find(
-                    (material) => material.medida === selectedOption.value
-                  )?.unidad_medida
-                );
-              }}
-              placeholder={"Unidad de medida"}
-              value={unidadMedidaFilter.map((measure) => ({
-                value: measure,
-                label: measure,
-              }))}
-            />
-          </div>
-        )}
-        {selectedDescription && (
-          <div>
-            <Select
-              options={uniqueMeasures.map((measure) => ({
-                value: measure,
-                label: measure,
-              }))}
-              onChange={(selectedOption: any) => {
-                setSelectedMeasure(selectedOption.value);
-              }}
-              placeholder={"Selecciona la medida"}
-            />
-          </div>
-        )} */}
-        <Select
-          options={filteredMaterials.map((material) => ({
-            value: material.medida,
-            label: `${material.medida} ${material.unidadMedida.unidadMedida}`,
-          }))}
-          onChange={(selectedOption: any) => {
-            setSelectedMeasure(selectedOption.value);
-          }}
-          placeholder={"Medida"}
-        />
+        <div className="selectionCombo">
+          <Select
+            options={uniqueDescriptions.map((description) => ({
+              value: description,
+              label: description,
+            }))}
+            onChange={(selectedOption: any) => {
+              setSelectedDescription(selectedOption.value);
+              setSelectedMeasure(null);
+            }}
+            placeholder={"Buscar elementos"}
+          />
+          <Select
+            options={filteredMaterials.map((material) => ({
+              value: material.medida,
+              label: `${material.medida} ${material.unidadMedida.unidadMedida}`,
+            }))}
+            onChange={(selectedOption: any) => {
+              setSelectedMeasure(selectedOption.value);
+            }}
+            placeholder={"Medida"}
+          />
+        </div>
 
         {selectedDescription && (
           <div className="inputValor">

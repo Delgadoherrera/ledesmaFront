@@ -62,10 +62,6 @@
     .css-art2ul-ValueContainer2 {}
 
 
-    ion-button {
-        width: 50px !important;
-    }
-
     background-color: $selected;
     border-radius: 10px;
     margin: 10px;
@@ -73,6 +69,21 @@
     ion-badge {
         display: flex;
         align-items: center;
+        background-color: $contrast;
+    }
+
+    button {
+        background-color: $contrast;
+        border: none;
+        margin: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+
     }
 
     .inputValor {
@@ -83,6 +94,14 @@
             width: 100px;
         }
     }
+
+    .selectionCombo {
+        display: flex;
+
+        .css-b62m3t-container {
+            width: 250px;
+        }
+    }
 }
 
 .comboBoxBottom {
@@ -90,7 +109,13 @@
     display: flex;
     justify-content: start;
 
+
     ion-button {}
 
     input {}
 }
+
+/* .css-b62m3t-container{
+    background-color: red;
+    width: 250px;
+} */
