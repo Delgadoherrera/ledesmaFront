@@ -31,7 +31,9 @@ ion-fab {
 ion-fab-button {
     background: transparent !important;
     --box-shadow: none;
+}
 
-
-
+button{
+    background-color: $contrast !important;
+    color:rgb(255, 255, 255) !important;
 }
