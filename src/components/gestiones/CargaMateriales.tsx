@@ -11,6 +11,7 @@ import { Materiales } from "../../interfaces/index";
 import { useDispatch } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
+import { IonToast } from "@ionic/react";
 export default function CargaMateriales() {
   const [values, setValues] = useState<Materiales>({
     descripcion: "",
@@ -19,6 +20,10 @@ export default function CargaMateriales() {
     id: null,
   });
   const [formErrors, setFormErrors] = useState<any>({});
+  const [alertMsg, setAlertMsg] = useState(false);
+  const [configAlert, setConfigAlert] = React.useState({
+    message: `${values.descripcion} agregado con éxito!`,
+  });
   const productService = new ProductServices();
   const dispatch = useDispatch();
   const validateForm = () => {
@@ -68,10 +73,17 @@ export default function CargaMateriales() {
             id: null,
           });
         dispatch(refreshThis(true));
+        response.status === 201
+          ? setConfigAlert({
+              message: ` ${data.descripcion} agregado con exito`,
+            })
+          : null;
+          response.status===201 && setAlertMsg(true)
       } catch (error) {
         console.error("Error al realizar la solicitud:", error);
       }
     }
+    
   };
 
   return (
@@ -127,6 +139,14 @@ export default function CargaMateriales() {
       <Button variant="outlined" color="secondary" onClick={limpiarFormulario}>
         Limpiar
       </Button>
+      {alertMsg && (
+        <IonToast
+          isOpen={alertMsg}
+          message={configAlert.message}
+          onDidDismiss={() => setAlertMsg(false)}
+          duration={5000}
+        ></IonToast>
+      )}
     </Box>
   );
 }

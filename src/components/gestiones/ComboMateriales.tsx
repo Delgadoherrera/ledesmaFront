@@ -83,6 +83,7 @@ export default function MultipleSelect() {
             }}
             placeholder={"Buscar elementos"}
           />
+
           <Select
             options={filteredMaterials.map((material) => ({
               value: material.medida,
@@ -97,17 +98,6 @@ export default function MultipleSelect() {
 
         {selectedDescription && (
           <div className="inputValor">
-            <IonBadge>Precio unidad: $</IonBadge>
-            <Input
-              type="number"
-              value={materialValue}
-              onChange={(e: any) => setMaterialValue(e.target.value!)}
-            />
-          </div>
-        )}
-
-        {selectedDescription && (
-          <div className="inputValor">
             <IonBadge>Unidades:</IonBadge>
             <Input
               type="number"
@@ -116,7 +106,16 @@ export default function MultipleSelect() {
             />
           </div>
         )}
-
+        {selectedDescription && (
+          <div className="inputValor">
+            <IonBadge>Precio unidad: $</IonBadge>
+            <Input
+              type="number"
+              value={materialValue}
+              onChange={(e: any) => setMaterialValue(e.target.value!)}
+            />
+          </div>
+        )}
         <Button
           onClick={() => {
             if (

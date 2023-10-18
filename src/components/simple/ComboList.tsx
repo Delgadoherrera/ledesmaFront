@@ -8,7 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces/index";
-import { IonButton, IonDatetime, IonIcon } from "@ionic/react";
+import {
+  IonAlert,
+  IonButton,
+  IonDatetime,
+  IonIcon,
+  IonToast,
+} from "@ionic/react";
 import axios from "axios";
 import {
   menu,
@@ -54,11 +60,19 @@ export default function BasicTable({
     { material: Materiales; price: number }[]
   >([]);
   const [date, setDate] = React.useState("");
-
+  const [alertMsg, setAlertMsg] = React.useState(true);
+  const [trigger, setTrigger] = React.useState(false);
   const dispatch = useDispatch();
   const refresh = useSelector(
     (refreshThis: any) => refreshThis.counter.refreshThis
   );
+  const [configAlert, setConfigAlert] = React.useState({
+    trigger: "present-alert",
+    header: "Alert",
+    subHeader: "Important message",
+    message: "This is an alert!",
+    buttons: ["OK"],
+  });
   React.useEffect(() => {
     if (refresh === true) {
       dispatch(refreshThis(false));
@@ -74,6 +88,11 @@ export default function BasicTable({
   };
 
   console.log("compra:", prices);
+
+  React.useEffect(() => {
+    !trigger && setAlertMsg(false);
+    console.log("trigger", trigger);
+  }, [alertMsg, configAlert, trigger]);
 
   React.useEffect(() => {
     productService.ListarProductos().then((data) => {
@@ -100,10 +119,25 @@ export default function BasicTable({
           )?.cantidad;
           console.log("quantity", quantity);
           if (date === "") {
-            return alert("Indique fecha de compra");
+            setConfigAlert({
+              trigger: "present-alert",
+              header: "Fecha de compra",
+              subHeader: "",
+              message: "Ingrese fecha de compra",
+              buttons: ["OK"],
+            });
+            setTrigger(true);
+            return setAlertMsg(true);
           }
           if (quantity === "") {
-            return alert("Indique fecha de compra");
+            setConfigAlert({
+              trigger: "present-alert",
+              header: "Cantidad de unidades",
+              subHeader: "",
+              message: "Ingrese cantidad de unidades",
+              buttons: ["OK"],
+            });
+            return setAlertMsg(false);
           }
           console.log("quantityquantityquantity", quantity);
 
@@ -195,6 +229,7 @@ export default function BasicTable({
               onChange={(e: any) => setDate(e.target.value)}
             ></input>
             <IonButton
+              id="present-alert"
               onClick={(e) => {
                 const prices = Object.fromEntries(
                   elementCombo.map((item: any) => [
@@ -202,9 +237,17 @@ export default function BasicTable({
                     item.precio,
                   ])
                 );
-                handleSend(selectedMaterials, prices);
+                return handleSend(selectedMaterials, prices);
               }}
             >
+              {trigger && (
+                <IonToast
+                  isOpen={alertMsg}
+                  message={configAlert.message}
+                  onDidDismiss={() => setAlertMsg(false)}
+                  duration={5000}
+                ></IonToast>
+              )}
               Comprar
             </IonButton>
           </div>
