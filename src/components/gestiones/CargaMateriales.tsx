@@ -8,9 +8,9 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Typography from "@mui/material/Typography";
 import { Materiales } from "../../interfaces/index";
-
+import { useDispatch } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
-
+import { refreshThis } from "../../features/dataReducer/dataReducer";
 export default function CargaMateriales() {
   const [values, setValues] = useState<Materiales>({
     descripcion: "",
@@ -20,7 +20,7 @@ export default function CargaMateriales() {
   });
   const [formErrors, setFormErrors] = useState<any>({});
   const productService = new ProductServices();
-
+  const dispatch = useDispatch();
   const validateForm = () => {
     const errors: any = {};
 
@@ -60,7 +60,14 @@ export default function CargaMateriales() {
       try {
         const response = await productService.AgregarProducto(data);
         console.log("Respuesta de la solicitud:", response);
-        response.status === 201 && limpiarFormulario();
+        response.status === 201 &&
+          setValues({
+            descripcion: "",
+            medida: "",
+            unidadMedida: "",
+            id: null,
+          });
+        dispatch(refreshThis(true));
       } catch (error) {
         console.error("Error al realizar la solicitud:", error);
       }
@@ -104,15 +111,14 @@ export default function CargaMateriales() {
         </Select>
         <div style={{ color: "red" }}>{formErrors.unidadMedida}</div>
       </FormControl>
-        <TextField
-          label="Medida"
-          variant="outlined"
-          value={values.medida}
-          onChange={(e) => setValues({ ...values, medida: e.target.value })}
-          error={!!formErrors.medida}
-          helperText={formErrors.medida}
-        />
-    
+      <TextField
+        label="Medida"
+        variant="outlined"
+        value={values.medida}
+        onChange={(e) => setValues({ ...values, medida: e.target.value })}
+        error={!!formErrors.medida}
+        helperText={formErrors.medida}
+      />
 
       <Button variant="contained" color="primary" onClick={handleSend}>
         Enviar

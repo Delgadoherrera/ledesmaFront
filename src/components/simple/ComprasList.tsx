@@ -148,6 +148,8 @@ export default function BasicTable({
     });
   }, []);
 
+  console.log('filteredProducts',filteredProducts)
+
   console.log("COMPRAS REALIZADAS:", products);
   return (
     <>
@@ -237,7 +239,6 @@ export default function BasicTable({
 
                   <TableCell>
                     {row.catalogo_material.medida}
-
                     {row.unidadMedida.unidadMedida}
                   </TableCell>
                   <TableCell>{row.cotizacion.conversion}</TableCell>

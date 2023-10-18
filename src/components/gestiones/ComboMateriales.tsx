@@ -4,8 +4,8 @@ import { Materiales } from "../../interfaces";
 import { useSelector } from "react-redux";
 import Select from "react-select";
 import ComboList from "../simple/ComboList";
-import { IonButton, IonNote } from "@ionic/react";
-import { Input } from "@mui/material";
+import { IonBadge, IonBreadcrumb, IonButton, IonNote } from "@ionic/react";
+import { Input, Typography } from "@mui/material";
 import { components } from "react-select";
 
 export default function MultipleSelect() {
@@ -124,7 +124,7 @@ export default function MultipleSelect() {
 
         {selectedDescription && (
           <div className="inputValor">
-            <IonNote>Precio unidad: $</IonNote>
+            <IonBadge>Precio unidad: $</IonBadge>
             <Input
               type="number"
               value={materialValue}
@@ -134,8 +134,8 @@ export default function MultipleSelect() {
         )}
 
         {selectedDescription && (
-          <div className="inputCantidad">
-            <IonNote>Unidades:</IonNote>
+          <div className="inputValor">
+            <IonBadge>Unidades:</IonBadge>
             <Input
               type="number"
               value={materialQuantity}

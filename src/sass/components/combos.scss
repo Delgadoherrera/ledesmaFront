@@ -52,19 +52,36 @@
     display: flex;
     align-items: center;
     padding: 10px;
-
+    align-content: center !important;
 
     input {
-        width: 100px;
+        text-align: start;
+        margin-left: 5px;
     }
+
+    .css-art2ul-ValueContainer2 {
+    }
+
 
     ion-button {
         width: 50px !important;
     }
 
-    background-color: $selected;
+    background-color: $secondary;
 
- 
+    ion-badge {
+        display: flex;
+        align-items: center;
+    }
+
+    .inputValor {
+        width: auto;
+        display: flex;
+
+        input {
+            width: 100px;
+        }
+    }
 }
 
 .comboBoxBottom {
@@ -72,9 +89,7 @@
     display: flex;
     justify-content: start;
 
-    ion-button {
-    }
+    ion-button {}
 
-    input {
-    }
+    input {}
 }

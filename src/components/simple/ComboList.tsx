@@ -115,13 +115,13 @@ export default function BasicTable({
 
           const val = price / dolares.blue.value_avg;
 
-          console.log("materialessss", materiales);
+          console.log("materialmaterialmaterial", material);
           try {
             const datos = {
               conversion: val,
               precioPesos: price,
               medida: material!.medida,
-              medidaId: 1,
+              medidaId: material!.unidadMedida.id,
               fechaCompra: date,
               unidades: quantity, // Aquí accedemos a la cantidad de unidades
             };
@@ -131,7 +131,9 @@ export default function BasicTable({
             );
             console.log("Respuestasolicitud:", response);
             handleClose();
-            response.status === 200 && console.log("EXITOSO!");
+            response.status === 200 &&
+              elementCombo.map((one: any) => setElementCombo(one)) &&
+              console.log("EXITOSO!");
           } catch (error) {
             console.error("Error al realiza:", error);
           }
