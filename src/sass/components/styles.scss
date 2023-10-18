@@ -24,6 +24,14 @@ ion-toolbar {}
 ion-fab {
     top: 0;
     margin: 1px;
-    color: rgba(0, 0, 0, 0.63) !important;
+
+
+}
+
+ion-fab-button {
+    background: transparent !important;
+    --box-shadow: none;
+
+
 
 }

@@ -18,6 +18,7 @@ import "./Page.css";
 import { add, menu } from "ionicons/icons";
 import { isOpenMenu, openMenu } from "../features/dataReducer/dataReducer";
 import { useDispatch, useSelector } from "react-redux";
+import SVGIcon from "../assets/icons/menu-dots-svgrepo-com.svg";
 const Page: React.FC = () => {
   const open = useSelector((isOpenMenu: any) => isOpenMenu.counter.openMenu);
   const dispatch = useDispatch();
@@ -26,9 +27,16 @@ const Page: React.FC = () => {
   return (
     <IonPage>
       <IonFab slot="fixed" vertical="top" horizontal="center">
-        <IonFabButton onClick={() => dispatch(openMenu(!open))} color={'white'} size="small">
-          <IonIcon icon={menu}></IonIcon>
+        <IonFabButton
+          onClick={() => dispatch(openMenu(!open))}
+          color={"white"}
+          size="small"
+        >
+          {/*           <IonIcon icon={menu}></IonIcon>
+           */}{" "}
+          <img src={SVGIcon}></img>
         </IonFabButton>
+        -
       </IonFab>
       <IonHeader>
         <IonToolbar>
@@ -36,8 +44,7 @@ const Page: React.FC = () => {
             {/*             <IonMenuButton menu="first" autoHide={true}>
             </IonMenuButton> */}
           </IonButtons>
-          {/*           <IonTitle>{name}</IonTitle>
-           */}{" "}
+          <IonTitle slot="end">{name}</IonTitle>
         </IonToolbar>
       </IonHeader>
 

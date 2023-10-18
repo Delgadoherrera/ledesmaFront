@@ -4,9 +4,17 @@ import { Materiales } from "../../interfaces";
 import { useSelector } from "react-redux";
 import Select from "react-select";
 import ComboList from "../simple/ComboList";
-import { IonBadge, IonBreadcrumb, IonButton, IonNote } from "@ionic/react";
+import {
+  IonBadge,
+  IonBreadcrumb,
+  IonButton,
+  IonIcon,
+  IonNote,
+} from "@ionic/react";
 import { Input, Typography } from "@mui/material";
 import { components } from "react-select";
+import add from "../../assets/icons/add-circle-svgrepo-com(1).svg";
+import { Button } from "react-bootstrap";
 
 export default function MultipleSelect() {
   const [materiales, setMateriales] = React.useState<Materiales[]>([]);
@@ -144,7 +152,7 @@ export default function MultipleSelect() {
           </div>
         )}
 
-        <IonButton
+        <Button
           onClick={() => {
             if (
               selectedDescription &&
@@ -194,8 +202,8 @@ export default function MultipleSelect() {
             }
           }}
         >
-          +
-        </IonButton>
+          +{" "}
+        </Button>
       </div>
 
       <ComboList

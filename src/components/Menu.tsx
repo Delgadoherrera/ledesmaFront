@@ -39,7 +39,9 @@ import {
 import "./Menu.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import usd from '../assets/icons/dolar-svgrepo-com.svg'
 import { openMenu } from "../features/dataReducer/dataReducer";
+import catalogue from '../assets/icons/catalogue-catalog-svgrepo-com.svg'
 interface AppPage {
   url: string;
   iosIcon: string;
@@ -69,14 +71,14 @@ const appPages: AppPage[] = [
   {
     title: "Catalogos de materiales",
     url: "/page/Catalogos",
-    iosIcon: hammer,
-    mdIcon: hammer,
+    iosIcon: catalogue,
+    mdIcon: catalogue,
   },
   {
     title: "Reporte de compras",
     url: "/page/compras",
-    iosIcon: logoUsd,
-    mdIcon: logoUsd,
+    iosIcon: usd,
+    mdIcon: usd,
   },
 
   /*   {

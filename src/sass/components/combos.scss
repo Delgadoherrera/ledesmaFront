@@ -59,15 +59,16 @@
         margin-left: 5px;
     }
 
-    .css-art2ul-ValueContainer2 {
-    }
+    .css-art2ul-ValueContainer2 {}
 
 
     ion-button {
         width: 50px !important;
     }
 
-    background-color: $secondary;
+    background-color: $selected;
+    border-radius: 10px;
+    margin: 10px;
 
     ion-badge {
         display: flex;

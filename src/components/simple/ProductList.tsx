@@ -149,103 +149,105 @@ export default function BasicTable({
           onChange={handleSearch}
         />
       </div>
-      <TableContainer component={Paper} className="tableMateriales">
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Descripción</TableCell>
+      {filteredProducts.length > 0 && (
+        <TableContainer component={Paper} className="tableMateriales">
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Descripción</TableCell>
 
-              {/*               <TableCell>Unidad medida</TableCell>
-               */}
-              <TableCell>Medida</TableCell>
-              <TableCell>
-                {/*                 <IonIcon icon={options}></IonIcon>
-                 */}{" "}
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Array.isArray(filteredProducts) &&
-              filteredProducts.map((row, index) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>{row.descripcion}</TableCell>
-                  {/*                 <TableCell onClick={() => console.log("clic on table")}>
+                {/*               <TableCell>Unidad medida</TableCell>
+                 */}
+                <TableCell>Medida</TableCell>
+                <TableCell>
+                  {/*                 <IonIcon icon={options}></IonIcon>
+                   */}{" "}
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Array.isArray(filteredProducts) &&
+                filteredProducts.map((row, index) => (
+                  <TableRow
+                    key={row.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell>{row.descripcion}</TableCell>
+                    {/*                 <TableCell onClick={() => console.log("clic on table")}>
                     {row.unidadMedida.unidadMedida}
                   </TableCell> */}
-                  <TableCell>
-                    {row.medida} {row.unidadMedida.unidadMedida}
-                  </TableCell>
+                    <TableCell>
+                      {row.medida} {row.unidadMedida.unidadMedida}
+                    </TableCell>
 
-                  <TableCell>
-                    <div>
-                      <IonIcon
-                        size="small"
-                        icon={menu}
-                        onClick={(e: any) => {
-                          handleClick(e);
-                          setElement(row);
-                          setConfigModal({
-                            ...configModal,
-                            element: row,
-                          });
-                        }}
-                      ></IonIcon>
-                      <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                          "aria-labelledby": "basic-button",
-                        }}
-                      >
-                        <MenuItem
-                          onClick={(e) => {
-                            setTodo("editMaterial");
+                    <TableCell>
+                      <div>
+                        <IonIcon
+                          size="small"
+                          icon={menu}
+                          onClick={(e: any) => {
+                            handleClick(e);
+                            setElement(row);
                             setConfigModal({
                               ...configModal,
-                              action: "editMaterial",
+                              element: row,
                             });
-                            handleAction(e, "editMaterial", row);
+                          }}
+                        ></IonIcon>
+                        <Menu
+                          id="basic-menu"
+                          anchorEl={anchorEl}
+                          open={open}
+                          onClose={handleClose}
+                          MenuListProps={{
+                            "aria-labelledby": "basic-button",
                           }}
                         >
-                          Editar
-                        </MenuItem>
-                        <MenuItem
-                          onClick={(e) => {
-                            setTodo("buyMaterial");
-                            setConfigModal({
-                              ...configModal,
-                              action: "buyMaterial",
-                            });
-                            handleAction(e, "buyMaterial", row);
-                          }}
-                        >
-                          Comprar
-                        </MenuItem>
-                        <MenuItem
-                          onClick={(e) => {
-                            setTodo("deleteMaterial");
-                            setConfigModal({
-                              ...configModal,
-                              action: "deleteMaterial",
-                            });
-                            handleAction(e, "deleteMaterial", row);
-                          }}
-                        >
-                          Eliminar
-                        </MenuItem>
-                      </Menu>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                          <MenuItem
+                            onClick={(e) => {
+                              setTodo("editMaterial");
+                              setConfigModal({
+                                ...configModal,
+                                action: "editMaterial",
+                              });
+                              handleAction(e, "editMaterial", row);
+                            }}
+                          >
+                            Editar
+                          </MenuItem>
+                          <MenuItem
+                            onClick={(e) => {
+                              setTodo("buyMaterial");
+                              setConfigModal({
+                                ...configModal,
+                                action: "buyMaterial",
+                              });
+                              handleAction(e, "buyMaterial", row);
+                            }}
+                          >
+                            Comprar
+                          </MenuItem>
+                          <MenuItem
+                            onClick={(e) => {
+                              setTodo("deleteMaterial");
+                              setConfigModal({
+                                ...configModal,
+                                action: "deleteMaterial",
+                              });
+                              handleAction(e, "deleteMaterial", row);
+                            }}
+                          >
+                            Eliminar
+                          </MenuItem>
+                        </Menu>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </>
   );
 }
