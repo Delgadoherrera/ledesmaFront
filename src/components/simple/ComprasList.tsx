@@ -36,11 +36,14 @@ export default function BasicTable({
   const [filteredProducts, setFilteredProducts] =
     React.useState<Compras[]>(products);
   const [selectedMonth, setSelectedMonth] = React.useState("allYear"); // Estado para el mes seleccionado
+  const [selectedYear, setSelectedYear] = React.useState("allYears");
 
-  console.log("selectedMonth", selectedMonth);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleYearChange = (event: any) => {
+    const selectedYear = event.target.value;
+    setSelectedYear(selectedYear);
+    filterProductsByMonth(selectedMonth, selectedYear);
   };
+
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value;
     setSearch(searchTerm);
@@ -102,20 +105,22 @@ export default function BasicTable({
         break;
     }
   };
-  const filterProductsByMonth = (month: any) => {
-    if (month === "allYear") {
-      // Si no se ha seleccionado un mes, muestra todos los productos
-      console.log("TODOS LOS PRODUC");
+  const filterProductsByMonth = (month: any, year: any) => {
+    if (month === "allYear" && year === "allYears") {
+      // Si no se ha seleccionado un mes ni un año, muestra todos los productos
       setFilteredProducts(products);
     } else {
       const filtered = products.filter((product: any) => {
-        console.log("Fecha de cotización:", product.fechaCompra);
         const cotizacionDate = new Date(product.fechaCompra);
         const cotizacionMonth = cotizacionDate.getMonth();
-        console.log("Mes de la fecha:", cotizacionDate.getMonth());
-
-        return cotizacionMonth === month;
+        const cotizacionYear = cotizacionDate.getFullYear();
+  
+        const isMonthMatch = month === "allYear" || cotizacionMonth === month;
+        const isYearMatch = year === "allYears" || cotizacionYear === parseInt(year);
+  
+        return isMonthMatch && isYearMatch;
       });
+  
       setFilteredProducts(filtered);
     }
   };
@@ -123,7 +128,7 @@ export default function BasicTable({
   const handleMonthChange = (event: any) => {
     const selectedMonth = event.target.value;
     setSelectedMonth(selectedMonth);
-    filterProductsByMonth(selectedMonth);
+    filterProductsByMonth(selectedMonth, selectedYear); // También pasa el año
   };
 
   const calcularGastoDelMes = () => {
@@ -148,7 +153,7 @@ export default function BasicTable({
     });
   }, []);
 
-  console.log('filteredProducts',filteredProducts)
+  console.log("filteredProducts", filteredProducts);
 
   console.log("COMPRAS REALIZADAS:", products);
   return (
@@ -186,9 +191,21 @@ export default function BasicTable({
             Total mes: ${calcularGastoDelMes()}
           </div>
         ) : null}
+<Select
+  className="selectYearContainer"
+  value={selectedYear}
+  onChange={handleYearChange}
+  placeholder="Seleccionar año"
+>
+  <MenuItem value="allYears">Todos los años</MenuItem>
+  <MenuItem value={2023}>2023</MenuItem> 
+  <MenuItem value={2022}>2022</MenuItem> 
+  <MenuItem value={2021}>2021</MenuItem> 
+  <MenuItem value={2020}>2020</MenuItem> 
 
+</Select>
         <Select
-        className="selectMonthContainer"
+          className="selectMonthContainer"
           value={selectedMonth}
           onChange={handleMonthChange}
           placeholder="Seleccionar mes"
