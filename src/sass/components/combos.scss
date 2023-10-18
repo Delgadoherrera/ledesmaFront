@@ -55,7 +55,6 @@
 
 
     input {
-        width: 130px !important;
     }
 
     ion-button {
@@ -64,6 +63,7 @@
 
     background-color: $selected;
 
+ 
 }
 
 .comboBoxBottom {
@@ -72,10 +72,8 @@
     justify-content: start;
 
     ion-button {
-        width: 220px !important;
     }
 
     input {
-        width: 220px;
     }
 }

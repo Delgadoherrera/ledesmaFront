@@ -1,4 +1,5 @@
 import {
+  IonButton,
   IonContent,
   IonIcon,
   IonItem,
@@ -9,6 +10,8 @@ import {
   IonMenuToggle,
   IonNote,
 } from "@ionic/react";
+import { menuController } from "@ionic/core/components";
+import {} from "@ionic/react";
 
 import { useLocation } from "react-router-dom";
 import {
@@ -26,6 +29,7 @@ import {
   warningOutline,
   person,
   logoUsd,
+  menu,
 } from "ionicons/icons";
 import "./Menu.css";
 interface AppPage {
@@ -81,6 +85,11 @@ const appPages: AppPage[] = [
     mdIcon: trashSharp,
   }, */
 ];
+const handleOpenMenu = () => {
+  console.log("clicMenu");
+  menuController.close();
+};
+handleOpenMenu();
 
 const labels = [,/* "Maria", "Marta", "Cerralima", "Selalima", "Conlamina" */];
 
@@ -88,7 +97,20 @@ const Menu: React.FC = () => {
   const location = useLocation();
 
   return (
-    <IonMenu contentId="main" type="overlay">
+    <IonMenu contentId="main" type="overlay" disabled={false}>
+      <div className="d-flex justify-content-start px-3">
+        <IonButton>
+          <IonIcon
+            icon={menu}
+            color="light"
+            size="large"
+            style={{ zIndex: "1" }}
+            onClick={() => {
+              menuController.toggle("main");
+            }}
+          />
+        </IonButton>
+      </div>
       <IonContent>
         <IonList id="inbox-list">
           <IonListHeader>LEDESMA Cia.</IonListHeader>

@@ -186,6 +186,7 @@ export default function BasicTable({
         ) : null}
 
         <Select
+        className="selectMonthContainer"
           value={selectedMonth}
           onChange={handleMonthChange}
           placeholder="Seleccionar mes"
@@ -212,11 +213,11 @@ export default function BasicTable({
           <TableHead>
             <TableRow>
               <TableCell>Descripción</TableCell>
-              <TableCell align="right">Fecha</TableCell>            
-              <TableCell align="right">Medida</TableCell>
-              <TableCell align="right">DOLARES</TableCell>
-              <TableCell align="right">PESOS</TableCell>
-              {/*      <TableCell align="right">
+              <TableCell>Fecha</TableCell>
+              <TableCell>Medida</TableCell>
+              <TableCell>DOLARES</TableCell>
+              <TableCell>PESOS</TableCell>
+              {/*      <TableCell >
                 <IonIcon icon={options}></IonIcon>
               </TableCell> */}
             </TableRow>
@@ -228,31 +229,22 @@ export default function BasicTable({
                   key={row.idCompra}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row" align="left">
-                    {row.catalogo_material.descripcion}
-                  </TableCell>
-                  <TableCell component="th" scope="row" align="right">
-                    {row.fechaCompra}
-                  </TableCell>
-                  {/*                   <TableCell component="th" scope="row" align="right">
+                  <TableCell>{row.catalogo_material.descripcion}</TableCell>
+                  <TableCell>{row.fechaCompra}</TableCell>
+                  {/*                   <TableCell component="th" scope="row" >
                     {row.unidades}
                   </TableCell> */}
 
-                  <TableCell component="th" scope="row" align="right">
+                  <TableCell>
                     {row.catalogo_material.medida}
 
                     {row.unidadMedida.unidadMedida}
                   </TableCell>
-                  <TableCell align="right">
-                    {row.cotizacion.conversion}
-                  </TableCell>
-                  <TableCell
-                    onClick={() => console.log("clic on table")}
-                    align="right"
-                  >
+                  <TableCell>{row.cotizacion.conversion}</TableCell>
+                  <TableCell onClick={() => console.log("clic on table")}>
                     {row.precioPesos}
                   </TableCell>
-                  {/*                   <TableCell align="right">
+                  {/*                   <TableCell >
                     <Button>
                       <div>
                         <IonIcon

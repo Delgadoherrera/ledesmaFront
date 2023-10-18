@@ -26,3 +26,18 @@
     border-radius: 10px;
 
 }
+
+.search-container {
+    display: flex;
+    flex-direction: column-reverse;
+
+    input {
+        height: 60px;
+    }
+}
+
+/* 
+.selectMonthContainer {
+    background-color: rgba(149, 191, 222, 0.389);
+
+} */

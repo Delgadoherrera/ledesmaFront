@@ -54,6 +54,7 @@ export default function BasicTable({
     { material: Materiales; price: number }[]
   >([]);
   const [date, setDate] = React.useState("");
+
   const dispatch = useDispatch();
   const refresh = useSelector(
     (refreshThis: any) => refreshThis.counter.refreshThis
@@ -83,7 +84,6 @@ export default function BasicTable({
   const handleSend = async (materiales: any, prices: any) => {
     try {
       for (const materialId in prices) {
-        console.log("materialIdmaterialId", materialId);
         const material = products.find(
           (item: any) => item.id === parseInt(materialId, 10)
         );
@@ -95,10 +95,18 @@ export default function BasicTable({
                 material?.descripcion
             );
           }
+          const quantity = elementCombo.find(
+            (item: any) => item.material.id === parseInt(materialId, 10)
+          )?.cantidad;
+          console.log("quantity", quantity);
+          if (date === "") {
+            return alert("Indique fecha de compra");
+          }
+          if (quantity === "") {
+            return alert("Indique fecha de compra");
+          }
+          console.log("quantityquantityquantity", quantity);
 
-          console.log("PRICE FOR API", prices);
-
-          console.log("MATERIAL", material);
           const response = await axios.get(
             "https://api.bluelytics.com.ar/v2/latest"
           );
@@ -107,16 +115,15 @@ export default function BasicTable({
 
           const val = price / dolares.blue.value_avg;
 
-          console.log("VAL CONVERSION", val);
-
+          console.log("materialessss", materiales);
           try {
             const datos = {
               conversion: val,
               precioPesos: price,
               medida: material!.medida,
-              unidades: 0,
               medidaId: 1,
               fechaCompra: date,
+              unidades: quantity, // Aquí accedemos a la cantidad de unidades
             };
             const response = await productService.comprarMaterial(
               datos,
@@ -144,11 +151,10 @@ export default function BasicTable({
           <TableHead>
             <TableRow>
               <TableCell>Descripcion</TableCell>
-
-              <TableCell>Unidad medida</TableCell>
-
               <TableCell>Medida</TableCell>
+              <TableCell> Unidades</TableCell>
               <TableCell> Precio</TableCell>
+              <TableCell> </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -163,32 +169,44 @@ export default function BasicTable({
                   </TableCell>
 
                   <TableCell>
+                    {row.material.medida}
                     {row.material.unidadMedida.unidadMedida}
                   </TableCell>
-                  <TableCell>{row.material.medida}</TableCell>
+                  <TableCell>{row.cantidad}</TableCell>
                   <TableCell>{row.precio}</TableCell>
+                  <TableCell>
+                    <div key={index}>
+                      <button onClick={() => setElementCombo(row)}>
+                        <IonIcon icon={remove}></IonIcon>
+                      </button>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
         </Table>
-        {elementCombo.length > 0 ?   <div className="comboBoxBottom">
-          <input
-            required
-            type="date"
-            onChange={(e: any) => setDate(e.target.value)}
-          ></input>
-          <IonButton
-            onClick={(e) => {
-              const prices = Object.fromEntries(
-                elementCombo.map((item:any) => [item.material.id, item.precio])
-              );
-              handleSend(selectedMaterials, prices);
-            }}
-          >
-            Comprar
-          </IonButton>
-        </div>: null}
-      
+        {elementCombo.length > 0 ? (
+          <div className="comboBoxBottom">
+            <input
+              required
+              type="date"
+              onChange={(e: any) => setDate(e.target.value)}
+            ></input>
+            <IonButton
+              onClick={(e) => {
+                const prices = Object.fromEntries(
+                  elementCombo.map((item: any) => [
+                    item.material.id,
+                    item.precio,
+                  ])
+                );
+                handleSend(selectedMaterials, prices);
+              }}
+            >
+              Comprar
+            </IonButton>
+          </div>
+        ) : null}
       </TableContainer>
     </>
   );

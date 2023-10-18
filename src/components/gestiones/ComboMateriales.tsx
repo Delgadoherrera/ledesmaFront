@@ -4,7 +4,7 @@ import { Materiales } from "../../interfaces";
 import { useSelector } from "react-redux";
 import Select from "react-select";
 import ComboList from "../simple/ComboList";
-import { IonButton } from "@ionic/react";
+import { IonButton, IonNote } from "@ionic/react";
 import { Input } from "@mui/material";
 import { components } from "react-select";
 
@@ -14,8 +14,9 @@ export default function MultipleSelect() {
   const productService = new ProductServices();
   const [selectedUnit, setSelectedUnit] = React.useState<string | null>(null);
   const [materialValue, setMaterialValue] = React.useState<string>("");
+  const [materialQuantity, setMaterialQuantity] = React.useState<string>("");
   const [elementCombo, setElementCombo] = React.useState<
-    Array<{ material: Materiales; precio: string }>
+    Array<{ material: Materiales; precio: string; cantidad: string }>
   >([]);
   const refresh = useSelector(
     (refreshThis: any) => refreshThis.counter.refreshThis
@@ -26,6 +27,7 @@ export default function MultipleSelect() {
   const [selectedMeasure, setSelectedMeasure] = React.useState<string | null>(
     null
   );
+
   console.log("elementCombo", elementCombo);
 
   React.useEffect(() => {
@@ -53,6 +55,10 @@ export default function MultipleSelect() {
       filteredMaterials.map((material) => material.unidadMedida.unidadMedida)
     ),
   ];
+  const handleRemoveItem = (itemToRemove: any) => {
+    const updatedCombo = elementCombo.filter((item) => item !== itemToRemove);
+    setElementCombo(updatedCombo);
+  };
 
   return (
     <div>
@@ -68,7 +74,7 @@ export default function MultipleSelect() {
           }}
           placeholder={"Buscar elementos"}
         />
-        {selectedDescription && (
+        {/*       {selectedDescription && (
           <div>
             <Select
               options={unidadMedidaFilter.map((measure) => ({
@@ -102,14 +108,23 @@ export default function MultipleSelect() {
                 setSelectedMeasure(selectedOption.value);
               }}
               placeholder={"Selecciona la medida"}
-              noOptionsMessage="asd"
             />
           </div>
-        )}
+        )} */}
+        <Select
+          options={filteredMaterials.map((material) => ({
+            value: material.medida,
+            label: `${material.medida} ${material.unidadMedida.unidadMedida}`,
+          }))}
+          onChange={(selectedOption: any) => {
+            setSelectedMeasure(selectedOption.value);
+          }}
+          placeholder={"Medida"}
+        />
 
         {selectedDescription && (
           <div className="inputValor">
-            $
+            <IonNote>Precio unidad: $</IonNote>
             <Input
               type="number"
               value={materialValue}
@@ -117,9 +132,26 @@ export default function MultipleSelect() {
             />
           </div>
         )}
+
+        {selectedDescription && (
+          <div className="inputCantidad">
+            <IonNote>Unidades:</IonNote>
+            <Input
+              type="number"
+              value={materialQuantity}
+              onChange={(e: any) => setMaterialQuantity(e.target.value!)}
+            />
+          </div>
+        )}
+
         <IonButton
           onClick={() => {
-            if (selectedDescription && selectedMeasure && materialValue) {
+            if (
+              selectedDescription &&
+              selectedMeasure &&
+              materialValue &&
+              materialQuantity
+            ) {
               const selectedMaterial: any = materiales.find(
                 (material) =>
                   material.descripcion === selectedDescription &&
@@ -138,18 +170,23 @@ export default function MultipleSelect() {
                 if (alreadyExists) {
                   console.log("El elemento ya existe en la lista.");
                 } else {
-                  const materialWithPrice = {
+                  const materialWithPriceAndQuantity = {
                     material: selectedMaterial,
                     precio: materialValue,
+                    cantidad: materialQuantity,
                   };
 
-                  // Agregar el nuevo material con precio al arreglo existente en lugar de reemplazarlo
-                  setElementCombo([...elementCombo, materialWithPrice]);
+                  // Agregar el nuevo material con precio y cantidad al arreglo existente en lugar de reemplazarlo
+                  setElementCombo([
+                    ...elementCombo,
+                    materialWithPriceAndQuantity,
+                  ]);
 
-                  // Limpiar los select y el valor de entrada
+                  // Limpiar los select y los valores de entrada
                   setSelectedDescription(null);
                   setSelectedMeasure(null);
                   setMaterialValue("");
+                  setMaterialQuantity("");
                 }
               } else {
                 console.log("No se encontró el elemento seleccionado.");
@@ -163,7 +200,7 @@ export default function MultipleSelect() {
 
       <ComboList
         elementCombo={elementCombo}
-        setElementCombo={setMateriales} // Puedes implementarlo según tus necesidades
+        setElementCombo={handleRemoveItem}
       />
     </div>
   );
