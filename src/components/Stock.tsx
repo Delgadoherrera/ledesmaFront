@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import CatalogoMateriales from "./tabs/CatalogoMateriales";
 import ComprasNav from "./navMenus/ComprasNav";
 import ComprasList from "./simple/ComprasList";
-import CatalogoProductos from './tabs/CatalogoProductos'
+import CatalogoProductos from "./tabs/CatalogoProductos";
+import ComboMateriales from './gestiones/ComboMateriales'
 
 interface ContainerProps {
   name: string;
@@ -45,8 +46,15 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
           {tabSelected === "VentaProductos" && <CatalogoProductos />}
         </>
       )}
+      {name === "registrarCompraMaterial" && (
+        <>
+          {name === "registrarCompraMaterial" && <ComboMateriales />}
+          {tabSelected === "registrarCompraMaterial" && <ComboMateriales />}
+        </>
+      )}
     </>
   );
 };
 
 export default ExploreContainer;
+;

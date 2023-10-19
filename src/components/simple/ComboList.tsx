@@ -120,17 +120,7 @@ export default function BasicTable({
             (item: any) => item.material.id === parseInt(materialId, 10)
           )?.cantidad;
           console.log("quantity", quantity);
-          if (date === "") {
-            setConfigAlert({
-              trigger: "present-alert",
-              header: "Fecha de compra",
-              subHeader: "",
-              message: "Ingrese fecha de compra",
-              buttons: ["OK"],
-            });
-            setTrigger(true);
-            return setAlertMsg(true);
-          }
+          
           if (quantity === "") {
             setConfigAlert({
               trigger: "present-alert",
@@ -158,7 +148,7 @@ export default function BasicTable({
               precioPesos: price,
               medida: material!.medida,
               medidaId: material!.unidadMedida.id,
-              fechaCompra: date,
+              fechaCompra: date || fechaFormateada,
               unidades: quantity, // Aquí accedemos a la cantidad de unidades
             };
             const response = await productService.comprarMaterial(

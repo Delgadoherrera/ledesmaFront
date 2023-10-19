@@ -42,6 +42,9 @@ import { useDispatch, useSelector } from "react-redux";
 import usd from "../assets/icons/dolar-svgrepo-com.svg";
 import { openMenu } from "../features/dataReducer/dataReducer";
 import catalogue from "../assets/icons/catalogue-catalog-svgrepo-com.svg";
+import reportCompra from "../assets/icons/register-svgrepo-com.svg";
+import calculate from "../assets/icons/calculator-svgrepo-com.svg";
+
 interface AppPage {
   url: string;
   iosIcon: string;
@@ -69,23 +72,30 @@ const appPages: AppPage[] = [
     mdIcon: body,
   }, */
 
-/*   {
+  /*   {
     title: "Productos",
     url: "/page/VentaProductos",
     iosIcon: usd,
     mdIcon: usd,
   }, */
   {
-    title: "Compras",
-    url: "/page/compras",
-    iosIcon: usd,
-    mdIcon: usd,
-  },
-  {
     title: "Catalogo de materiales",
     url: "/page/Catalogos",
     iosIcon: catalogue,
     mdIcon: catalogue,
+  },
+
+  {
+    title: "Registrar compra de materiales",
+    url: "/page/registrarCompraMaterial",
+    iosIcon: calculate,
+    mdIcon: calculate,
+  },
+  {
+    title: "Reporte de compras",
+    url: "/page/compras",
+    iosIcon: reportCompra,
+    mdIcon: reportCompra,
   },
   /*   {
     title: "Configuración",

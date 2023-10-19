@@ -119,7 +119,12 @@ export default function MultipleSelect() {
             <Input
               type="number"
               value={materialQuantity}
-              onChange={(e: any) => setMaterialQuantity(e.target.value!)}
+              onChange={(e: any) => {
+                const value = parseFloat(e.target.value);
+                if (!isNaN(value) && value >= 1) {
+                  setMaterialQuantity(value.toString());
+                }
+              }}
             />
           </div>
         )}
@@ -129,7 +134,12 @@ export default function MultipleSelect() {
             <Input
               type="number"
               value={materialValue}
-              onChange={(e: any) => setMaterialValue(e.target.value!)}
+              onChange={(e: any) => {
+                const value = parseFloat(e.target.value);
+                if (!isNaN(value) && value >= 1) {
+                  setMaterialValue(value.toString());
+                }
+              }}
             />
           </div>
         )}
