@@ -39,9 +39,9 @@ import {
 import "./Menu.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import usd from '../assets/icons/dolar-svgrepo-com.svg'
+import usd from "../assets/icons/dolar-svgrepo-com.svg";
 import { openMenu } from "../features/dataReducer/dataReducer";
-import catalogue from '../assets/icons/catalogue-catalog-svgrepo-com.svg'
+import catalogue from "../assets/icons/catalogue-catalog-svgrepo-com.svg";
 interface AppPage {
   url: string;
   iosIcon: string;
@@ -68,19 +68,25 @@ const appPages: AppPage[] = [
     iosIcon: body,
     mdIcon: body,
   }, */
+
+/*   {
+    title: "Productos",
+    url: "/page/VentaProductos",
+    iosIcon: usd,
+    mdIcon: usd,
+  }, */
   {
-    title: "Catalogos de materiales",
-    url: "/page/Catalogos",
-    iosIcon: catalogue,
-    mdIcon: catalogue,
-  },
-  {
-    title: "Reporte de compras",
+    title: "Compras",
     url: "/page/compras",
     iosIcon: usd,
     mdIcon: usd,
   },
-
+  {
+    title: "Catalogo de materiales",
+    url: "/page/Catalogos",
+    iosIcon: catalogue,
+    mdIcon: catalogue,
+  },
   /*   {
     title: "Configuración",
     url: "/page/Configuración",
@@ -107,8 +113,9 @@ const Menu: React.FC = () => {
       <IonContent>
         <IonList id="inbox-list">
           <IonListHeader>LEDESMA Cia.</IonListHeader>
-{/*           <IonNote>hola@usuario.com</IonNote>
- */}          {appPages.map((appPage, index) => {
+          {/*           <IonNote>hola@usuario.com</IonNote>
+           */}{" "}
+          {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem

@@ -4,6 +4,13 @@ export interface Materiales {
   medida: string;
   id: number | null;
 }
+export interface Productos {
+  descripcion: string;
+  unidadMedida: string;
+  nombre:string;
+  medida: string;
+  id: number | null;
+}
 
 export interface Compras {
   idCompra: string;

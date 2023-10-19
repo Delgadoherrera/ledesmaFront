@@ -234,8 +234,12 @@ export default function BasicTable({
               <TableCell>Descripción</TableCell>
               <TableCell>Fecha</TableCell>
               <TableCell>Medida</TableCell>
-              <TableCell>DOLARES</TableCell>
-              <TableCell>PESOS</TableCell>
+              <TableCell>Unidades</TableCell>
+
+              <TableCell>USD/Unid</TableCell>
+              <TableCell>ARS/Unid</TableCell>
+              <TableCell>Total ARS</TableCell>
+
               {/*      <TableCell >
                 <IonIcon icon={options}></IonIcon>
               </TableCell> */}
@@ -258,9 +262,14 @@ export default function BasicTable({
                     {row.catalogo_material.medida}
                     {row.unidadMedida.unidadMedida}
                   </TableCell>
+                  <TableCell>{row.unidades}</TableCell>
+
                   <TableCell>{row.cotizacion.conversion}</TableCell>
                   <TableCell onClick={() => console.log("clic on table")}>
                     {row.precioPesos}
+                  </TableCell>
+                  <TableCell onClick={() => console.log("clic on table")}>
+                    {row.precioPesos * 3}
                   </TableCell>
                   {/*                   <TableCell >
                     <Button>

@@ -2,13 +2,8 @@ import * as React from "react";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces";
 import { useDispatch, useSelector } from "react-redux";
-import Select from "react-select";
-import {
-  IonSelect,
-  useIonViewDidEnter,
-  useIonViewWillEnter,
-} from "@ionic/react";
-
+import { IonSelect } from "@ionic/react";
+import { MenuItem, Select } from "@mui/material";
 import ComboList from "../simple/ComboList";
 import {
   IonBadge,
@@ -42,7 +37,8 @@ export default function MultipleSelect() {
   const [selectedMeasure, setSelectedMeasure] = React.useState<string | null>(
     null
   );
-  const [refreshSelect, setRefreshSelect] = React.useState(true);
+
+  console.log("elementCombo", elementCombo);
 
   React.useEffect(() => {
     productService.ListarProductos().then((data: Materiales[]) => {
@@ -73,44 +69,39 @@ export default function MultipleSelect() {
     const updatedCombo = elementCombo.filter((item) => item !== itemToRemove);
     setElementCombo(updatedCombo);
   };
-
-  React.useEffect(() => {
-    if (refreshSelect === false) {
-      setRefreshSelect(true);
-    }
-  }, [refreshSelect]);
-
-  console.log("REFRESH SELECTS", refreshSelect);
+  console.log("filteredMaterials", filteredMaterials);
 
   return (
     <div>
       <div className="comboBox">
         <div className="selectionCombo">
-          {refreshSelect === true && (
-            <>
-              <Select
-                options={uniqueDescriptions.map((description) => ({
-                  value: description,
-                  label: description,
-                }))}
-                onChange={(selectedOption: any) => {
-                  setSelectedDescription(selectedOption.value);
-                  setSelectedMeasure(null);
-                }}
-                placeholder={"Buscar materiales"}
-              />
-              <Select
-                options={filteredMaterials.map((material) => ({
-                  value: material.medida,
-                  label: `${material.medida} ${material.unidadMedida.unidadMedida}`,
-                }))}
-                onChange={(selectedOption: any) => {
-                  setSelectedMeasure(selectedOption.value);
-                }}
-                placeholder={"Medida"}
-              />
-            </>
-          )}
+          <Select
+            onChange={(selectedOption: any) => {
+              setSelectedDescription(selectedOption.value);
+              setSelectedMeasure(null);
+            }}
+            placeholder={"Buscar materiales"}
+          >
+            {uniqueDescriptions.map((description, index) => (
+              <MenuItem key={index} value={description}>
+                {description}
+              </MenuItem>
+            ))}
+          </Select>
+
+          <Select
+            onChange={(selectedOption: any) => {
+              setSelectedMeasure(selectedOption.value);
+            }}
+            placeholder={"Medida"}
+          >
+            {filteredMaterials.map((material, index) => (
+              <MenuItem key={index} value={material.medida}>
+                {material.medida}
+                {material.unidadMedida.unidadMedida}
+              </MenuItem>
+            ))}
+          </Select>
         </div>
 
         {selectedDescription && (
@@ -176,7 +167,6 @@ export default function MultipleSelect() {
                   setSelectedMeasure(null); // Restablecer selectedMeasure a null
                   setMaterialValue("");
                   setMaterialQuantity("");
-                  setRefreshSelect(false);
                 }
               } else {
                 console.log("No se encontró el elemento seleccionado.");

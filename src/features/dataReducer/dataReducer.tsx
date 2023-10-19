@@ -4,11 +4,13 @@ import { createSelector } from "reselect";
 interface DataState {
   refreshThis: boolean;
   openMenu: boolean;
+  file: string;
 }
 
 const initialState: DataState = {
   refreshThis: false,
   openMenu: false,
+  file: "",
 };
 
 const dataReducer = createSlice({
@@ -23,24 +25,27 @@ const dataReducer = createSlice({
       console.log("REFRESCANDO,", action.payload);
       state.openMenu = action.payload;
     },
+    imageValue: (state, action: PayloadAction<any>) => {
+      state.file = action.payload.base64String;
+    },
   },
 });
 
-export const { refreshThis } = dataReducer.actions;
-export const { openMenu } = dataReducer.actions;
+export const { refreshThis, openMenu, imageValue } = dataReducer.actions;
 
 const selectCounterState = (state: { counter: DataState }) => state.counter;
 
 export const selectCount = createSelector(
   [selectCounterState],
-  (counter) => counter.refreshThis,
-  
+  (counter) => counter.refreshThis
 );
-
+export const imagen = createSelector(
+  [selectCounterState],
+  (counter) => counter.file
+);
 export const isOpenMenu = createSelector(
   [selectCounterState],
-  (counter) => counter.openMenu,
-  
+  (counter) => counter.openMenu
 );
 
 export default dataReducer.reducer;

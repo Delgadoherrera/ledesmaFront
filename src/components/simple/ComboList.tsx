@@ -10,6 +10,7 @@ import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces/index";
 import {
   IonAlert,
+  IonBadge,
   IonButton,
   IonDatetime,
   IonIcon,
@@ -29,6 +30,7 @@ import { Input, Menu, MenuItem } from "@mui/material";
 import ModalList from "./Modals";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
+import { InputText } from "primereact/inputtext";
 
 export default function BasicTable({
   elementCombo,
@@ -179,9 +181,36 @@ export default function BasicTable({
       console.error("Error al enviar datos a la API:", error);
     }
   };
-  console.log("selectedMaterials", selectedMaterials);
+
+  function cambiarFormatoFecha(fecha: any) {
+    // Divide la cadena de fecha en partes usando el carácter "/"
+    const partesFecha = fecha.split("/");
+
+    // Une las partes de la fecha con el carácter "-"
+    const fechaFormateada = partesFecha.join("-");
+
+    return fechaFormateada;
+  }
+
+  const objetoFecha = Date.now();
+  const nowDate = new Date(objetoFecha);
+  const fechaHoy = nowDate.toLocaleDateString("en-ZA");
+  const fechaOriginal = fechaHoy;
+  const fechaFormateada = cambiarFormatoFecha(fechaOriginal);
+
+  console.log("fechaHoy", fechaHoy);
   return (
     <>
+      <div>
+        <IonBadge>Fecha de compra:</IonBadge>
+        <InputText
+          required
+          defaultValue={fechaFormateada}
+          type="date"
+          onChange={(e: any) => setDate(e.target.value)}
+        ></InputText>
+      </div>
+
       <TableContainer component={Paper} className="tableMateriales">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -190,6 +219,8 @@ export default function BasicTable({
               <TableCell>Medida</TableCell>
               <TableCell> Unidades</TableCell>
               <TableCell> Precio</TableCell>
+              <TableCell> Total</TableCell>
+
               <TableCell> </TableCell>
             </TableRow>
           </TableHead>
@@ -210,6 +241,8 @@ export default function BasicTable({
                   </TableCell>
                   <TableCell>{row.cantidad}</TableCell>
                   <TableCell>{row.precio}</TableCell>
+                  <TableCell> {row.precio * row.cantidad}</TableCell>
+
                   <TableCell>
                     <div key={index}>
                       <button onClick={() => setElementCombo(row)}>
@@ -223,11 +256,6 @@ export default function BasicTable({
         </Table>
         {elementCombo.length > 0 ? (
           <div className="comboBoxBottom">
-            <input
-              required
-              type="date"
-              onChange={(e: any) => setDate(e.target.value)}
-            ></input>
             <IonButton
               id="present-alert"
               onClick={(e) => {
