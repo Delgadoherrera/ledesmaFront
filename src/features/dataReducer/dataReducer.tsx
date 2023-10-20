@@ -26,6 +26,7 @@ const dataReducer = createSlice({
       state.openMenu = action.payload;
     },
     imageValue: (state, action: PayloadAction<any>) => {
+      console.log("IMAGEVALUE", state.file);
       state.file = action.payload.base64String;
     },
   },

@@ -63,7 +63,7 @@ export default function CargaMateriales() {
     };
     if (validateForm()) {
       try {
-        const response = await productService.AgregarProducto(data);
+        const response = await productService.AgregarMaterial(data);
         console.log("Respuesta de la solicitud:", response);
         response.status === 201 &&
           setValues({

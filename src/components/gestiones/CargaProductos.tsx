@@ -10,9 +10,12 @@ import Typography from "@mui/material/Typography";
 import { Productos as Materiales } from "../../interfaces/index";
 import { useDispatch } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
-import { imageValue, refreshThis } from "../../features/dataReducer/dataReducer";
+import {
+  imageValue,
+  refreshThis,
+} from "../../features/dataReducer/dataReducer";
 import { IonBreadcrumb, IonIcon, IonToast } from "@ionic/react";
-import { Camera, CameraResultType } from "@capacitor/camera";
+import { Camera, CameraResultType, Photo } from "@capacitor/camera";
 import { camera } from "ionicons/icons";
 export default function CargaMateriales() {
   const [values, setValues] = useState<Materiales>({
@@ -21,23 +24,28 @@ export default function CargaMateriales() {
     unidadMedida: "",
     id: null,
     nombre: "",
+    img: "",
   });
   const [formErrors, setFormErrors] = useState<any>({});
   const [alertMsg, setAlertMsg] = useState(false);
+  const [img, setImg] = React.useState<string>("");
   const [configAlert, setConfigAlert] = React.useState({
     message: `${values.descripcion} agregado con éxito!`,
   });
   const productService = new ProductServices();
   const dispatch = useDispatch();
-  
+
   const takePicture = async () => {
     const image = await Camera.getPhoto({
       quality: 50,
-      allowEditing: true,
+      allowEditing: false,
       resultType: CameraResultType.Base64,
     });
     dispatch(imageValue(image || 10));
+    setImg(image.base64String ? image.base64String : "");
   };
+
+  console.log("IMGAEN", img);
   const validateForm = () => {
     const errors: any = {};
 
@@ -63,7 +71,8 @@ export default function CargaMateriales() {
       medida: "",
       unidadMedida: "",
       id: null,
-      nombre:"",
+      nombre: "",
+      img: "",
     });
     setFormErrors({});
   };
@@ -73,6 +82,8 @@ export default function CargaMateriales() {
       descripcion: values.descripcion,
       medida: values.medida,
       unidadMedida: values.unidadMedida,
+      nombre: values.nombre,
+      img:img,
     };
     if (validateForm()) {
       try {
@@ -84,6 +95,8 @@ export default function CargaMateriales() {
             medida: "",
             unidadMedida: "",
             id: null,
+            nombre: "",
+            img: "",
           });
         dispatch(refreshThis(true));
         response.status === 201
@@ -108,7 +121,7 @@ export default function CargaMateriales() {
       autoComplete="off"
       className="CargaMaterialesContainer"
     >
-            <IonBreadcrumb className="imageAddIcon" onClick={() => takePicture()}>
+      <IonBreadcrumb className="imageAddIcon" onClick={() => takePicture()}>
         <IonIcon icon={camera} size="large" />
         Adjuntar imagen
       </IonBreadcrumb>

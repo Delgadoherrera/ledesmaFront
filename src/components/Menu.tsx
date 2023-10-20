@@ -44,6 +44,7 @@ import { openMenu } from "../features/dataReducer/dataReducer";
 import catalogue from "../assets/icons/catalogue-catalog-svgrepo-com.svg";
 import reportCompra from "../assets/icons/register-svgrepo-com.svg";
 import calculate from "../assets/icons/calculator-svgrepo-com.svg";
+import carpinteria from "../assets/icons/carpenter-svgrepo-com.svg";
 
 interface AppPage {
   url: string;
@@ -71,13 +72,12 @@ const appPages: AppPage[] = [
     iosIcon: body,
     mdIcon: body,
   }, */
-
-  /*   {
-    title: "Productos",
+  {
+ title: "Productos",
     url: "/page/VentaProductos",
-    iosIcon: usd,
-    mdIcon: usd,
-  }, */
+    iosIcon: carpinteria,
+    mdIcon: carpinteria,
+  }, 
   {
     title: "Catalogo de materiales",
     url: "/page/Catalogos",

@@ -10,6 +10,7 @@ export interface Productos {
   nombre:string;
   medida: string;
   id: number | null;
+  img: string;
 }
 
 export interface Compras {

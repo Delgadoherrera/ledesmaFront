@@ -269,7 +269,7 @@ export default function BasicTable({
                     {row.precioPesos}
                   </TableCell>
                   <TableCell onClick={() => console.log("clic on table")}>
-                    {row.precioPesos * 3}
+                    {row.precioPesos * row.unidades}
                   </TableCell>
                   {/*                   <TableCell >
                     <Button>

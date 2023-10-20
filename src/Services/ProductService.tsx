@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
 export class ProductServices {
-  async AgregarProducto(data: any): Promise<any> {
+  async AgregarMaterial(data: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
         `https://ledesma.missingpets.art/materiales/nuevoMaterial`,
@@ -41,7 +41,7 @@ export class ProductServices {
       return null;
     }
   }
-  async ListarProductos(): Promise<any> {
+  async ListarMateriales(): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.get(
         `https://ledesma.missingpets.art/materiales/listarTodos`,
@@ -60,7 +60,25 @@ export class ProductServices {
       return null;
     }
   }
-
+  async ListarProductos(): Promise<any> {
+    try {
+      const response: AxiosResponse<any> = await axios.get(
+        `https://ledesma.missingpets.art/productos/listarTodos`,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("response", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error listando materiales:", error);
+      return null;
+    }
+  }
   async editarMaterial(data: any, id: any): Promise<any> {
     console.log("PRODUCIT EDIT", data, "IDMATERIAL", id);
     try {
@@ -142,4 +160,28 @@ export class ProductServices {
       return null;
     }
   }
+
+
+
+  async AgregarProducto(data: any): Promise<any> {
+    try {
+      const response: AxiosResponse<any> = await axios.post(
+        `https://ledesma.missingpets.art/productos/nuevoProducto`,
+        data,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("res", response);
+      return response;
+    } catch (error) {
+      console.error("Error agregando material:", error);
+      return null;
+    }
+  }
+
 }

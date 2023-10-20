@@ -26,7 +26,7 @@ import {
   remove,
 } from "ionicons/icons";
 import { Button } from "primereact/button";
-import { Input, Menu, MenuItem } from "@mui/material";
+import { Alert, AlertTitle, Input, Menu, MenuItem } from "@mui/material";
 import ModalList from "./Modals";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
@@ -62,7 +62,7 @@ export default function BasicTable({
     { material: Materiales; price: number }[]
   >([]);
   const [date, setDate] = React.useState("");
-  const [alertMsg, setAlertMsg] = React.useState(true);
+  const [alertMsg, setAlertMsg] = React.useState(false);
   const [trigger, setTrigger] = React.useState(false);
   const dispatch = useDispatch();
   const refresh = useSelector(
@@ -92,12 +92,11 @@ export default function BasicTable({
   console.log("compra:", prices);
 
   React.useEffect(() => {
-    !trigger && setAlertMsg(false);
     console.log("trigger", trigger);
   }, [alertMsg, configAlert, trigger]);
 
   React.useEffect(() => {
-    productService.ListarProductos().then((data) => {
+    productService.ListarMateriales().then((data) => {
       setProducts(data);
     });
   }, [refresh]);
@@ -119,8 +118,7 @@ export default function BasicTable({
           const quantity = elementCombo.find(
             (item: any) => item.material.id === parseInt(materialId, 10)
           )?.cantidad;
-          console.log("quantity", quantity);
-          
+
           if (quantity === "") {
             setConfigAlert({
               trigger: "present-alert",
@@ -129,7 +127,7 @@ export default function BasicTable({
               message: "Ingrese cantidad de unidades",
               buttons: ["OK"],
             });
-            return setAlertMsg(false);
+            return setAlertMsg(true);
           }
           console.log("quantityquantityquantity", quantity);
 
@@ -141,7 +139,6 @@ export default function BasicTable({
 
           const val = price / dolares.blue.value_avg;
 
-          console.log("materialmaterialmaterial", material);
           try {
             const datos = {
               conversion: val,
@@ -157,9 +154,23 @@ export default function BasicTable({
             );
             console.log("Respuestasolicitud:", response);
             handleClose();
-            response.status === 200 &&
-              elementCombo.map((one: any) => setElementCombo(one)) &&
-              console.log("EXITOSO!");
+            response.status === 200 && setElementCombo([]);
+            if (response.status === 200) {
+              setConfigAlert({
+                trigger: "present-alert",
+                header: "Compra realizada",
+                subHeader: "",
+                message: "Proceso realizado correctamente.",
+                buttons: ["OK"],
+              });
+              setAlertMsg(true);
+
+              // Agregar un temporizador para cambiar setAlertMsg a false después de 7 segundos
+              setTimeout(() => {
+                setAlertMsg(false);
+              }, 4000); // 7000 milisegundos = 7 segundos
+            }
+            console.log("quantityquantityquantity", quantity);
           } catch (error) {
             console.error("Error al realiza:", error);
           }
@@ -258,19 +269,18 @@ export default function BasicTable({
                 return handleSend(selectedMaterials, prices);
               }}
             >
-              {trigger && (
-                <IonToast
-                  isOpen={alertMsg}
-                  message={configAlert.message}
-                  onDidDismiss={() => setAlertMsg(false)}
-                  duration={5000}
-                ></IonToast>
-              )}
               Comprar
             </IonButton>
           </div>
         ) : null}
       </TableContainer>
+      {alertMsg && (
+        <Alert severity="success">
+          <AlertTitle>Compra realizada</AlertTitle>
+          Compra realizada con éxito{" "}
+          <strong>Podrás ver el reporte en el catálogo de compras.</strong>
+        </Alert>
+      )}
     </>
   );
 }

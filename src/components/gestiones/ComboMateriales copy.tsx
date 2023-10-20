@@ -41,7 +41,7 @@ export default function MultipleSelect() {
   console.log("elementCombo", elementCombo);
 
   React.useEffect(() => {
-    productService.ListarProductos().then((data: Materiales[]) => {
+    productService.ListarMateriales().then((data: Materiales[]) => {
       setMateriales(data);
     });
   }, [refresh]);

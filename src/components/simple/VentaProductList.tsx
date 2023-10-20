@@ -15,6 +15,7 @@ import ModalList from "./Modals";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
 import CargaProductos from "../gestiones/CargaProductos";
+import { Image } from "react-bootstrap";
 
 export default function BasicTable({
   closeModal,
@@ -149,7 +150,7 @@ export default function BasicTable({
           onChange={handleSearch}
         />
       </div>
-      {filteredProducts.length > 0 && (
+      {Array.isArray(filteredProducts) && filteredProducts.length > 0 && (
         <TableContainer component={Paper} className="tableMateriales">
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -172,6 +173,12 @@ export default function BasicTable({
                     key={row.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
+                    <TableCell>
+                      <Image
+                        src={`data:image/jpeg;base64,${row.blobImage.blobImage}`}
+                      ></Image>
+                    </TableCell>
+
                     <TableCell>{row.descripcion}</TableCell>
                     {/*                 <TableCell onClick={() => console.log("clic on table")}>
                     {row.unidadMedida.unidadMedida}

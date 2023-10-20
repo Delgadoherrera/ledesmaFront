@@ -27,12 +27,12 @@ function FillExample({ tab }: { tab: (value: any) => void }) {
         >
           Carga de materiales
         </IonButton> */}
-        <IonButton
+        {/*         <IonButton
           className={selectedTab === "Combo de materiales" ? "selectedTab" : ""}
           onClick={() => handleTabClick("Combo de materiales")}
         >
           Combo de materiales
-        </IonButton>
+        </IonButton> */}
       </IonButtons>
     </IonItem>
   );

@@ -106,7 +106,7 @@ export default function BasicTable({
     }
   };
   React.useEffect(() => {
-    productService.ListarProductos().then((data) => {
+    productService.ListarMateriales().then((data) => {
       setFilteredProducts(data);
       setProducts(data);
     });
@@ -149,7 +149,7 @@ export default function BasicTable({
           onChange={handleSearch}
         />
       </div>
-      {filteredProducts.length > 0 && (
+      {Array.isArray(filteredProducts) && filteredProducts.length > 0 && (
         <TableContainer component={Paper} className="tableMateriales">
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>

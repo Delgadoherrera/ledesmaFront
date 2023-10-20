@@ -45,7 +45,7 @@ export default function MultipleSelect() {
   const [refreshSelect, setRefreshSelect] = React.useState(true);
 
   React.useEffect(() => {
-    productService.ListarProductos().then((data: Materiales[]) => {
+    productService.ListarMateriales().then((data: Materiales[]) => {
       setMateriales(data);
     });
   }, [refresh]);
@@ -73,7 +73,9 @@ export default function MultipleSelect() {
     const updatedCombo = elementCombo.filter((item) => item !== itemToRemove);
     setElementCombo(updatedCombo);
   };
-
+  const emptyList = (itemToRemove: any) => {
+    setElementCombo([]);
+  };
   React.useEffect(() => {
     if (refreshSelect === false) {
       setRefreshSelect(true);
@@ -200,7 +202,7 @@ export default function MultipleSelect() {
 
       <ComboList
         elementCombo={elementCombo}
-        setElementCombo={handleRemoveItem}
+        setElementCombo={emptyList}
       />
     </div>
   );
