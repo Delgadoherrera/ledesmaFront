@@ -1,0 +1,24 @@
+.imgListProduct {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 20px;
+
+  
+}
+.addPhotoPic{
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: cover !important;
+    border-radius: 20px;
+}
+.containerButtonsProducts{
+    background-color: $selected;
+    button{
+        width: 200px;
+        margin: 20px;
+
+    }
+
+
+}

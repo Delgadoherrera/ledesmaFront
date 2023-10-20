@@ -17,6 +17,7 @@ import {
 import { IonBreadcrumb, IonIcon, IonToast } from "@ionic/react";
 import { Camera, CameraResultType, Photo } from "@capacitor/camera";
 import { camera } from "ionicons/icons";
+import { Image } from "react-bootstrap";
 export default function CargaMateriales() {
   const [values, setValues] = useState<Materiales>({
     descripcion: "",
@@ -52,6 +53,9 @@ export default function CargaMateriales() {
     if (!values.descripcion) {
       errors.descripcion = "La descripción es requerida.";
     }
+    if (!values.nombre) {
+      errors.nombre = "El nombre es requerido.";
+    }
 
     if (!values.unidadMedida) {
       errors.unidadMedida = "La unidad de medida es requerida.";
@@ -83,7 +87,7 @@ export default function CargaMateriales() {
       medida: values.medida,
       unidadMedida: values.unidadMedida,
       nombre: values.nombre,
-      img:img,
+      img: img,
     };
     if (validateForm()) {
       try {
@@ -112,78 +116,93 @@ export default function CargaMateriales() {
   };
 
   return (
-    <Box
-      component="form"
-      sx={{
-        "& > :not(style)": { m: 1, width: "25ch" },
-      }}
-      noValidate
-      autoComplete="off"
-      className="CargaMaterialesContainer"
-    >
-      <IonBreadcrumb className="imageAddIcon" onClick={() => takePicture()}>
-        <IonIcon icon={camera} size="large" />
-        Adjuntar imagen
-      </IonBreadcrumb>
-      <TextField
-        label="Nombre"
-        variant="outlined"
-        value={values.nombre}
-        onChange={(e) => setValues({ ...values, nombre: e.target.value })}
-        error={!!formErrors.nombre}
-        helperText={formErrors.nombre}
-      />
-      <TextField
-        label="Descripción"
-        variant="outlined"
-        value={values.descripcion}
-        onChange={(e) => setValues({ ...values, descripcion: e.target.value })}
-        error={!!formErrors.descripcion}
-        helperText={formErrors.descripcion}
-      />
-      <FormControl variant="outlined">
-        <InputLabel id="unidadMedida-label">Unidad de medida</InputLabel>
-        <Select
-          labelId="unidadMedida-label"
-          id="unidadMedida"
-          value={values.unidadMedida}
-          label="Unidad de medida"
-          onChange={(e) =>
-            setValues({ ...values, unidadMedida: e.target.value })
-          }
-          error={!!formErrors.unidadMedida}
-        >
-          <MenuItem value={"Lts"}>Litros</MenuItem>
-          <MenuItem value={"Kg"}>Kilogramos</MenuItem>
-          <MenuItem value={"Cm"}>Centímetros</MenuItem>
-          <MenuItem value={"Mts"}>Metros</MenuItem>
-          <MenuItem value={"Uni"}>Unidades</MenuItem>
-        </Select>
-        <div style={{ color: "red" }}>{formErrors.unidadMedida}</div>
-      </FormControl>
-      <TextField
-        label="Medida"
-        variant="outlined"
-        value={values.medida}
-        onChange={(e) => setValues({ ...values, medida: e.target.value })}
-        error={!!formErrors.medida}
-        helperText={formErrors.medida}
-      />
+    <>
+      <Box
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+        className="CargaMaterialesContainer"
+      >
+        <Button className="imageAddIcon" onClick={() => takePicture()}>
+          <IonIcon icon={camera} size="large" />
+        </Button>
 
-      <Button variant="contained" color="primary" onClick={handleSend}>
-        Enviar
-      </Button>
-      <Button variant="outlined" color="secondary" onClick={limpiarFormulario}>
-        Limpiar
-      </Button>
-      {alertMsg && (
-        <IonToast
-          isOpen={alertMsg}
-          message={configAlert.message}
-          onDidDismiss={() => setAlertMsg(false)}
-          duration={5000}
-        ></IonToast>
-      )}
-    </Box>
+        <TextField
+          label="Nombre"
+          variant="outlined"
+          value={values.nombre}
+          onChange={(e) => setValues({ ...values, nombre: e.target.value })}
+          error={!!formErrors.nombre}
+          helperText={formErrors.nombre}
+        />
+        <TextField
+          label="Descripción"
+          variant="outlined"
+          value={values.descripcion}
+          onChange={(e) =>
+            setValues({ ...values, descripcion: e.target.value })
+          }
+          error={!!formErrors.descripcion}
+          helperText={formErrors.descripcion}
+        />
+        <FormControl variant="outlined">
+          <InputLabel id="unidadMedida-label">Unidad de medida</InputLabel>
+          <Select
+            labelId="unidadMedida-label"
+            id="unidadMedida"
+            value={values.unidadMedida}
+            label="Unidad de medida"
+            onChange={(e) =>
+              setValues({ ...values, unidadMedida: e.target.value })
+            }
+            error={!!formErrors.unidadMedida}
+          >
+            <MenuItem value={"Lts"}>Litros</MenuItem>
+            <MenuItem value={"Kg"}>Kilogramos</MenuItem>
+            <MenuItem value={"Cm"}>Centímetros</MenuItem>
+            <MenuItem value={"Mts"}>Metros</MenuItem>
+            <MenuItem value={"Uni"}>Unidades</MenuItem>
+          </Select>
+          <div style={{ color: "red" }}>{formErrors.unidadMedida}</div>
+        </FormControl>
+        <TextField
+          label="Medida"
+          variant="outlined"
+          value={values.medida}
+          onChange={(e) => setValues({ ...values, medida: e.target.value })}
+          error={!!formErrors.medida}
+          helperText={formErrors.medida}
+        />
+
+        {alertMsg && (
+          <IonToast
+            isOpen={alertMsg}
+            message={configAlert.message}
+            onDidDismiss={() => setAlertMsg(false)}
+            duration={5000}
+          ></IonToast>
+        )}
+        <Image
+          src={`data:image/jpeg;base64,${img}`}
+          className="addPhotoPic"
+        ></Image>
+      </Box>
+
+      <div className="containerButtonsProducts">
+        <Button variant="contained" color="primary" onClick={handleSend}>
+          Enviar
+        </Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={limpiarFormulario}
+        >
+          Limpiar
+        </Button>
+      </div>
+    </>
   );
 }

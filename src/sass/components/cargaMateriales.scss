@@ -1,5 +1,14 @@
 .CargaMaterialesContainer {
     display: flex;
+    button {
+        display: flex;
+        justify-content: center;
+        justify-items: center;
+        align-items: center;
+        background-color: $selected !important;
+        color:$contrast !important
+    }
+   
 }
 
 .editCargaMaterialesContainer {
@@ -17,10 +26,9 @@
             align-items: center;
             color: $contrast;
         }
-
-
-
     }
+
+  
 
     div {
         text-align: left !important;

@@ -155,15 +155,10 @@ export default function BasicTable({
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
+                <TableCell>Imagen</TableCell>
                 <TableCell>Descripción</TableCell>
-
-                {/*               <TableCell>Unidad medida</TableCell>
-                 */}
                 <TableCell>Medida</TableCell>
-                <TableCell>
-                  {/*                 <IonIcon icon={options}></IonIcon>
-                   */}{" "}
-                </TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -176,6 +171,7 @@ export default function BasicTable({
                     <TableCell>
                       <Image
                         src={`data:image/jpeg;base64,${row.blobImage.blobImage}`}
+                        className="imgListProduct"
                       ></Image>
                     </TableCell>
 
