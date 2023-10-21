@@ -36,6 +36,10 @@
     width: 100%;
     justify-content: start !important;
 
+    .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+        height: 40px;
+    }
+
     ion-badge {
         display: flex;
         align-items: center;
@@ -43,8 +47,6 @@
     }
 
     input {
-        margin: 10px;
-        width: 120px;
-        border: none !important;
+        height: 0px;
     }
 }

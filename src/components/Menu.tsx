@@ -45,6 +45,9 @@ import catalogue from "../assets/icons/catalogue-catalog-svgrepo-com.svg";
 import reportCompra from "../assets/icons/register-svgrepo-com.svg";
 import calculate from "../assets/icons/calculator-svgrepo-com.svg";
 import carpinteria from "../assets/icons/carpenter-svgrepo-com.svg";
+import costos from "../assets/icons/cost-per-unit-industry-svgrepo-com.svg";
+import cash from "../assets/icons/cash-register-solid-svgrepo-com.svg";
+import report from "../assets/icons/report-svgrepo-com.svg";
 
 interface AppPage {
   url: string;
@@ -69,20 +72,20 @@ const appPages: AppPage[] = [
   */ {
     title: "Catálogo de costos",
     url: "/page/catalogoCostos",
-    iosIcon: body,
-    mdIcon: body,
+    iosIcon: costos,
+    mdIcon: costos,
   },
   {
     title: "Registrar costos",
     url: "/page/registrarCostos",
-    iosIcon: body,
-    mdIcon: body,
+    iosIcon: cash,
+    mdIcon: cash  ,
   },
   {
     title: "Reporte de costos",
     url: "/page/reportCostos",
-    iosIcon: body,
-    mdIcon: body,
+    iosIcon: report,
+    mdIcon: report,
   },
   /*  {
  title: "Productos",
