@@ -32,11 +32,9 @@ const Page: React.FC = () => {
           color={"white"}
           size="small"
         >
-          {/*           <IonIcon icon={menu}></IonIcon>
-           */}{" "}
+ 
           <img src={SVGIcon}></img>
         </IonFabButton>
-        -
       </IonFab>
       <IonHeader>
         <IonToolbar>

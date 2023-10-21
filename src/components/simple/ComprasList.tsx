@@ -8,12 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Compras, Materiales } from "../../interfaces/index";
-import { IonIcon, IonNote } from "@ionic/react";
+import { IonBadge, IonIcon, IonNote } from "@ionic/react";
 import { menu, options, optionsOutline, optionsSharp } from "ionicons/icons";
 import { Button } from "primereact/button";
 import { Input, Menu, MenuItem, Select } from "@mui/material";
 import ModalList from "./Modals";
 import axios from "axios";
+import { DatePicker } from "@mui/x-date-pickers";
 
 export default function BasicTable({
   closeModal,
@@ -37,6 +38,8 @@ export default function BasicTable({
     React.useState<Compras[]>(products);
   const [selectedMonth, setSelectedMonth] = React.useState("allYear"); // Estado para el mes seleccionado
   const [selectedYear, setSelectedYear] = React.useState("allYears");
+  const [selectedFromDate, setSelectedFromDate] = React.useState("");
+  const [selectedToDate, setSelectedToDate] = React.useState("");
 
   const handleYearChange = (event: any) => {
     const selectedYear = event.target.value;
@@ -131,6 +134,16 @@ export default function BasicTable({
     setSelectedMonth(selectedMonth);
     filterProductsByMonth(selectedMonth, selectedYear); // También pasa el año
   };
+  const filterProductsByDate = (fromDate: any, toDate: any) => {
+    const fromDateObj = new Date(fromDate);
+    const toDateObj = new Date(toDate);
+    const filtered = products.filter((product) => {
+      const cotizacionDate = new Date(product.fechaCompra);
+      return cotizacionDate >= fromDateObj && cotizacionDate <= toDateObj;
+    });
+
+    setFilteredProducts(filtered);
+  };
 
   const calcularGastoDelMes = () => {
     let totalExpense = 0;
@@ -192,40 +205,41 @@ export default function BasicTable({
             <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
           </div>
         ) : null}
-        <Select
-          className="selectYearContainer"
-          value={selectedYear}
-          onChange={handleYearChange}
-          placeholder="Seleccionar año"
-        >
-          <MenuItem value="allYears">Todos los años</MenuItem>
-          <MenuItem value={2023}>2023</MenuItem>
-          <MenuItem value={2022}>2022</MenuItem>
-          <MenuItem value={2021}>2021</MenuItem>
-          <MenuItem value={2020}>2020</MenuItem>
-        </Select>
-        <Select
-          className="selectMonthContainer"
-          value={selectedMonth}
-          onChange={handleMonthChange}
-          placeholder="Seleccionar mes"
-        >
-          <MenuItem value="allYear">Todos los meses</MenuItem>
-          <MenuItem value={0}>Enero</MenuItem>
-          <MenuItem value={1}>Febrero</MenuItem>
-          <MenuItem value={2}>Marzo</MenuItem>
-          <MenuItem value={3}>Abril</MenuItem>
-          <MenuItem value={4}>Mayo</MenuItem>
-          <MenuItem value={5}>Junio</MenuItem>
-          <MenuItem value={6}>Julio</MenuItem>
-          <MenuItem value={7}>Agosto</MenuItem>
-          <MenuItem value={8}>Septiembre</MenuItem>
-          <MenuItem value={9}>Octubre</MenuItem>
-          <MenuItem value={10}>Noviembre</MenuItem>
-          <MenuItem value={11}>Diciembre</MenuItem>
+        <div className="dateInputsContainer">
+          <IonBadge>Desde</IonBadge>
 
-          {/* Agregar el resto de los meses */}
-        </Select>
+          <DatePicker
+            value={selectedFromDate}
+            onChange={(e) => {
+              const fechaOriginal = new Date(e.$d);
+              const año = fechaOriginal.getFullYear();
+              const mes = (fechaOriginal.getMonth() + 1)
+                .toString()
+                .padStart(2, "0"); // Agrega un 0 si es necesario
+              const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+              const fechaFormateada = `${año}-${mes}-${dia}`;
+              console.log("DESDE", fechaFormateada);
+              setSelectedFromDate(fechaFormateada);
+              filterProductsByDate(fechaFormateada, selectedToDate);
+            }}
+          />
+          <IonBadge>Hasta</IonBadge>
+          <DatePicker
+            value={selectedToDate}
+            onChange={(e) => {
+              const fechaOriginal = new Date(e.$d);
+              const año = fechaOriginal.getFullYear();
+              const mes = (fechaOriginal.getMonth() + 1)
+                .toString()
+                .padStart(2, "0"); // Agrega un 0 si es necesario
+              const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+              const fechaFormateada = `${año}-${mes}-${dia}`;
+              console.log("HASTA", fechaFormateada);
+              setSelectedToDate(fechaFormateada);
+              filterProductsByDate(selectedFromDate, fechaFormateada);
+            }}
+          />
+        </div>
       </div>
       <TableContainer component={Paper} className="tableCompras">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

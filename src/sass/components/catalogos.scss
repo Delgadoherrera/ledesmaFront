@@ -30,3 +30,21 @@
     p {}
 }
 
+.dateInputsContainer {
+    display: flex !important;
+    flex-direction: row;
+    width: 100%;
+    justify-content: start !important;
+
+    ion-badge {
+        display: flex;
+        align-items: center;
+        background-color: $contrast;
+    }
+
+    input {
+        margin: 10px;
+        width: 120px;
+        border: none !important;
+    }
+}
