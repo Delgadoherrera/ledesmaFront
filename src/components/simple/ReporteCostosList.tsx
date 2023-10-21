@@ -48,7 +48,6 @@ export default function BasicTable({
     }
   }, [refresh]);
 
-  console.log("REFRESH", refresh);
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value;
     setSearch(searchTerm);
@@ -63,7 +62,6 @@ export default function BasicTable({
     setFilteredProducts(filtered);
   };
 
-  console.log("element", element);
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -73,13 +71,13 @@ export default function BasicTable({
   };
   const handleAction = (e: any, action: any, element: Costos) => {
     switch (action) {
-      case "deleteMaterial":
+      case "deleteCost":
         setShowModal(true);
         setConfigModal({
           ...configModal,
-          bodyReq: "Deseas eliminar este material?",
-          tittle: "Eliminar material",
-          action: "deleteMaterial",
+          bodyReq: "Deseas eliminar este costo?",
+          tittle: "Eliminar costo",
+          action: "deleteCost",
         });
 
         break;
@@ -87,9 +85,9 @@ export default function BasicTable({
         setShowModal(true);
         setConfigModal({
           ...configModal,
-          bodyReq: "Editar material?",
-          tittle: "Editar material",
-          action: "editMaterial",
+          bodyReq: "Editar costo?",
+          tittle: "Editar costo",
+          action: "editCost",
         });
 
         break;
@@ -107,8 +105,12 @@ export default function BasicTable({
   };
   React.useEffect(() => {
     productService.ListarCostos().then((data) => {
-      setFilteredProducts(data);
-      setProducts(data);
+      const filteredData = data.filter(
+        (product: any) => product.estado !== "hide"
+      );
+
+      setFilteredProducts(filteredData);
+      setProducts(filteredData);
     });
   }, [refresh]);
   React.useEffect(() => {
@@ -133,7 +135,7 @@ export default function BasicTable({
       {showMopdal && (
         <ModalList
           closeModal={setShowModal}
-          action={todo}
+          action={configModal.action}
           tittle="Eliminar material?"
           bodyReq={`eliminar?`}
           element={element}
@@ -143,7 +145,7 @@ export default function BasicTable({
       <div className="search-container">
         <Input
           type="text"
-          placeholder="Buscar materiales..."
+          placeholder="Buscar costos..."
           value={search}
           onChange={handleSearch}
         />
@@ -153,11 +155,11 @@ export default function BasicTable({
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Descripción</TableCell>
+                <TableCell>Costo</TableCell>
 
                 {/*               <TableCell>Unidad medida</TableCell>
                  */}
-                <TableCell>Medida</TableCell>
+                <TableCell>Concepto</TableCell>
                 <TableCell>
                   {/*                 <IonIcon icon={options}></IonIcon>
                    */}{" "}
@@ -175,9 +177,7 @@ export default function BasicTable({
                     {/*                 <TableCell onClick={() => console.log("clic on table")}>
                     {row.unidadMedida.unidadMedida}
                   </TableCell> */}
-                    <TableCell>
-                      {row.concepto}
-                    </TableCell>
+                    <TableCell>{row.concepto}</TableCell>
 
                     <TableCell>
                       <div>
@@ -216,24 +216,12 @@ export default function BasicTable({
                           </MenuItem>
                           <MenuItem
                             onClick={(e) => {
-                              setTodo("buyMaterial");
+                              setTodo("deleteCost");
                               setConfigModal({
                                 ...configModal,
-                                action: "buyMaterial",
+                                action: "deleteCost",
                               });
-                              handleAction(e, "buyMaterial", row);
-                            }}
-                          >
-                            Comprar
-                          </MenuItem>
-                          <MenuItem
-                            onClick={(e) => {
-                              setTodo("deleteMaterial");
-                              setConfigModal({
-                                ...configModal,
-                                action: "deleteMaterial",
-                              });
-                              handleAction(e, "deleteMaterial", row);
+                              handleAction(e, "deleteCost", row);
                             }}
                           >
                             Eliminar

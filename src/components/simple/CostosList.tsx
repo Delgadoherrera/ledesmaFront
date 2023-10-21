@@ -101,7 +101,7 @@ export default function BasicTable({
   }, [refresh]);
 
   const handleSend = async (materiales: any, prices: any) => {
-    console.log('COSTOS',materiales)
+    console.log("COSTOS", materiales);
     try {
       for (const materialId in prices) {
         const material = products.find(
@@ -129,7 +129,7 @@ export default function BasicTable({
             });
             return setAlertMsg(true);
           }
-          console.log("pricepricepriceprice",price);
+          console.log("pricepricepriceprice", price);
 
           const response = await axios.get(
             "https://api.bluelytics.com.ar/v2/latest"
@@ -138,18 +138,16 @@ export default function BasicTable({
           setValorDolar(dolares.blue.value_avg);
 
           const val = price / dolares.blue.value_avg;
-          console.log('quantity',quantity)
+          console.log("quantity", quantity);
 
           try {
             const datos = {
-              fecha:fechaFormateada,
-              valor:price,
-              detalle:quantity,
-              idCosto:materialId
+              fecha: fechaFormateada,
+              valor: price,
+              detalle: quantity,
+              idCosto: materialId,
             };
-            const response = await productService.ConcretarCosto(
-              datos,
-            );
+            const response = await productService.ConcretarCosto(datos);
             console.log("Respuestasolicitud:", response);
             handleClose();
             response.status === 200 && setElementCombo([]);
@@ -196,7 +194,7 @@ export default function BasicTable({
   const fechaHoy = nowDate.toLocaleDateString("en-ZA");
   const fechaOriginal = fechaHoy;
   const fechaFormateada = cambiarFormatoFecha(fechaOriginal);
-console.log('ELEMENTCOMBO',elementCombo)
+  console.log("ELEMENTCOMBO", elementCombo);
   console.log("fechaHoy", fechaHoy);
   return (
     <>
@@ -257,22 +255,22 @@ console.log('ELEMENTCOMBO',elementCombo)
                   elementCombo.map((item: any) => [
                     item.material.id,
                     item.precio,
-                    item.fecha
+                    item.fecha,
                   ])
                 );
                 return handleSend(selectedMaterials, prices);
               }}
             >
-              Comprar
+              Guardar
             </IonButton>
           </div>
         ) : null}
       </TableContainer>
       {alertMsg && (
         <Alert severity="success">
-          <AlertTitle>Compra realizada</AlertTitle>
-          Compra realizada con éxito{" "}
-          <strong>Podrás ver el reporte en el catálogo de compras.</strong>
+          <AlertTitle>Registros creados.</AlertTitle>
+          Registros creados con éxito.
+          <strong>Podrás ver el reporte en el reporte costos.</strong>
         </Alert>
       )}
     </>

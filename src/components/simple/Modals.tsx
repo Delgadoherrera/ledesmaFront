@@ -10,7 +10,7 @@ import EditMaterial from "../gestiones/EditarMaterial";
 import CompraMateriales from "../gestiones/CompraMateriales";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
 import { useDispatch } from "react-redux";
-
+import EditCost from "../gestiones/EditCost";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -64,12 +64,23 @@ export default function ModalList({
             console.log("err", err);
           }
           break;
+        case "deleteCost":
+          console.log("deleteCost:", element, "action:", action);
+          try {
+            const response = materials.EliminarCosto(element.id);
+            console.log("response", response);
+            dispatch(refreshThis(true));
+            closeModal(false);
+          } catch (err) {
+            console.log("err", err);
+          }
+          break;
+
         default:
           break;
       }
     }
   };
-
   return (
     <div>
       <Modal
@@ -99,18 +110,15 @@ export default function ModalList({
             />
           )}
 
-          {/*     {configModal.action !== "editMaterial" ||
-            (configModal.action !== "buyMaterial" && (
-              <>
-                <Button onClick={(e) => handleActions("accept")}>
-                  Aceptar
-                </Button>
+          {configModal.action === "editCost" && (
+            <EditCost
+              id={configModal.element.id}
+              handleClose={handleClose}
+              element={element}
+            />
+          )}
 
-                <Button onClick={() => closeModal(false)}>Cancelar</Button>
-              </>
-            ))}
- */}
-          {configModal.action === "deleteMaterial" && (
+          {configModal.action === "deleteMaterial"  ||configModal.action === "deleteCost"  && (
             <>
               <Button onClick={(e) => handleActions("accept")}>Aceptar</Button>
 

@@ -23,7 +23,6 @@ export default function CargaMateriales({
   });
   const productService = new ProductServices();
   const dispatch = useDispatch();
-  console.log("elementelementelement", element);
   const limpiarFormulario = () => {
     return setValues({
       descripcion: "",
@@ -32,11 +31,9 @@ export default function CargaMateriales({
     });
   };
   React.useEffect(() => {
-    console.log("values", values);
   }, [values]);
 
   const handleSend = async (data: any) => {
-    console.log("sendEdit", "data", data, "id", id);
     try {
       const response = await productService.editarMaterial(data, id);
       console.log("Respuesta de la solicitud:", response);

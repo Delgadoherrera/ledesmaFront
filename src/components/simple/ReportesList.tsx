@@ -111,7 +111,7 @@ export default function BasicTable({
       setFilteredProducts(products);
     } else {
       const filtered = products.filter((product: any) => {
-        const cotizacionDate = new Date(product.fechaCompra);
+        const cotizacionDate = new Date(product.fecha);
         const cotizacionMonth = cotizacionDate.getMonth();
         const cotizacionYear = cotizacionDate.getFullYear();
 

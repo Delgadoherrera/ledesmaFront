@@ -50,7 +50,11 @@ export default function MultipleSelect() {
 
   React.useEffect(() => {
     productService.ListarCostos().then((data: any) => {
-      setCostos(data);
+      const filteredData = data.filter(
+        (product: any) => product.estado !== "hide"
+      );
+      console.log("DATACOSTOS", data);
+      setCostos(filteredData);
     });
   }, [refresh]);
 
@@ -72,8 +76,6 @@ export default function MultipleSelect() {
       setRefreshSelect(true);
     }
   }, [refreshSelect]);
-
- 
 
   return (
     <div>
@@ -100,7 +102,7 @@ export default function MultipleSelect() {
                 onChange={(selectedOption: any) => {
                   setSelectedMeasure(selectedOption.value);
                 }}
-                placeholder={"Medida"}
+                placeholder={"Concepto"}
               />
             </>
           )}
