@@ -7,7 +7,7 @@ export interface Materiales {
 export interface Productos {
   descripcion: string;
   unidadMedida: string;
-  nombre:string;
+  nombre: string;
   medida: string;
   id: number | null;
   img: string;
@@ -21,4 +21,11 @@ export interface Compras {
   precioPesos: number;
   catalogo_material: any;
   unidades: any;
+}
+
+export interface Costos {
+  id: number | null;
+  idCostoItem: number | null;
+  costo: string;
+  concepto: string;
 }

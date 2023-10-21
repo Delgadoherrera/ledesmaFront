@@ -198,7 +198,10 @@ export default function CargaMateriales() {
         <Button
           variant="outlined"
           color="secondary"
-          onClick={limpiarFormulario}
+          onClick={() => {
+            setImg("");
+            limpiarFormulario;
+          }}
         >
           Limpiar
         </Button>

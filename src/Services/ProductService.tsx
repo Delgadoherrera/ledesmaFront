@@ -21,7 +21,6 @@ export class ProductServices {
       return null;
     }
   }
-
   async eliminarMaterial(id: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
@@ -79,6 +78,25 @@ export class ProductServices {
       return null;
     }
   }
+  async ListarCostos(): Promise<any> {
+    try {
+      const response: AxiosResponse<any> = await axios.get(
+        `https://ledesma.missingpets.art/costos/listarTodos`,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("response", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error listando materiales:", error);
+      return null;
+    }
+  }
   async editarMaterial(data: any, id: any): Promise<any> {
     console.log("PRODUCIT EDIT", data, "IDMATERIAL", id);
     try {
@@ -98,8 +116,6 @@ export class ProductServices {
       console.error("Error editando material:", error);
     }
   }
-
-  // COMPRAS
   async comprarMaterial(data: any, id: any): Promise<any> {
     console.log("PRODUCIT EDIT", data, "IDMATERIAL", id);
     try {
@@ -119,7 +135,6 @@ export class ProductServices {
       console.error("Error editando material:", error);
     }
   }
-
   async ListarCompras(): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.get(
@@ -139,7 +154,6 @@ export class ProductServices {
       return null;
     }
   }
-
   async AgregarCombo(data: any, comboName: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
@@ -160,9 +174,6 @@ export class ProductServices {
       return null;
     }
   }
-
-
-
   async AgregarProducto(data: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
@@ -183,5 +194,65 @@ export class ProductServices {
       return null;
     }
   }
+  async AgregarGasto(data: any): Promise<any> {
+    try {
+      const response: AxiosResponse<any> = await axios.post(
+        `https://ledesma.missingpets.art/costos/nuevoCosto`,
+        data,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("res", response);
+      return response;
+    } catch (error) {
+      console.error("Error agregando material:", error);
+      return null;
+    }
+  }
+  async ConcretarCosto(data: any): Promise<any> {
+    try {
+      const response: AxiosResponse<any> = await axios.post(
+        `https://ledesma.missingpets.art/costos/itemCosto`,
+        data,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("res", response);
+      return response;
+    } catch (error) {
+      console.error("Error agregando material:", error);
+      return null;
+    }
+  }
 
+  async ListarItemCosto(): Promise<any> {
+    try {
+      const response: AxiosResponse<any> = await axios.get(
+        `https://ledesma.missingpets.art/costos/listarItems`,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("res", response);
+      const rest = response.data
+      return rest;
+    } catch (error) {
+      console.error("Error agregando material:", error);
+      return null;
+    }
+  }
 }

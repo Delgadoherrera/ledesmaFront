@@ -13,11 +13,11 @@ function ButtonGroup({ tabSelected }: { tabSelected: (value: any) => void }) {
       className="mb-3"
       fill
     >
-      <Tab
+   {/*    <Tab
         eventKey="catalogo"
         title="Catálogo de materiales"
         onEnter={() => tabSelected("catalogo de materiales")}
-      ></Tab>
+      ></Tab> */}
 {/*       <Tab
         eventKey="Otros"
         title="Otras pestañas"

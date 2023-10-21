@@ -66,18 +66,30 @@ const appPages: AppPage[] = [
     iosIcon: mailOutline,
     mdIcon: person,
   },
-  {
-    title: "Clientes",
-    url: "/page/Clientes",
+  */ {
+    title: "Catálogo de costos",
+    url: "/page/catalogoCostos",
     iosIcon: body,
     mdIcon: body,
-  }, */
+  },
   {
+    title: "Registrar costos",
+    url: "/page/registrarCostos",
+    iosIcon: body,
+    mdIcon: body,
+  },
+  {
+    title: "Reporte de costos",
+    url: "/page/reportCostos",
+    iosIcon: body,
+    mdIcon: body,
+  },
+  /*  {
  title: "Productos",
     url: "/page/VentaProductos",
     iosIcon: carpinteria,
     mdIcon: carpinteria,
-  }, 
+  },  */
   {
     title: "Catalogo de materiales",
     url: "/page/Catalogos",

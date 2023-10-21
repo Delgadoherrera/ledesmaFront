@@ -32,6 +32,13 @@ CREATE TABLE IF NOT EXISTS catalogo_unidad_medida (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS precio (
+  id INT NOT NULL AUTO_INCREMENT,
+  precioPesos INT NOT NULL, 
+  precioDolar INT NOT NULL, 
+  PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS compra_material (
   idCompra INT NOT NULL AUTO_INCREMENT,
   idMaterial INT NOT NULL,  
@@ -78,3 +85,23 @@ CREATE TABLE IF NOT EXISTS combo_material_item (
   FOREIGN KEY (combo_material_id) REFERENCES combo_material(id),
   FOREIGN KEY (material_id) REFERENCES catalogo_material(id)
 );
+
+
+CREATE TABLE IF NOT EXISTS catalogo_costo (
+  id INT NOT NULL AUTO_INCREMENT,
+  costo VARCHAR(100) NOT NULL,
+  concepto VARCHAR(100) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+
+CREATE TABLE IF NOT EXISTS costo_item (
+  id INT NOT NULL AUTO_INCREMENT,
+  idCosto INT NOT NULL,
+  valor INT NOT NULL,
+  fecha DATE NOT NULL,
+  detalle TEXT NOT NULL, 
+  PRIMARY KEY (id),
+  FOREIGN KEY (idCosto) REFERENCES catalogo_costo(id)
+);
+

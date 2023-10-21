@@ -7,7 +7,12 @@ import CatalogoMateriales from "./tabs/CatalogoMateriales";
 import ComprasNav from "./navMenus/ComprasNav";
 import ComprasList from "./simple/ComprasList";
 import CatalogoProductos from "./tabs/CatalogoProductos";
-import ComboMateriales from './gestiones/ComboMateriales'
+import ComboMateriales from "./gestiones/ComboMateriales";
+import CargaGastos from "./gestiones/CargaGastos";
+import RegistrarCostos from "./gestiones/RegistrarCostos";
+import ListaReportes from "./simple/ReportesList";
+import CatalogoCostosButtons from "./buttonGroups/CatalogoCostosButtons";
+import ReporteCostosList from "./simple/ReporteCostosList";
 
 interface ContainerProps {
   name: string;
@@ -52,9 +57,34 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
           {tabSelected === "registrarCompraMaterial" && <ComboMateriales />}
         </>
       )}
+
+      {name === "catalogoCostos" && (
+        <>
+          {name === "catalogoCostos" && (
+            <CatalogoCostosButtons tab={setTabSelected} />
+          )}
+          {name === "catalogoCostos" && <CargaGastos />}
+          {name === "catalogoCostos" && <ReporteCostosList />}
+
+          {tabSelected === "catalogoCostos" && <CargaGastos />}
+        </>
+      )}
+
+      {name === "registrarCostos" && (
+        <>
+          {name === "registrarCostos" && <RegistrarCostos />}
+          {tabSelected === "registrarCostos" && <RegistrarCostos />}
+        </>
+      )}
+
+      {name === "reportCostos" && (
+        <>
+          {name === "reportCostos" && <ListaReportes closeModal={a} />}
+          {tabSelected === "reportCostos" && <ListaReportes closeModal={a} />}
+        </>
+      )}
     </>
   );
 };
 
 export default ExploreContainer;
-;

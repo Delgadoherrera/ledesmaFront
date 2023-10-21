@@ -13,11 +13,11 @@ function ButtonGroup({ tabSelected }: { tabSelected: (value: any) => void }) {
       className="mb-3"
       fill
     >
-      <Tab
+{/*       <Tab
         eventKey="catalogo"
         title="Compras"
         onEnter={() => tabSelected("compras")}
-      ></Tab>
+      ></Tab> */}
       {/*       <Tab
         eventKey="Resumenes"
         title="Dashboard"
