@@ -17,12 +17,14 @@ import {
   IonIcon,
   IonNote,
 } from "@ionic/react";
-import { Input, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { components } from "react-select";
 import add from "../../assets/icons/add-circle-svgrepo-com(1).svg";
 import { Button } from "react-bootstrap";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
 import { InputText } from "primereact/inputtext";
+import { DatePicker } from "antd";
+import { Input,  } from "antd";
 
 export default function MultipleSelect() {
   const [materiales, setMateriales] = React.useState<Costos[]>([]);
@@ -107,24 +109,10 @@ export default function MultipleSelect() {
             </>
           )}
         </div>
-
         {selectedDescription && (
           <div className="inputValor">
-            <IonBadge>Detalles:</IonBadge>
-            <InputText
-              value={materialQuantity}
-              onChange={(e: any) => {
-                setMaterialQuantity(e.target.value);
-              }}
-            />
-          </div>
-        )}
-        {selectedDescription && (
-          <div className="inputValor">
-            <IonBadge>Fecha:</IonBadge>
-            <InputText
-              type="date"
-              value={date}
+            <IonBreadcrumb>Fecha:</IonBreadcrumb>
+            <DatePicker
               onChange={(e: any) => {
                 setDate(e.target.value);
               }}
@@ -133,17 +121,32 @@ export default function MultipleSelect() {
         )}
         {selectedDescription && (
           <div className="inputValor">
-            <IonBadge>Valor: $</IonBadge>
-            <Input
-              type="number"
-              value={materialValue}
+            <IonBreadcrumb>Detalles:</IonBreadcrumb>
+            <Input.TextArea
+            
+              value={materialQuantity}
               onChange={(e: any) => {
-                const value = parseFloat(e.target.value);
-                if (!isNaN(value) && value >= 1) {
-                  setMaterialValue(value.toString());
-                }
+                setMaterialQuantity(e.target.value);
               }}
             />
+          </div>
+        )}
+
+        {selectedDescription && (
+          <div className="inputValor">
+            <IonBreadcrumb>
+              Valor: $
+              <Input
+                type="number"
+                value={materialValue}
+                onChange={(e: any) => {
+                  const value = parseFloat(e.target.value);
+                  if (!isNaN(value) && value >= 1) {
+                    setMaterialValue(value.toString());
+                  }
+                }}
+              />
+            </IonBreadcrumb>
           </div>
         )}
         <Button

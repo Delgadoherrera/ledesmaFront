@@ -17,11 +17,12 @@ import {
   IonIcon,
   IonNote,
 } from "@ionic/react";
-import { Input, Typography } from "@mui/material";
+import {  Typography } from "@mui/material";
 import { components } from "react-select";
 import add from "../../assets/icons/add-circle-svgrepo-com(1).svg";
 import { Button } from "react-bootstrap";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
+import {Input} from 'antd'
 
 export default function MultipleSelect() {
   const [materiales, setMateriales] = React.useState<Materiales[]>([]);
@@ -117,7 +118,7 @@ export default function MultipleSelect() {
 
         {selectedDescription && (
           <div className="inputValor">
-            <IonBadge>Unidades:</IonBadge>
+            <IonBreadcrumb>Unidades:</IonBreadcrumb>
             <Input
               type="number"
               value={materialQuantity}
@@ -132,7 +133,7 @@ export default function MultipleSelect() {
         )}
         {selectedDescription && (
           <div className="inputValor">
-            <IonBadge>Precio unidad: $</IonBadge>
+            <IonBreadcrumb>Precio unidad: $</IonBreadcrumb>
             <Input
               type="number"
               value={materialValue}
