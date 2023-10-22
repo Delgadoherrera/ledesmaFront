@@ -11,6 +11,7 @@ import { Materiales } from "../../interfaces/index";
 import {
   IonAlert,
   IonBadge,
+  IonBreadcrumb,
   IonButton,
   IonDatetime,
   IonIcon,
@@ -31,6 +32,7 @@ import ModalList from "./Modals";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
 import { InputText } from "primereact/inputtext";
+import { DatePicker } from "antd";
 
 export default function BasicTable({
   elementCombo,
@@ -202,14 +204,13 @@ export default function BasicTable({
   console.log("fechaHoy", fechaHoy);
   return (
     <>
-      <div>
-        <IonBadge>Fecha de compra:</IonBadge>
-        <InputText
-          required
-          defaultValue={fechaFormateada}
-          type="date"
-          onChange={(e: any) => setDate(e.target.value)}
-        ></InputText>
+      <div className="fechaCompraRegistros">
+        <IonBadge>
+          Fecha de compra   
+          <DatePicker
+            onChange={(e: any) => setDate(e.target.value)}
+          ></DatePicker>
+        </IonBadge>
       </div>
 
       <TableContainer component={Paper} className="tableMateriales">

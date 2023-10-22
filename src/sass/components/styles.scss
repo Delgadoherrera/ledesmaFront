@@ -16,6 +16,8 @@
 $selected: rgba(172, 183, 207, 0.331);
 $secondary : rgba(186, 157, 192, 0.371);
 $contrast: rgb(55, 81, 159);
+$darki: rgba(63, 59, 102, 0.192);
+
 
 
 
@@ -33,7 +35,12 @@ ion-fab-button {
     --box-shadow: none;
 }
 
-button{
+/* button{
     background-color: $contrast !important;
     color:rgb(255, 255, 255) !important;
+} */
+ion-badge {
+    color: $contrast;
+    background-color: transparent;
+    margin-left: 15px;
 }

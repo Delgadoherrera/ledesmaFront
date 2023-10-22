@@ -8,10 +8,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Compras, Materiales } from "../../interfaces/index";
-import { IonBadge, IonIcon, IonNote } from "@ionic/react";
+import { IonBadge, IonBreadcrumb, IonIcon, IonNote } from "@ionic/react";
 import { menu, options, optionsOutline, optionsSharp } from "ionicons/icons";
 import { Button } from "primereact/button";
-import { Input, Menu, MenuItem, Select } from "@mui/material";
+import { Menu, MenuItem, Select } from "@mui/material";
+import { Input } from "antd";
 import ModalList from "./Modals";
 import axios from "axios";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -189,7 +190,7 @@ export default function BasicTable({
           value={search}
           onChange={handleSearch}
         />
-        {(selectedMonth === "allYear" && (
+        {(selectedMonth === "allYear" && products.length > 0 && (
           <div className="containerGastoMes">
             <IonNote>Total: ${calcularGastoDelMes()}</IonNote>
           </div>
@@ -206,10 +207,11 @@ export default function BasicTable({
           </div>
         ) : null}
         <div className="dateInputsContainer">
-          <IonBadge>Desde</IonBadge>
+          <IonBreadcrumb>Fecha inicial:</IonBreadcrumb>
 
           <DatePicker
             value={selectedFromDate}
+            className="datePickerCatalog"
             onChange={(e) => {
               const fechaOriginal = new Date(e.$d);
               const año = fechaOriginal.getFullYear();
@@ -223,7 +225,7 @@ export default function BasicTable({
               filterProductsByDate(fechaFormateada, selectedToDate);
             }}
           />
-          <IonBadge>Hasta</IonBadge>
+          <IonBreadcrumb>Fecha final:</IonBreadcrumb>
           <DatePicker
             value={selectedToDate}
             onChange={(e) => {

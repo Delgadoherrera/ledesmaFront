@@ -10,12 +10,12 @@ import { ProductServices } from "../../Services/ProductService";
 import { Costos, Materiales } from "../../interfaces/index";
 import { IonIcon } from "@ionic/react";
 import { menu } from "ionicons/icons";
-import { Input, Menu, MenuItem } from "@mui/material";
+import { Menu, MenuItem } from "@mui/material";
 import ModalList from "./Modals";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
 import CargaMateriales from "../gestiones/CargaMateriales";
-
+import { Input } from "antd";
 export default function BasicTable({
   closeModal,
 }: {

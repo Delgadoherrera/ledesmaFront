@@ -8,13 +8,14 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Compras, Costos, Materiales } from "../../interfaces/index";
-import { IonBadge, IonIcon, IonNote } from "@ionic/react";
+import { IonBadge, IonBreadcrumb, IonIcon, IonNote } from "@ionic/react";
 import { menu, options, optionsOutline, optionsSharp } from "ionicons/icons";
 import { Button } from "primereact/button";
-import { Input, Menu, MenuItem, Select } from "@mui/material";
+import { Menu, MenuItem, Select } from "@mui/material";
 import ModalList from "./Modals";
 import axios from "axios";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker, MobileDatePicker } from "@mui/x-date-pickers";
+import { Input } from "antd";
 
 export default function BasicTable({
   closeModal,
@@ -180,11 +181,11 @@ export default function BasicTable({
       <div className="search-container">
         <Input
           type="text"
-          placeholder="Buscar en compras..."
+          placeholder="Buscar en costos..."
           value={search}
           onChange={handleSearch}
         />
-        {(selectedMonth === "allYear" && (
+        {(products.length > 0 && selectedMonth === "allYear" && (
           <div className="containerGastoMes">
             <IonNote>Total: ${calcularGastoDelMes()}</IonNote>
           </div>
@@ -199,11 +200,13 @@ export default function BasicTable({
             <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
           </div>
         ) : null}
-        <div className="dateInputsContainer">
-          <IonBadge>Desde</IonBadge>
 
-          <DatePicker
+        <div className="dateInputsContainer">
+          <IonBreadcrumb>Fecha inicial:</IonBreadcrumb>
+
+          <MobileDatePicker
             value={selectedFromDate}
+            className="datePickerCatalog"
             onChange={(e) => {
               const fechaOriginal = new Date(e.$d);
               const año = fechaOriginal.getFullYear();
@@ -217,7 +220,8 @@ export default function BasicTable({
               filterProductsByDate(fechaFormateada, selectedToDate);
             }}
           />
-          <IonBadge>Hasta</IonBadge>
+          <IonBreadcrumb>Fecha final:</IonBreadcrumb>
+
           <DatePicker
             value={selectedToDate}
             onChange={(e) => {

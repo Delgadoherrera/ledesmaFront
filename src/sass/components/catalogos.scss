@@ -50,3 +50,21 @@
         height: 0px;
     }
 }
+
+.datePickerCatalog {
+    border: 0px solid black;
+    box-shadow: none !important;
+
+    div {
+        border: 0px solid black !important;
+    }
+
+    svg {}
+
+
+}
+
+fieldset {
+
+    border-color: $selected !important;
+}

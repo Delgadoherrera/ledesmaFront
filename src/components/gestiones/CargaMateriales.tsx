@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -12,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
 import { IonToast } from "@ionic/react";
+import {Button} from 'antd'
 export default function CargaMateriales() {
   const [values, setValues] = useState<Materiales>({
     descripcion: "",
@@ -133,10 +133,10 @@ export default function CargaMateriales() {
         helperText={formErrors.medida}
       />
 
-      <Button variant="contained" color="primary" onClick={handleSend}>
+      <Button color="primary" onClick={handleSend}>
         Enviar
       </Button>
-      <Button variant="outlined" color="secondary" onClick={limpiarFormulario}>
+      <Button color="secondary" onClick={limpiarFormulario}>
         Limpiar
       </Button>
       {alertMsg && (

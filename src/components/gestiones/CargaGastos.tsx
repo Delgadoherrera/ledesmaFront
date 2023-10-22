@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import {Button} from 'antd'
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -87,7 +87,7 @@ export default function CargaCostos() {
       }}
       noValidate
       autoComplete="off"
-      className="CargaCostosContainer"
+      className="CargaMaterialesContainer"
     >
       <TextField
         label="Costo"
@@ -106,10 +106,10 @@ export default function CargaCostos() {
         helperText={formErrors.concepto}
       />
 
-      <Button variant="contained" color="primary" onClick={handleSend}>
+      <Button   onClick={handleSend}>
         Enviar
       </Button>
-      <Button variant="outlined" color="secondary" onClick={limpiarFormulario}>
+      <Button  onClick={limpiarFormulario}>
         Limpiar
       </Button>
       {alertMsg && (

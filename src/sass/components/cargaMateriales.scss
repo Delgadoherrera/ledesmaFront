@@ -1,14 +1,20 @@
 .CargaMaterialesContainer {
     display: flex;
+
     button {
         display: flex;
         justify-content: center;
         justify-items: center;
         align-items: center;
         background-color: $selected !important;
-        color:$contrast !important
+        color:$contrast !important;
+        height:55px !important;
     }
-   
+   input{
+   }
+   div{
+ 
+   }
 }
 
 .editCargaMaterialesContainer {
