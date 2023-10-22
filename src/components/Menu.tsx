@@ -57,19 +57,26 @@ interface AppPage {
 }
 
 const appPages: AppPage[] = [
-  /*  {
-    title: "Cashflow",
-    url: "/page/Cashflow",
+    {
+    title: "Categoria de prooductos",
+    url: "/page/categoriaProductos",
     iosIcon: logoUsd,
     mdIcon: logoUsd,
   },
-  {
+/*   {
     title: "Proveedores",
     url: "/page/Proveedores",
     iosIcon: mailOutline,
     mdIcon: person,
+  }, */
+  
+  {
+    title: "Productos",
+    url: "/page/VentaProductos",
+    iosIcon: carpinteria,
+    mdIcon: carpinteria,
   },
-  */ {
+  {
     title: "Catálogo de costos",
     url: "/page/catalogoCostos",
     iosIcon: costos,
@@ -79,7 +86,7 @@ const appPages: AppPage[] = [
     title: "Registrar costos",
     url: "/page/registrarCostos",
     iosIcon: cash,
-    mdIcon: cash  ,
+    mdIcon: cash,
   },
   {
     title: "Reporte de costos",
@@ -87,12 +94,7 @@ const appPages: AppPage[] = [
     iosIcon: report,
     mdIcon: report,
   },
-  /*  {
- title: "Productos",
-    url: "/page/VentaProductos",
-    iosIcon: carpinteria,
-    mdIcon: carpinteria,
-  },  */
+
   {
     title: "Catalogo de materiales",
     url: "/page/Catalogos",

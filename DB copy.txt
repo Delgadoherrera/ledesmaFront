@@ -18,8 +18,23 @@ CREATE TABLE IF NOT EXISTS catalogo_producto (
   estado VARCHAR(40), 
   unidadMedidaId INT NOT NULL,
   imagenId INT NOT NULL,
+  categoriaId INT NOT NULL,
   PRIMARY KEY (id)
 );
+
+CREATE TABLE IF NOT EXISTS catalogo_categoria_producto (
+  id INT NOT NULL AUTO_INCREMENT,
+  detalle VARCHAR(128) NOT NULL, 
+  PRIMARY KEY (id)
+);
+CREATE TABLE IF NOT EXISTS categoria_producto_item (
+  id INT NOT NULL AUTO_INCREMENT,
+  descripcion TEXT NOT NULL, 
+  categoria_id INT NOT NULL,
+  FOREIGN KEY (categoria_id) REFERENCES catalogo_categoria_producto(id),
+  PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS imagen (
   id INT NOT NULL AUTO_INCREMENT,
   blobImage LONGTEXT NOT NULL,
@@ -57,9 +72,7 @@ CREATE TABLE IF NOT EXISTS venta_producto (
   precioPesos DECIMAL(8, 2),
   unidades INT NOT NULL,  
   medidaId INT NOT NULL, 
-  PRIMARY KEY (idCompra),
-  FOREIGN KEY (idMaterial) REFERENCES catalogo_producto(id),
-  FOREIGN KEY (medidaId) REFERENCES catalogo_unidad_medida(id)
+  PRIMARY KEY (idVenta)
 );
 CREATE TABLE IF NOT EXISTS cotizacion (
   idCotizacion INT NOT NULL AUTO_INCREMENT,

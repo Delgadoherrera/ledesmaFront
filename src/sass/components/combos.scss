@@ -101,6 +101,7 @@
         .css-b62m3t-container {
             width: 250px;
         }
+   
     }
 }
 
@@ -125,3 +126,64 @@
     background-color: $darki;
     display: flex;
 }
+
+
+
+
+.addItemProductCategory {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    align-content: center !important;
+
+    input {
+        text-align: start;
+        margin-left: 5px;
+    }
+
+    .css-art2ul-ValueContainer2 {}
+
+
+    background-color: $selected;
+    border-radius: 10px;
+    margin: 10px;
+
+    ion-badge {
+        display: flex;
+        align-items: center;
+        background-color: $contrast;
+    }
+
+    button {
+        background-color: $contrast;
+        border: none;
+        margin: 10px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+
+
+    }
+
+    .inputValor {
+        width: auto;
+        display: flex;
+
+        input {
+            width: 100px;
+        }
+    }
+
+    .selectionCombo {
+        display: flex;
+
+        .css-b62m3t-container {
+            width: 250px;
+        }
+   
+    }
+}
+

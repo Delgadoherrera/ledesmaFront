@@ -13,6 +13,7 @@ import RegistrarCostos from "./gestiones/RegistrarCostos";
 import ListaReportes from "./simple/ReportesList";
 import CatalogoCostosButtons from "./buttonGroups/CatalogoCostosButtons";
 import ReporteCostosList from "./simple/ReporteCostosList";
+import CargaCategorias from "./gestiones/CargaCategorias";
 
 interface ContainerProps {
   name: string;
@@ -81,6 +82,13 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
         <>
           {name === "reportCostos" && <ListaReportes closeModal={a} />}
           {tabSelected === "reportCostos" && <ListaReportes closeModal={a} />}
+        </>
+      )}
+
+      {name === "categoriaProductos" && (
+        <>
+          {name === "categoriaProductos" && <CargaCategorias />}
+          {tabSelected === "categoriaProductos" && <CargaCategorias />}
         </>
       )}
     </>

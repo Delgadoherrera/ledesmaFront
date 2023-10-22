@@ -64,6 +64,18 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
       );
 
       break;
+
+      case "categoriaProductos":
+        return (
+          <IonContent>
+            <Stock name={"categoriaProductos"} />
+          </IonContent>
+        );
+  
+        break;
+  
+
+      
     default:
       break;
   }
