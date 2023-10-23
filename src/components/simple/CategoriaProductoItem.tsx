@@ -204,7 +204,7 @@ export default function BasicTable({
         <div className="dateInputsContainer">
           <IonBreadcrumb>Fecha inicial:</IonBreadcrumb>
 
-          <MobileDatePicker
+          <DatePicker
             value={selectedFromDate}
             className="datePickerCatalog"
             onChange={(e) => {

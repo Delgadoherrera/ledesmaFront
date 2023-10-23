@@ -202,41 +202,43 @@ export default function BasicTable({
         ) : null}
 
         <div className="dateInputsContainer">
-          <IonBreadcrumb>Fecha inicial:</IonBreadcrumb>
-
-          <MobileDatePicker
-            value={selectedFromDate}
-            className="datePickerCatalog"
-            onChange={(e) => {
-              const fechaOriginal = new Date(e.$d);
-              const año = fechaOriginal.getFullYear();
-              const mes = (fechaOriginal.getMonth() + 1)
-                .toString()
-                .padStart(2, "0"); // Agrega un 0 si es necesario
-              const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
-              const fechaFormateada = `${año}-${mes}-${dia}`;
-              console.log("fechaOriginal", fechaFormateada);
-              setSelectedFromDate(fechaFormateada);
-              filterProductsByDate(fechaFormateada, selectedToDate);
-            }}
-          />
-          <IonBreadcrumb>Fecha final:</IonBreadcrumb>
-
-          <DatePicker
-            value={selectedToDate}
-            onChange={(e) => {
-              const fechaOriginal = new Date(e.$d);
-              const año = fechaOriginal.getFullYear();
-              const mes = (fechaOriginal.getMonth() + 1)
-                .toString()
-                .padStart(2, "0"); // Agrega un 0 si es necesario
-              const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
-              const fechaFormateada = `${año}-${mes}-${dia}`;
-              console.log("fechaOriginal", fechaFormateada);
-              setSelectedToDate(fechaFormateada);
-              filterProductsByDate(selectedFromDate, fechaFormateada);
-            }}
-          />
+          <IonBreadcrumb>
+            Fecha inicial:
+            <DatePicker
+              value={selectedFromDate}
+              className="datePickerCatalog"
+              onChange={(e) => {
+                const fechaOriginal = new Date(e.$d);
+                const año = fechaOriginal.getFullYear();
+                const mes = (fechaOriginal.getMonth() + 1)
+                  .toString()
+                  .padStart(2, "0"); // Agrega un 0 si es necesario
+                const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+                const fechaFormateada = `${año}-${mes}-${dia}`;
+                console.log("fechaOriginal", fechaFormateada);
+                setSelectedFromDate(fechaFormateada);
+                filterProductsByDate(fechaFormateada, selectedToDate);
+              }}
+            />
+          </IonBreadcrumb>
+          <IonBreadcrumb>
+            Fecha final:
+            <DatePicker
+              value={selectedToDate}
+              onChange={(e) => {
+                const fechaOriginal = new Date(e.$d);
+                const año = fechaOriginal.getFullYear();
+                const mes = (fechaOriginal.getMonth() + 1)
+                  .toString()
+                  .padStart(2, "0"); // Agrega un 0 si es necesario
+                const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+                const fechaFormateada = `${año}-${mes}-${dia}`;
+                console.log("fechaOriginal", fechaFormateada);
+                setSelectedToDate(fechaFormateada);
+                filterProductsByDate(selectedFromDate, fechaFormateada);
+              }}
+            />
+          </IonBreadcrumb>
         </div>
       </div>
       <TableContainer component={Paper} className="tableCompras">

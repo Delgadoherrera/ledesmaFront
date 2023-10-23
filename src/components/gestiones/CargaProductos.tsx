@@ -37,7 +37,7 @@ export default function CargaMateriales() {
   const [configAlert, setConfigAlert] = React.useState({
     message: `${values.descripcion} agregado con éxito!`,
   });
-  const [selectedDescription, setSelectedDescription] = React.useState([]);
+  const [selectedDescription, setSelectedDescription] = React.useState<any>([]);
   const productService = new ProductServices();
   const dispatch = useDispatch();
   const refresh = useSelector(
@@ -264,6 +264,9 @@ export default function CargaMateriales() {
           onClick={() => {
             setImg("");
             limpiarFormulario();
+            setSelectedCategory(null);
+            setSelectedType(null);
+            setSelectedDescription(null);
           }}
         >
           Limpiar

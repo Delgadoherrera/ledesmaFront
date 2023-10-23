@@ -163,6 +163,9 @@ export default function BasicTable({
                 <TableCell>Imagen</TableCell>
                 <TableCell>Descripción</TableCell>
                 <TableCell>Medida</TableCell>
+                <TableCell>Categoria</TableCell>
+                <TableCell>Tipo</TableCell>
+
                 <TableCell></TableCell>
               </TableRow>
             </TableHead>
@@ -187,6 +190,8 @@ export default function BasicTable({
                     <TableCell>
                       {row.medida} {row.unidadMedida.unidadMedida}
                     </TableCell>
+                    <TableCell>{row.producto.categoria.detalle}</TableCell>
+                    <TableCell>{row.producto.descripcion}</TableCell>
 
                     <TableCell>
                       <div>
