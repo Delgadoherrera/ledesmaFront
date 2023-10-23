@@ -22,12 +22,12 @@ export default function BasicTable({
 }: {
   closeModal: (value: any) => void;
 }) {
-  const [products, setProducts] = React.useState<Materiales[]>([]); // Especifica el tipo Product[]
+  const [products, setProducts] = React.useState<any[]>([]); // Especifica el tipo Product[]
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [showMopdal, setShowModal] = React.useState(false);
   const [todo, setTodo] = React.useState("");
-  const [element, setElement] = React.useState<Materiales | null>(null);
+  const [element, setElement] = React.useState<any | null>(null);
   const [configModal, setConfigModal] = React.useState({
     action: "",
     tittle: "",
@@ -36,7 +36,7 @@ export default function BasicTable({
   });
   const [search, setSearch] = React.useState("");
   const [filteredProducts, setFilteredProducts] =
-    React.useState<Materiales[]>(products);
+    React.useState<any[]>(products);
 
   const dispatch = useDispatch();
   const refresh = useSelector(
@@ -118,7 +118,7 @@ export default function BasicTable({
         handleClose();
       }
     };
-
+    console.log("filteredProductsfilteredProducts", filteredProducts);
     if (open) {
       document.addEventListener("click", closeMenu);
     } else {
@@ -129,6 +129,11 @@ export default function BasicTable({
       document.removeEventListener("click", closeMenu);
     };
   }, [open, anchorEl]);
+
+  Array.isArray(filteredProducts) &&
+    filteredProducts.map((row, index) => {
+      console.log("ROW", row);
+    });
   return (
     <>
       <CargaProductos />
@@ -169,10 +174,10 @@ export default function BasicTable({
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell>
-                      <Image
-                        src={`data:image/jpeg;base64,${row.blobImage.blobImage}`}
+                      <img
+                        src={`data:image/jpeg;base64,${row.imagenes[0].blobImage}`}
                         className="imgListProduct"
-                      ></Image>
+                      ></img>
                     </TableCell>
 
                     <TableCell>{row.descripcion}</TableCell>

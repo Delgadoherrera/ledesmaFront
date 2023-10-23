@@ -10,23 +10,13 @@ CREATE TABLE IF NOT EXISTS catalogo_material (
   unidadMedidaId INT NOT NULL,
   PRIMARY KEY (id)
 );
-CREATE TABLE IF NOT EXISTS catalogo_producto (
-  id INT NOT NULL AUTO_INCREMENT,
-  descripcion TEXT NOT NULL, 
-  nombre VARCHAR(40) NOT NULL, 
-  medida VARCHAR(40) NOT NULL, 
-  estado VARCHAR(40), 
-  unidadMedidaId INT NOT NULL,
-  imagenId INT NOT NULL,
-  categoriaId INT NOT NULL,
-  PRIMARY KEY (id)
-);
 
 CREATE TABLE IF NOT EXISTS catalogo_categoria_producto (
   id INT NOT NULL AUTO_INCREMENT,
   detalle VARCHAR(128) NOT NULL, 
   PRIMARY KEY (id)
 );
+
 CREATE TABLE IF NOT EXISTS categoria_producto_item (
   id INT NOT NULL AUTO_INCREMENT,
   descripcion TEXT NOT NULL, 
@@ -35,9 +25,23 @@ CREATE TABLE IF NOT EXISTS categoria_producto_item (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS catalogo_producto (
+  id INT NOT NULL AUTO_INCREMENT,
+  descripcion TEXT NOT NULL, 
+  medida VARCHAR(40) NOT NULL, 
+  estado VARCHAR(40), 
+  unidadMedidaId INT NOT NULL,
+  categoriaId INT NOT NULL,
+  FOREIGN KEY (categoriaId) REFERENCES categoria_producto_item(id),
+  PRIMARY KEY (id)
+);
+
+
+
 CREATE TABLE IF NOT EXISTS imagen (
   id INT NOT NULL AUTO_INCREMENT,
   blobImage LONGTEXT NOT NULL,
+  catalogoId INT NOT NULL,
   PRIMARY KEY (id)
 );
 

@@ -4,21 +4,48 @@
     object-fit: cover;
     border-radius: 20px;
 
-  
+
 }
-.addPhotoPic{
+
+.addPhotoPic {
     width: 100px !important;
     height: 100px !important;
     object-fit: cover !important;
     border-radius: 20px;
 }
-.containerButtonsProducts{
+
+.containerButtonsProducts {
     background-color: $selected;
-    button{
+
+    button {
         width: 200px;
         margin: 20px;
 
     }
 
 
+}
+
+.controlPanelAddProduct {
+    display: flex;
+    align-items: center;
+
+    div {
+    }
+
+    .ant-input,
+    .css-dev-only-do-not-override-xu9wm8,
+    input,
+    .css-13cymwt-control {
+        font-size: 1em !important;
+
+    }
+
+
+
+    /*     .css-13cymwt-control{
+        background-color: blue !important;
+        height: 40px;
+    }
+ */
 }

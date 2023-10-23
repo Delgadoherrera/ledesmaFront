@@ -230,18 +230,18 @@ export default function BasicTable({
 
                   <TableCell>{row.descripcion}</TableCell>
 
-                  <TableCell>
+       {/*            <TableCell>
                     <div key={index}>
                       <button onClick={() => setElementCombo(row)}>
                         <IonIcon icon={remove}></IonIcon>
                       </button>
                     </div>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
           </TableBody>
         </Table>
-        {products.length > 0 ? (
+        {/*      {products.length > 0 ? (
           <div className="comboBoxBottom">
             <IonButton
               id="present-alert"
@@ -259,7 +259,7 @@ export default function BasicTable({
               Guardar
             </IonButton>
           </div>
-        ) : null}
+        ) : null} */}
       </TableContainer>
       {alertMsg && (
         <Alert severity="success">

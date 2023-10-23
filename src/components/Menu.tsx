@@ -58,7 +58,7 @@ interface AppPage {
 
 const appPages: AppPage[] = [
     {
-    title: "Categoria de prooductos",
+    title: "Categorias y tipos de productos",
     url: "/page/categoriaProductos",
     iosIcon: logoUsd,
     mdIcon: logoUsd,
@@ -71,7 +71,7 @@ const appPages: AppPage[] = [
   }, */
   
   {
-    title: "Productos",
+    title: "Carga de productos",
     url: "/page/VentaProductos",
     iosIcon: carpinteria,
     mdIcon: carpinteria,

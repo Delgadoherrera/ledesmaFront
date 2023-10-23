@@ -51,7 +51,7 @@ export default function MultipleSelect() {
   );
   const [refreshSelect, setRefreshSelect] = React.useState(true);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const sendCategory = async () => {
     try {
       const data = {
@@ -62,18 +62,19 @@ export default function MultipleSelect() {
 
       const response = await productService.AgregarItemCategoriaProducto(data);
       console.log("Respuestasolicitud: TENDRA STATUS ", response);
-      response.status === 201 && dispatch(refreshThis(true))
+      response.status === 201 && dispatch(refreshThis(true));
     } catch (error) {
       console.error("Error al realiza:", error);
     }
   };
+
   React.useEffect(() => {
     productService.ListarCategoriaProductos().then((data: any) => {
       const filteredData = data.filter(
         (product: any) => product.estado !== "hide"
       );
-      console.log("DATACOSTOS", data);
       setCostos(filteredData);
+      console.log('filteredData',filteredData)
     });
   }, [refresh]);
 
