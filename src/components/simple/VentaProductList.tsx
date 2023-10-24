@@ -136,7 +136,8 @@ export default function BasicTable({
     });
   return (
     <>
-      <CargaProductos />
+      {/*       <CargaProductos />
+       */}{" "}
       {showMopdal && (
         <ModalList
           closeModal={setShowModal}
@@ -150,7 +151,7 @@ export default function BasicTable({
       <div className="search-container">
         <Input
           type="text"
-          placeholder="Buscar materiales..."
+          placeholder="Buscar productos..."
           value={search}
           onChange={handleSearch}
         />

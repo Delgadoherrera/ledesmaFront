@@ -4,8 +4,8 @@ import CatButtons from "../buttonGroups/CatalogoButtons";
 import { useIonViewWillEnter } from "@ionic/react";
 
 function ButtonGroup({ tabSelected }: { tabSelected: (value: any) => void }) {
-  useIonViewWillEnter(() => tabSelected("catalogo de materiales"));
-
+/*   useIonViewWillEnter(() => tabSelected("catalogo de materiales"));
+ */
   return (
     <Tabs
       defaultActiveKey="profile"

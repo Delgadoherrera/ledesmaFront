@@ -37,12 +37,15 @@ const App: React.FC = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <IonApp className={isDarkMode ? "dark-theme" : "light-theme"} style={{display:'flex', flexDirection:'row'}}>
+      <IonApp
+        className={isDarkMode ? "dark-theme" : "light-theme"}
+        style={{ display: "flex", flexDirection: "row" }}
+      >
         <IonReactRouter>
           <MenuAnt />
 
           <IonContent>
-            <ExploreContainer name="Catalogos" />
+            <ExploreContainer />
           </IonContent>
 
           {/*             <Menu />

@@ -7,6 +7,9 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PieChartOutlined,
+  BorderHorizontalOutlined,
+  DollarCircleOutlined,
+  HeatMapOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Button, Menu } from "antd";
@@ -36,14 +39,18 @@ const items: MenuItem[] = [
   getItem('Option 2', '2', <DesktopOutlined />),
   getItem('Option 3', '3', <ContainerOutlined />),
   
- */
-  getItem("Materiales", "sub1", <MailOutlined />, [
-    getItem("Cargar matariales", "Cargar matariales"),
+ */ getItem("Productos", "sub3", <HeatMapOutlined />, [
+    getItem("Categorias y tipos", "Categorias y tipos"),
+    getItem("Alta producto", "Alta producto"),
+    getItem("Reporte de productos", "Reporte de productos"),
+  ]),
+  getItem("Materiales", "sub1", <BorderHorizontalOutlined />, [
+    getItem("Cargar materiales", "Cargar materiales"),
     getItem("Compra de materiales", "Compra de materiales"),
     getItem("Reporte de compras", "Reporte de compras"),
   ]),
 
-  getItem("Costos", "sub2", <AppstoreOutlined />, [
+  getItem("Costos", "sub2", <DollarCircleOutlined />, [
     getItem("Cargar costos", "Cargar costos"),
     getItem("Registrar costos", "Registrar costos"),
     getItem("Reporte de costos", "Reporte de costos"),
@@ -52,23 +59,18 @@ const items: MenuItem[] = [
       getItem("Option 12", "12"),
     ]), */
   ]),
-  getItem("Productos", "sub3", <MailOutlined />, [
-    getItem("Categorias y tipos", "Categorias y tipos"),
-    getItem("Alta producto", "Alta producto"),
-    getItem("Reporte de productos", "Reporte de productos"),
-  ]),
 ];
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
 
   return (
-    <div style={collapsed? {width:'90px'}: {width:'200px'}}>
+    <div style={collapsed ? { width: "90px" } : { width: "200px" }}>
       <Button
         type="primary"
         onClick={toggleCollapsed}

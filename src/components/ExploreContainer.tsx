@@ -1,12 +1,14 @@
 import { IonContent } from "@ionic/react";
 import "./ExploreContainer.css";
 import Stock from "./Stock";
+import { useDispatch, useSelector } from "react-redux";
+import { menuSelectOpt } from "../features/dataReducer/dataReducer";
 
-interface ContainerProps {
-  name: string;
-}
 
-const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
+
+const ExploreContainer: React.FC<any> = () => {
+  const name = useSelector(menuSelectOpt)
+  console.log('name',name)
   switch (name) {
     case "Catalogos":
       return (
