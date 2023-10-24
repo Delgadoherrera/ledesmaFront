@@ -17,14 +17,15 @@ import {
   IonIcon,
   IonNote,
 } from "@ionic/react";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { components } from "react-select";
 import add from "../../assets/icons/add-circle-svgrepo-com(1).svg";
 import { Button } from "react-bootstrap";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
 import { InputText } from "primereact/inputtext";
 import { DatePicker } from "antd";
-import { Input,  } from "antd";
+import { Input } from "antd";
+import moment from "moment";
 
 export default function MultipleSelect() {
   const [materiales, setMateriales] = React.useState<Costos[]>([]);
@@ -60,6 +61,7 @@ export default function MultipleSelect() {
     });
   }, [refresh]);
 
+  console.log("DATEEE", date);
   // Obtener descripciones únicas
   const uniqueDescriptions = [
     ...new Set(costos.map((material) => material.costo)),
@@ -79,9 +81,14 @@ export default function MultipleSelect() {
     }
   }, [refreshSelect]);
 
+  const objetoFecha = Date.now();
+  const nowDate = new Date(objetoFecha);
+  const fechaHoy = nowDate.toLocaleDateString("en-ZA");
+  const fechaOriginal = fechaHoy;
+
   return (
     <div>
-      <div className="comboBox">
+      <Box className="RegistrarCostoBox">
         <div className="selectionCombo">
           {refreshSelect === true && (
             <>
@@ -113,8 +120,15 @@ export default function MultipleSelect() {
           <div className="inputValor">
             <IonBreadcrumb>Fecha:</IonBreadcrumb>
             <DatePicker
-              onChange={(e: any) => {
-                setDate(e.target.value);
+              onSelect={(e) => {
+                const fechaOriginal = new Date(e.$d);
+                const año = fechaOriginal.getFullYear();
+                const mes = (fechaOriginal.getMonth() + 1)
+                  .toString()
+                  .padStart(2, "0"); // Agrega un 0 si es necesario
+                const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+                const fechaFormateada = `${año}-${mes}-${dia}`;
+                setDate(fechaFormateada);
               }}
             />
           </div>
@@ -123,7 +137,6 @@ export default function MultipleSelect() {
           <div className="inputValor">
             <IonBreadcrumb>Detalles:</IonBreadcrumb>
             <Input.TextArea
-            
               value={materialQuantity}
               onChange={(e: any) => {
                 setMaterialQuantity(e.target.value);
@@ -172,29 +185,25 @@ export default function MultipleSelect() {
                   );
                 });
 
-                if (alreadyExists) {
-                  console.log("El elemento ya existe en la lista.");
-                } else {
-                  const materialWithPriceAndQuantity = {
-                    material: selectedMaterial,
-                    precio: materialValue,
-                    cantidad: materialQuantity, // Agregar la propiedad "cantidad" requerida
-                    detalle: selectedDescription, // Agregar la propiedad "detalle" si es necesario
-                    fecha: date, // Agregar la propiedad "fecha" si es necesario
-                  };
-                  // Agregar el nuevo material con precio y cantidad al arreglo existente en lugar de reemplazarlo
-                  setElementCombo([
-                    ...elementCombo,
-                    materialWithPriceAndQuantity,
-                  ]);
+                const materialWithPriceAndQuantity = {
+                  material: selectedMaterial,
+                  precio: materialValue,
+                  cantidad: materialQuantity, // Agregar la propiedad "cantidad" requerida
+                  detalle: selectedDescription, // Agregar la propiedad "detalle" si es necesario
+                  fecha: date || fechaHoy, // Agregar la propiedad "fecha" si es necesario
+                };
+                // Agregar el nuevo material con precio y cantidad al arreglo existente en lugar de reemplazarlo
+                setElementCombo([
+                  ...elementCombo,
+                  materialWithPriceAndQuantity,
+                ]);
 
-                  // Limpiar los selects y los valores de entrada
-                  setSelectedDescription(null); // Restablecer selectedDescription a null
-                  setSelectedMeasure(null); // Restablecer selectedMeasure a null
-                  setMaterialValue("");
-                  setMaterialQuantity("");
-                  setRefreshSelect(false);
-                }
+                // Limpiar los selects y los valores de entrada
+                setSelectedDescription(null); // Restablecer selectedDescription a null
+                setSelectedMeasure(null); // Restablecer selectedMeasure a null
+                setMaterialValue("");
+                setMaterialQuantity("");
+                setRefreshSelect(false);
               } else {
                 console.log("No se encontró el elemento seleccionado.");
               }
@@ -203,7 +212,7 @@ export default function MultipleSelect() {
         >
           +
         </Button>
-      </div>
+      </Box>
 
       <CostosList elementCombo={elementCombo} setElementCombo={emptyList} />
     </div>

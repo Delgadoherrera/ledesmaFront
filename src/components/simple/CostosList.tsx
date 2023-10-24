@@ -87,11 +87,9 @@ export default function BasicTable({
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
-  console.log("compra:", prices);
+  console.log('elementComboelementComboelementCombo',elementCombo)
 
   React.useEffect(() => {
-    console.log("trigger", trigger);
   }, [alertMsg, configAlert, trigger]);
 
   React.useEffect(() => {
@@ -129,7 +127,6 @@ export default function BasicTable({
             });
             return setAlertMsg(true);
           }
-          console.log("pricepricepriceprice", price);
 
           const response = await axios.get(
             "https://api.bluelytics.com.ar/v2/latest"
@@ -138,7 +135,6 @@ export default function BasicTable({
           setValorDolar(dolares.blue.value_avg);
 
           const val = price / dolares.blue.value_avg;
-          console.log("quantity", quantity);
 
           try {
             const datos = {
@@ -166,7 +162,6 @@ export default function BasicTable({
                 setAlertMsg(false);
               }, 4000); // 7000 milisegundos = 7 segundos
             }
-            console.log("quantityquantityquantity", quantity);
           } catch (error) {
             console.error("Error al realiza:", error);
           }
@@ -194,8 +189,7 @@ export default function BasicTable({
   const fechaHoy = nowDate.toLocaleDateString("en-ZA");
   const fechaOriginal = fechaHoy;
   const fechaFormateada = cambiarFormatoFecha(fechaOriginal);
-  console.log("ELEMENTCOMBO", elementCombo);
-  console.log("fechaHoy", fechaHoy);
+
   return (
     <>
       {/*     <div>

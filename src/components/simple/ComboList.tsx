@@ -206,9 +206,19 @@ export default function BasicTable({
     <>
       <div className="fechaCompraRegistros">
         <IonBadge>
-          Fecha de compra   
+          Fecha de compra
           <DatePicker
-            onChange={(e: any) => setDate(e.target.value)}
+            onChange={(e) => {
+              const fechaOriginal = new Date(e.$d);
+              const año = fechaOriginal.getFullYear();
+              const mes = (fechaOriginal.getMonth() + 1)
+                .toString()
+                .padStart(2, "0"); // Agrega un 0 si es necesario
+              const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+              const fechaFormateada = `${año}-${mes}-${dia}`;
+              console.log("fechaOriginal", fechaFormateada);
+              setDate(fechaFormateada);
+            }}
           ></DatePicker>
         </IonBadge>
       </div>

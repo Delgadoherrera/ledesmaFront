@@ -57,21 +57,21 @@ interface AppPage {
 }
 
 const appPages: AppPage[] = [
-    {
-    title: "Categorias y tipos de productos",
+  {
+    title: "Categoria de prooductos",
     url: "/page/categoriaProductos",
     iosIcon: logoUsd,
     mdIcon: logoUsd,
   },
-/*   {
+  /*   {
     title: "Proveedores",
     url: "/page/Proveedores",
     iosIcon: mailOutline,
     mdIcon: person,
   }, */
-  
+
   {
-    title: "Carga de productos",
+    title: "Productos",
     url: "/page/VentaProductos",
     iosIcon: carpinteria,
     mdIcon: carpinteria,

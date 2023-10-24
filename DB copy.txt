@@ -1,125 +1,125 @@
-DROP DATABASE IF EXISTS ledesmaCia;
-CREATE DATABASE ledesmaCia;
-USE ledesmaCia;
+  DROP DATABASE IF EXISTS ledesmaCia;
+  CREATE DATABASE ledesmaCia;
+  USE ledesmaCia;
 
-CREATE TABLE IF NOT EXISTS catalogo_material (
-  id INT NOT NULL AUTO_INCREMENT,
-  descripcion TEXT NOT NULL, 
-  medida VARCHAR(40) NOT NULL, 
-  estado VARCHAR(40), 
-  unidadMedidaId INT NOT NULL,
-  PRIMARY KEY (id)
-);
+  CREATE TABLE IF NOT EXISTS catalogo_material (
+    id INT NOT NULL AUTO_INCREMENT,
+    descripcion TEXT NOT NULL, 
+    medida VARCHAR(40) NOT NULL, 
+    estado VARCHAR(40), 
+    unidadMedidaId INT NOT NULL,
+    PRIMARY KEY (id)
+  );
 
-CREATE TABLE IF NOT EXISTS catalogo_categoria_producto (
-  id INT NOT NULL AUTO_INCREMENT,
-  detalle VARCHAR(128) NOT NULL, 
-  PRIMARY KEY (id)
-);
+  CREATE TABLE IF NOT EXISTS catalogo_categoria_producto (
+    id INT NOT NULL AUTO_INCREMENT,
+    detalle VARCHAR(128) NOT NULL, 
+    PRIMARY KEY (id)
+  );
 
-CREATE TABLE IF NOT EXISTS categoria_producto_item (
-  id INT NOT NULL AUTO_INCREMENT,
-  descripcion TEXT NOT NULL, 
-  categoria_id INT NOT NULL,
-  FOREIGN KEY (categoria_id) REFERENCES catalogo_categoria_producto(id),
-  PRIMARY KEY (id)
-);
+  CREATE TABLE IF NOT EXISTS categoria_producto_item (
+    id INT NOT NULL AUTO_INCREMENT,
+    descripcion TEXT NOT NULL, 
+    categoria_id INT NOT NULL,
+    FOREIGN KEY (categoria_id) REFERENCES catalogo_categoria_producto(id),
+    PRIMARY KEY (id)
+  );
 
-CREATE TABLE IF NOT EXISTS catalogo_producto (
-  id INT NOT NULL AUTO_INCREMENT,
-  descripcion TEXT NOT NULL, 
-  medida VARCHAR(40) NOT NULL, 
-  estado VARCHAR(40), 
-  unidadMedidaId INT NOT NULL,
-  categoriaId INT NOT NULL,
-  FOREIGN KEY (categoriaId) REFERENCES categoria_producto_item(id),
-  PRIMARY KEY (id)
-);
-
-
-
-CREATE TABLE IF NOT EXISTS imagen (
-  id INT NOT NULL AUTO_INCREMENT,
-  blobImage LONGTEXT NOT NULL,
-  catalogoId INT NOT NULL,
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS catalogo_unidad_medida (
-  id INT NOT NULL AUTO_INCREMENT,
-  unidadMedida VARCHAR(128) NOT NULL, 
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS precio (
-  id INT NOT NULL AUTO_INCREMENT,
-  precioPesos INT NOT NULL, 
-  precioDolar INT NOT NULL, 
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS compra_material (
-  idCompra INT NOT NULL AUTO_INCREMENT,
-  idMaterial INT NOT NULL,  
-  fechaCompra DATE NOT NULL,
-  precioPesos DECIMAL(8, 2),
-  unidades INT NOT NULL,  
-  medidaId INT NOT NULL, 
-  PRIMARY KEY (idCompra),
-  FOREIGN KEY (idMaterial) REFERENCES catalogo_material(id),
-  FOREIGN KEY (medidaId) REFERENCES catalogo_unidad_medida(id)
-);
-CREATE TABLE IF NOT EXISTS venta_producto (
-  idVenta INT NOT NULL AUTO_INCREMENT,
-  idProducto INT NOT NULL,  
-  fechaVenta DATE NOT NULL,
-  precioPesos DECIMAL(8, 2),
-  unidades INT NOT NULL,  
-  medidaId INT NOT NULL, 
-  PRIMARY KEY (idVenta)
-);
-CREATE TABLE IF NOT EXISTS cotizacion (
-  idCotizacion INT NOT NULL AUTO_INCREMENT,
-  fechaCotizacion DATE NOT NULL,
-  conversion DECIMAL(8, 2) NOT NULL,
-  compraId INT NOT NULL, 
-  PRIMARY KEY (idCotizacion), 
-  FOREIGN KEY (compraId) REFERENCES compra_material(idCompra)
-);
-
-CREATE TABLE IF NOT EXISTS combo_material (
-  id INT NOT NULL AUTO_INCREMENT,
-  nombreCombo TEXT NOT NULL,
-  estado VARCHAR(40),
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS combo_material_item (
-  id INT NOT NULL AUTO_INCREMENT,
-  combo_material_id INT NOT NULL,
-  material_id INT NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (combo_material_id) REFERENCES combo_material(id),
-  FOREIGN KEY (material_id) REFERENCES catalogo_material(id)
-);
+  CREATE TABLE IF NOT EXISTS catalogo_producto (
+    id INT NOT NULL AUTO_INCREMENT,
+    descripcion TEXT NOT NULL, 
+    medida VARCHAR(40) NOT NULL, 
+    estado VARCHAR(40), 
+    unidadMedidaId INT NOT NULL,
+    categoriaId INT NOT NULL,
+    FOREIGN KEY (categoriaId) REFERENCES categoria_producto_item(id),
+    PRIMARY KEY (id)
+  );
 
 
-CREATE TABLE IF NOT EXISTS catalogo_costo (
-  id INT NOT NULL AUTO_INCREMENT,
-  costo VARCHAR(100) NOT NULL,
-  concepto VARCHAR(100) NOT NULL,
-  estado VARCHAR(40), 
-  PRIMARY KEY (id)
-);
+
+  CREATE TABLE IF NOT EXISTS imagen (
+    id INT NOT NULL AUTO_INCREMENT,
+    blobImage LONGTEXT NOT NULL,
+    catalogoId INT NOT NULL,
+    PRIMARY KEY (id)
+  );
+
+  CREATE TABLE IF NOT EXISTS catalogo_unidad_medida (
+    id INT NOT NULL AUTO_INCREMENT,
+    unidadMedida VARCHAR(128) NOT NULL, 
+    PRIMARY KEY (id)
+  );
+
+  CREATE TABLE IF NOT EXISTS precio (
+    id INT NOT NULL AUTO_INCREMENT,
+    precioPesos INT NOT NULL, 
+    precioDolar INT NOT NULL, 
+    PRIMARY KEY (id)
+  );
+
+  CREATE TABLE IF NOT EXISTS compra_material (
+    idCompra INT NOT NULL AUTO_INCREMENT,
+    idMaterial INT NOT NULL,  
+    fechaCompra DATE NOT NULL,
+    precioPesos DECIMAL(8, 2),
+    unidades INT NOT NULL,  
+    medidaId INT NOT NULL, 
+    PRIMARY KEY (idCompra),
+    FOREIGN KEY (idMaterial) REFERENCES catalogo_material(id),
+    FOREIGN KEY (medidaId) REFERENCES catalogo_unidad_medida(id)
+  );
+  CREATE TABLE IF NOT EXISTS venta_producto (
+    idVenta INT NOT NULL AUTO_INCREMENT,
+    idProducto INT NOT NULL,  
+    fechaVenta DATE NOT NULL,
+    precioPesos DECIMAL(8, 2),
+    unidades INT NOT NULL,  
+    medidaId INT NOT NULL, 
+    PRIMARY KEY (idVenta)
+  );
+  CREATE TABLE IF NOT EXISTS cotizacion (
+    idCotizacion INT NOT NULL AUTO_INCREMENT,
+    fechaCotizacion DATE NOT NULL,
+    conversion DECIMAL(8, 2) NOT NULL,
+    compraId INT NOT NULL, 
+    PRIMARY KEY (idCotizacion), 
+    FOREIGN KEY (compraId) REFERENCES compra_material(idCompra)
+  );
+
+  CREATE TABLE IF NOT EXISTS combo_material (
+    id INT NOT NULL AUTO_INCREMENT,
+    nombreCombo TEXT NOT NULL,
+    estado VARCHAR(40),
+    PRIMARY KEY (id)
+  );
+
+  CREATE TABLE IF NOT EXISTS combo_material_item (
+    id INT NOT NULL AUTO_INCREMENT,
+    combo_material_id INT NOT NULL,
+    material_id INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (combo_material_id) REFERENCES combo_material(id),
+    FOREIGN KEY (material_id) REFERENCES catalogo_material(id)
+  );
 
 
-CREATE TABLE IF NOT EXISTS costo_item (
-  id INT NOT NULL AUTO_INCREMENT,
-  idCosto INT NOT NULL,
-  valor INT NOT NULL,
-  fecha DATE NOT NULL,
-  detalle TEXT NOT NULL, 
-  PRIMARY KEY (id),
-  FOREIGN KEY (idCosto) REFERENCES catalogo_costo(id)
-);
+  CREATE TABLE IF NOT EXISTS catalogo_costo (
+    id INT NOT NULL AUTO_INCREMENT,
+    costo VARCHAR(100) NOT NULL,
+    concepto VARCHAR(100) NOT NULL,
+    estado VARCHAR(40), 
+    PRIMARY KEY (id)
+  );
+
+
+  CREATE TABLE IF NOT EXISTS costo_item (
+    id INT NOT NULL AUTO_INCREMENT,
+    idCosto INT NOT NULL,
+    valor INT NOT NULL,
+    fecha DATE NOT NULL,
+    detalle TEXT NOT NULL, 
+    PRIMARY KEY (id),
+    FOREIGN KEY (idCosto) REFERENCES catalogo_costo(id)
+  );
 

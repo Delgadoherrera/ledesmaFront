@@ -145,12 +145,13 @@ export default function BasicTable({
     filterProductsByMonth(selectedMonth, selectedYear); // También pasa el año
   };
 
+  console.log("Reportes filteredProducts", filteredProducts);
   const calcularGastoDelMes = () => {
     let totalExpense = 0;
     Array.isArray(filteredProducts) &&
       filteredProducts.forEach((product: any) => {
         // Verificar que precioPesos sea un número
-        const price = parseFloat(product.precioPesos);
+        const price = parseFloat(product.valor);
         if (!isNaN(price)) {
           totalExpense += price;
         }

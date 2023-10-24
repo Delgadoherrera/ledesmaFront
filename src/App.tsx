@@ -1,5 +1,6 @@
 import {
   IonApp,
+  IonContent,
   IonRouterOutlet,
   IonSplitPane,
   setupIonicReact,
@@ -26,6 +27,8 @@ import "@ionic/react/css/display.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState } from "react";
+import MenuAnt from "./components/MenuAntd";
+import ExploreContainer from "./components/Stock";
 
 setupIonicReact();
 
@@ -34,19 +37,24 @@ const App: React.FC = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <IonApp className={isDarkMode ? "dark-theme" : "light-theme"}>
+      <IonApp className={isDarkMode ? "dark-theme" : "light-theme"} style={{display:'flex', flexDirection:'row'}}>
         <IonReactRouter>
-          <IonSplitPane contentId="main">
-            <Menu />
-            <IonRouterOutlet id="main">
-              <Route path="/" exact={true}>
+          <MenuAnt />
+
+          <IonContent>
+            <ExploreContainer name="Catalogos" />
+          </IonContent>
+
+          {/*             <Menu />
+           */}
+          {/*             <IonRouterOutlet id="main">
+                         <Route path="/" exact={true}>
                 <Redirect to="/page/Catalogos" />
               </Route>
               <Route path="/page/:name" exact={true}>
                 <Page />
-              </Route>
-            </IonRouterOutlet>
-          </IonSplitPane>
+              </Route> 
+            </IonRouterOutlet> */}
         </IonReactRouter>
       </IonApp>
     </LocalizationProvider>
