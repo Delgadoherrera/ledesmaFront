@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import { Select as Twek } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -19,7 +18,7 @@ import { Camera, CameraResultType, Photo } from "@capacitor/camera";
 import { camera } from "ionicons/icons";
 import { Image } from "react-bootstrap";
 import Select from "react-select";
-import { Input } from "antd";
+import { Button, Input } from "antd";
 
 export default function CargaMateriales() {
   const [values, setValues] = useState<Materiales>({
@@ -155,28 +154,33 @@ export default function CargaMateriales() {
       setItems(filteredData);
     });
   }, [refresh]);
-
+  console.log("ITEMS", items);
   const uniqueDescriptions = [
     ...new Set(costos.map((material: any) => material)),
   ];
 
   const uniqueDetails = [...new Set(items.map((material: any) => material))];
-
+  console.log("uniqueDetailsuniqueDetails", uniqueDetails);
   return (
     <>
       <Box
         component="form"
         sx={{
-          "& > :not(style)": { m: 1, width: "25ch" },
+          "& > :not(style)": { m: 1, width: "40ch" },
         }}
         noValidate
-        autoComplete="off"
+        autoComplete="on"
         className="controlPanelAddProduct"
       >
-        <Button className="imageAddIcon" onClick={() => takePicture()}>
-          <IonIcon icon={camera} size="large" />
-        </Button>
+        <IonIcon
+          icon={camera}
+          size="large"
+          className="imageAddIcon"
+          onClick={() => takePicture()}
+        />
+
         <Select
+          isMulti={false}
           options={uniqueDescriptions.map((description: any) => ({
             value: description.id,
             label: description.detalle,
@@ -188,17 +192,19 @@ export default function CargaMateriales() {
           placeholder={"Categorías"}
         />
         <Select
+          isMulti={false}
           options={uniqueDetails
             .filter(
               (description: any) =>
                 description.categoria_id === selectedCategory?.value
             )
             .map((description: any) => ({
-              value: description.categoria_id,
+              value: description.id,
               label: description.descripcion,
             }))}
           value={selectedType} // Usa el estado para el valor seleccionado
           onChange={(selectedOption: any) => {
+            console.log("selectedOptionselectedOption", selectedOption);
             setSelectedType(selectedOption);
           }}
           placeholder={"Tipos"}
@@ -216,7 +222,7 @@ export default function CargaMateriales() {
           onChange={(selectedOption: any) => {
             setSelectedDescription(selectedOption);
           }}
-          placeholder={"Unid. Medida"}
+          placeholder={"Unidad"}
         />
         {/*         <Input
           value={values.nombre}
@@ -253,25 +259,21 @@ export default function CargaMateriales() {
             className="addPhotoPic"
           ></Image>
         ) : null}
-      </Box>
-      <div className="containerButtonsProducts">
-        <Button variant="contained" color="primary" onClick={handleSend}>
-          Registrar producto
-        </Button>
+
+        <Button onClick={handleSend}>Registrar producto</Button>
         <Button
-          variant="outlined"
-          color="secondary"
           onClick={() => {
             setImg("");
             limpiarFormulario();
             setSelectedCategory(null);
             setSelectedType(null);
             setSelectedDescription(null);
+            setImg("");
           }}
         >
           Limpiar
         </Button>
-      </div>
+      </Box>
     </>
   );
 }

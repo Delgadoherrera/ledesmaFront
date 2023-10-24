@@ -22,7 +22,7 @@ export default function BasicTable({
 }: {
   closeModal: (value: any) => void;
 }) {
-  const [products, setProducts] = React.useState<any[]>([]); // Especifica el tipo Product[]
+  const [products, setProducts] = React.useState<any[]>([]);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [showMopdal, setShowModal] = React.useState(false);
@@ -35,8 +35,7 @@ export default function BasicTable({
     element: element,
   });
   const [search, setSearch] = React.useState("");
-  const [filteredProducts, setFilteredProducts] =
-    React.useState<any[]>(products);
+  const [filteredProducts, setFilteredProducts] = React.useState<any[]>([]);
 
   const dispatch = useDispatch();
   const refresh = useSelector(
@@ -49,7 +48,6 @@ export default function BasicTable({
     }
   }, [refresh]);
 
-  console.log("REFRESH", refresh);
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value;
     setSearch(searchTerm);
@@ -64,7 +62,6 @@ export default function BasicTable({
     setFilteredProducts(filtered);
   };
 
-  console.log("element", element);
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -112,23 +109,6 @@ export default function BasicTable({
       setProducts(data);
     });
   }, [refresh]);
-  React.useEffect(() => {
-    const closeMenu = (e: MouseEvent) => {
-      if (anchorEl && !anchorEl.contains(e.target as Node)) {
-        handleClose();
-      }
-    };
-    console.log("filteredProductsfilteredProducts", filteredProducts);
-    if (open) {
-      document.addEventListener("click", closeMenu);
-    } else {
-      document.removeEventListener("click", closeMenu);
-    }
-
-    return () => {
-      document.removeEventListener("click", closeMenu);
-    };
-  }, [open, anchorEl]);
 
   Array.isArray(filteredProducts) &&
     filteredProducts.map((row, index) => {

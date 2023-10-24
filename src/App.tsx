@@ -1,7 +1,13 @@
 import {
   IonApp,
+  IonBadge,
+  IonBreadcrumb,
+  IonChip,
   IonContent,
+  IonLabel,
+  IonNote,
   IonRouterOutlet,
+  IonSpinner,
   IonSplitPane,
   setupIonicReact,
 } from "@ionic/react";
@@ -29,14 +35,24 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState } from "react";
 import MenuAnt from "./components/MenuAntd";
 import ExploreContainer from "./components/Stock";
+import { Header } from "antd/es/layout/layout";
+import LedesmaLogo from "./assets/icons/e2617862-caa8-4f65-a61c-319d6c474b85.png";
+import { Avatar } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { menuSelectOpt } from "./features/dataReducer/dataReducer";
 
 setupIonicReact();
 
 const App: React.FC = () => {
   const isDarkMode = false; // Siempre en modo claro
+  const name = useSelector(menuSelectOpt);
+
+  console.log("namenamename", name);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
+      {/*               <img className="LedesmaLogo" src={LedesmaLogo}></img>
+       */}
       <IonApp
         className={isDarkMode ? "dark-theme" : "light-theme"}
         style={{ display: "flex", flexDirection: "row" }}
@@ -45,6 +61,15 @@ const App: React.FC = () => {
           <MenuAnt />
 
           <IonContent>
+            <Header className="headerMain">
+              <IonBadge>
+                Ledesma Cia {">"}
+                {/*     {name} */}
+                Trabajadores de la madera{"> "}
+                {name}
+              </IonBadge>
+            </Header>
+
             <ExploreContainer />
           </IonContent>
 

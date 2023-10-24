@@ -27,7 +27,11 @@ import { DatePicker } from "antd";
 import { Input } from "antd";
 import CategoriasList from "../simple/CategoriasList";
 
-export default function MultipleSelect() {
+export default function MultipleSelect({
+  limpiarFormulario,
+}: {
+  limpiarFormulario: (value: any) => void;
+}) {
   const [materiales, setMateriales] = React.useState<any[]>([]);
   const [costos, setCostos] = React.useState<any[]>([]);
   const [resetSelects, setResetSelects] = React.useState(false);
@@ -50,7 +54,7 @@ export default function MultipleSelect() {
     null
   );
   const [refreshSelect, setRefreshSelect] = React.useState(true);
-
+  console.log("selectedDescriptionselectedDescription", selectedDescription);
   const dispatch = useDispatch();
   const sendCategory = async () => {
     try {
@@ -61,8 +65,14 @@ export default function MultipleSelect() {
       };
 
       const response = await productService.AgregarItemCategoriaProducto(data);
+      setSelectedDescription(null); // Restablecer selectedDescription a null
+      setSelectedMeasure(null); // Restablecer selectedMeasure a null
+      setMaterialValue("");
+      setMaterialQuantity("");
+      setRefreshSelect(false);
       console.log("Respuestasolicitud: TENDRA STATUS ", response);
       response.status === 201 && dispatch(refreshThis(true));
+      response.status === 201 && setSelectedDescription(null);
     } catch (error) {
       console.error("Error al realiza:", error);
     }
@@ -74,7 +84,6 @@ export default function MultipleSelect() {
         (product: any) => product.estado !== "hide"
       );
       setCostos(filteredData);
-      console.log('filteredData',filteredData)
     });
   }, [refresh]);
 
@@ -97,8 +106,6 @@ export default function MultipleSelect() {
     }
   }, [refreshSelect]);
 
-  console.log("selectedDescription,", selectedDescription);
-  console.log("measure", selectedMeasure);
   return (
     <div>
       <div className="addItemProductCategory">
@@ -157,6 +164,18 @@ export default function MultipleSelect() {
           </div>
         )} */}
         <Button onClick={() => sendCategory()}>Cargar tipo de producto</Button>
+        <Button
+          onClick={() => {
+            setSelectedDescription(null); // Restablecer selectedDescription a null
+            setSelectedMeasure(null); // Restablecer selectedMeasure a null
+            setMaterialValue("");
+            setMaterialQuantity("");
+            setRefreshSelect(false);
+            limpiarFormulario();
+          }}
+        >
+          Limpiar
+        </Button>
       </div>
 
       <CategoriasList elementCombo={elementCombo} setElementCombo={emptyList} />

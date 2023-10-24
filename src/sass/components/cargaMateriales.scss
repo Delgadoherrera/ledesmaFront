@@ -7,17 +7,16 @@
         justify-items: center;
         align-items: center;
         background-color: $selected !important;
-        color:$contrast !important;
-        height:55px !important;
+        color: $contrast !important;
     }
-   input{
-   }
-   div{
- 
-   }
+
+    input {
+    }
+
+    div {}
 }
 
-.editCargaMaterialesContainer {
+/* .editCargaMaterialesContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -44,4 +43,4 @@
     button {
         margin: 3px !important;
     }
-}
+} */

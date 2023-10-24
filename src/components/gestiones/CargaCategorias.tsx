@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import { useDispatch } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
@@ -75,13 +75,10 @@ export default function Cargadetalles() {
         autoComplete="off"
         className="CargaMaterialesContainer"
       >
-        <TextField
-          label="Categoria de producto"
-          variant="outlined"
+        <Input
           value={values.detalle}
           onChange={(e) => setValues({ ...values, detalle: e.target.value })}
-          error={!!formErrors.detalle}
-          helperText={formErrors.detalle}
+          placeholder="Categoria de producto"
         />
         {/*     <TextField
           label="Tipo de producto"
@@ -95,7 +92,6 @@ export default function Cargadetalles() {
         />
  */}
         <Button onClick={handleSend}>Cargar categoria</Button>
-        <Button onClick={limpiarFormulario}>Limpiar</Button>
         {alertMsg && (
           <IonToast
             isOpen={alertMsg}
@@ -105,7 +101,7 @@ export default function Cargadetalles() {
           ></IonToast>
         )}
       </Box>
-      <RegistrarItemCategoria />
+      <RegistrarItemCategoria limpiarFormulario={limpiarFormulario} />
     </>
   );
 }

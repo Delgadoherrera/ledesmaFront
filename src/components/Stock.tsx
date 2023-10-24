@@ -16,8 +16,8 @@ import ReporteCostosList from "./simple/ReporteCostosList";
 import CargaCategorias from "./gestiones/CargaCategorias";
 import { menuSelectOpt } from "../features/dataReducer/dataReducer";
 import CargarProductos from "./gestiones/CargaProductos";
-import CategoriasList from './simple/ProductList'
-import VentaProductList from './simple/VentaProductList'
+import CategoriasList from "./simple/ProductList";
+import VentaProductList from "./simple/VentaProductList";
 const ExploreContainer: React.FC<any> = () => {
   const name = useSelector(menuSelectOpt);
   const [tabSelected, setTabSelected] = useState("");
@@ -33,64 +33,34 @@ const ExploreContainer: React.FC<any> = () => {
 
   return (
     <>
-      {name === "Cargar materiales" && (
-        <>
-          {name === "Cargar materiales" && (
-            <>
-              <StockNav tabSelected={a} />
+      {name === "Cargar materiales" && <CatalogoMateriales />}
 
-              <CatalogoMateriales />
-            </>
-          )}
-        </>
-      )}
+      {name === "Compra de materiales" && <ComboMateriales />}
 
-      {name === "Compra de materiales" && (
-        <>
-          {name === "Compra de materiales" && (
-            <>
-              <ComboMateriales />
-
-              {/*             */}
-            </>
-          )}
-        </>
-      )}
       {name === "Alta producto" && <CargarProductos />}
 
       {name === "Reporte de compras" && (
         <>
-          {name === "Reporte de compras" && (
-            <>
-              <ComprasNav tabSelected={a} />
-              <ComprasList closeModal={a} />
-            </>
-          )}
+          <ComprasNav tabSelected={a} />
+          <ComprasList closeModal={a} />
         </>
       )}
 
       {name === "Cargar costos" && (
         <>
-          {name === "Cargar costos" && <CatalogoCostosButtons tab={a} />}
-          {name === "Cargar costos" && <CargaGastos />}
-          {name === "Cargar costos" && <ReporteCostosList closeModal={a} />}
+          <CatalogoCostosButtons tab={a} />
+          <CargaGastos />
+          <ReporteCostosList closeModal={a} />
         </>
       )}
 
-      {name === "Registrar costos" && (
-        <>
-          {name === "Registrar costos" && <RegistrarCostos />}
-          {tabSelected === "Registrar costos" && <RegistrarCostos />}
-        </>
-      )}
+      {name === "Registrar costos" && <RegistrarCostos />}
 
-      {name === "Reporte de costos" && (
-        <>{name === "Reporte de costos" && <ListaReportes closeModal={a} />}</>
-      )}
+      {name === "Reporte de costos" && <ListaReportes closeModal={a} />}
 
       {name === "Categorias y tipos" && <CargaCategorias />}
 
-      {name === "Reporte de productos" && <VentaProductList closeModal={a}/>}
+      {name === "Reporte de productos" && <VentaProductList closeModal={a} />}
     </>
   );
 };

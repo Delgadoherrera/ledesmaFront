@@ -159,9 +159,8 @@
     .css-art2ul-ValueContainer2 {}
 
 
-    background-color: $selected;
-    border-radius: 10px;
-    margin: 10px;
+/*     background-color: $selected;
+ */    border-radius: 10px;
 
     ion-badge {
         display: flex;
@@ -173,7 +172,6 @@
         background-color: $contrast;
         border: none;
         margin: 10px;
-        height: 40px;
         display: flex;
         justify-content: center;
         align-items: center;

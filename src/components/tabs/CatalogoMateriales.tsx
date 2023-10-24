@@ -15,10 +15,11 @@ function FillExample() {
   };
   return (
     <>
-      <CatalogoButtons tab={setTab} />
+      {/*       <CatalogoButtons tab={setTab} />
+       */}{" "}
       {tab === "Carga de materiales" && <CargaMateriales />}
       {tab === "Stock disponible" && <ProductList closeModal={a} />}
-{/*       {tab === "Combo de materiales" && (
+      {/*       {tab === "Combo de materiales" && (
         <>
        <ComboMateriales closeModal={a} />
         </>

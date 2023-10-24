@@ -14,13 +14,18 @@
     border-radius: 20px;
 }
 
-.containerButtonsProducts {
-    background-color: $selected;
+.controlPanelAddProduct {
+
+    justify-content: start !important;
+    align-items: start !important;
 
     button {
-        width: 200px;
         margin: 20px;
-
+        color: white;
+        background-color: $contrast;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
 
@@ -30,14 +35,18 @@
     display: flex;
     align-items: center;
 
-    div {
+    ion-icon {
+        width: 50px !important;
+        color: $contrast
     }
+
+    div {}
 
     .ant-input,
     .css-dev-only-do-not-override-xu9wm8,
     input,
     .css-13cymwt-control {
-        font-size: 1em !important;
+        font-size: 1rem !important;
 
     }
 
