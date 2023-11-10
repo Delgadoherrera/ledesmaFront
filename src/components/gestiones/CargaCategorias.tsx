@@ -5,7 +5,13 @@ import { Button, Input } from "antd";
 import { useDispatch } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
-import { IonToast } from "@ionic/react";
+import {
+  IonBadge,
+  IonContent,
+  IonItem,
+  IonTitle,
+  IonToast,
+} from "@ionic/react";
 import RegistrarItemCategoria from "../gestiones/RegistrarItemCategoria";
 export default function Cargadetalles() {
   const [values, setValues] = useState<any>({
@@ -66,32 +72,21 @@ export default function Cargadetalles() {
 
   return (
     <>
-      <Box
-        component="form"
-        sx={{
-          "& > :not(style)": { m: 1, width: "25ch" },
-        }}
-        noValidate
-        autoComplete="off"
-        className="CargaMaterialesContainer"
-      >
-        <Input
-          value={values.detalle}
-          onChange={(e) => setValues({ ...values, detalle: e.target.value })}
-          placeholder="Categoria de producto"
-        />
-        {/*     <TextField
-          label="Tipo de producto"
-          variant="outlined"
-          value={values.descripcion}
-          onChange={(e) =>
-            setValues({ ...values, descripcion: e.target.value })
-          }
-          error={!!formErrors.descripcion}
-          helperText={formErrors.descripcion}
-        />
- */}
-        <Button onClick={handleSend}>Cargar categoria</Button>
+      <IonContent className="contentCategoriasYTipos">
+
+      <div className="contentCargaCategoriaProducto">
+          <IonTitle>
+            {" "}
+            <IonBadge>Carga de categorias</IonBadge>
+          </IonTitle>
+          <Input
+            value={values.detalle}
+            onChange={(e) => setValues({ ...values, detalle: e.target.value })}
+            placeholder="Categoria de producto"
+          />
+          <Button onClick={handleSend}>Aceptar</Button>
+          <Button onClick={limpiarFormulario}>Limpiar</Button>
+        </div>
         {alertMsg && (
           <IonToast
             isOpen={alertMsg}
@@ -100,8 +95,9 @@ export default function Cargadetalles() {
             duration={5000}
           ></IonToast>
         )}
-      </Box>
-      <RegistrarItemCategoria limpiarFormulario={limpiarFormulario} />
+        <RegistrarItemCategoria limpiarFormulario={() => "a"} />
+
+      </IonContent>
     </>
   );
 }

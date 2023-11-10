@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces/index";
+import dayjs from 'dayjs';
 import {
   IonAlert,
   IonBadge,
@@ -15,6 +16,7 @@ import {
   IonButton,
   IonDatetime,
   IonIcon,
+  IonNote,
   IonToast,
 } from "@ionic/react";
 import axios from "axios";
@@ -201,26 +203,28 @@ export default function BasicTable({
   const fechaOriginal = fechaHoy;
   const fechaFormateada = cambiarFormatoFecha(fechaOriginal);
 
-  console.log("fechaHoy", fechaHoy);
+  const dateFormat = 'YYYY/MM/DD';
+
+console.log('nowDate',fechaHoy)
   return (
     <>
       <div className="fechaCompraRegistros">
-        <IonBadge>
-          Fecha de compra
-          <DatePicker
-            onChange={(e) => {
-              const fechaOriginal = new Date(e.$d);
-              const año = fechaOriginal.getFullYear();
-              const mes = (fechaOriginal.getMonth() + 1)
-                .toString()
-                .padStart(2, "0"); // Agrega un 0 si es necesario
-              const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
-              const fechaFormateada = `${año}-${mes}-${dia}`;
-              console.log("fechaOriginal", fechaFormateada);
-              setDate(fechaFormateada);
-            }}
-          ></DatePicker>
-        </IonBadge>
+        <IonNote>Fecha de compra</IonNote>
+        <DatePicker
+        defaultValue={dayjs(fechaHoy, dateFormat)}
+          onChange={(e) => {
+            console.log('FECHA EJEMPLO',e)
+            const fechaOriginal = new Date(e.$d);
+            const año = fechaOriginal.getFullYear();
+            const mes = (fechaOriginal.getMonth() + 1)
+              .toString()
+              .padStart(2, "0"); // Agrega un 0 si es necesario
+            const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+            const fechaFormateada = `${año}-${mes}-${dia}`;
+            console.log("fechaOriginal", fechaFormateada);
+            setDate(fechaFormateada);
+          }}
+        ></DatePicker>
       </div>
 
       <TableContainer component={Paper} className="tableMateriales">

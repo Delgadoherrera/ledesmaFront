@@ -1,0 +1,43 @@
+.reportProductosContent {
+    background-color: $light;
+
+    ion-badge {
+        margin: 10px;
+    }
+
+    img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 20px;
+    }
+
+
+    .tableProductos {
+        img {
+            width: 140px;
+            height: 100px;
+            padding: 3px;
+            border: solid 1px $primary;
+            background-color: $selected;
+        }
+    }
+
+    .search-container {
+        border: solid 1px $selected;
+
+        input {
+            height: 30px;
+            border: solid 1px $light;
+
+        }
+
+    }
+
+
+}
+
+.addPhotoPic {
+    border-radius: 10px;
+    padding: 3px;
+}

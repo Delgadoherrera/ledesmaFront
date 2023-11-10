@@ -1,9 +1,17 @@
-.modalContent {
-    text-align: center !important;
+.ant-modal-content {
+    background-color: blue;
+    width: fit-content;
 
 
-    ion-item {
-        text-align: center !important;
+
+
+    .editCargaMaterialesContainer {
+        display: flex;
+        flex-direction: column;
+        width: 200px !important;
+
+
     }
-}
 
+
+}

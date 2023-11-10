@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 import { ButtonBase } from "@mui/material";
 import { IonItem } from "@ionic/react";
 import { ProductServices } from "../../Services/ProductService";
@@ -10,9 +11,6 @@ import CompraMateriales from "../gestiones/CompraMateriales";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
 import { useDispatch } from "react-redux";
 import EditCost from "../gestiones/EditCost";
-import EditProduct from "../gestiones/EditProduct";
-import { Modal } from "antd";
-
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -78,17 +76,6 @@ export default function ModalList({
           }
           break;
 
-        case "deleteProduct":
-          console.log("deleteProduct:", element, "action:", action);
-          try {
-            const response = materials.EliminarProducto(element.id);
-            dispatch(refreshThis(true));
-            closeModal(false);
-          } catch (err) {
-            console.log("err", err);
-          }
-          break;
-
         default:
           break;
       }
@@ -97,62 +84,48 @@ export default function ModalList({
   return (
     <div>
       <Modal
-        title=""
         open={open}
-        onOk={handleActions}
-        onCancel={handleClose}
-        footer={null}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="modalContent"
       >
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          {configModal.tittle}
-        </Typography>
-        {configModal.action === "editMaterial" && (
-          <EditMaterial
-            id={configModal.element.id}
-            handleClose={handleClose}
-            element={element}
-          />
-        )}
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {configModal.tittle}
+          </Typography>
+          {configModal.action === "editMaterial" && (
+            <EditMaterial
+              id={configModal.element.id}
+              handleClose={handleClose}
+              element={element}
+            />
+          )}
 
-        {configModal.action === "buyMaterial" && (
-          <CompraMateriales
-            id={configModal.element.id}
-            handleClose={handleClose}
-            element={element}
-          />
-        )}
+          {configModal.action === "buyMaterial" && (
+            <CompraMateriales
+              id={configModal.element.id}
+              handleClose={handleClose}
+              element={element}
+            />
+          )}
 
-        {configModal.action === "editCost" && (
-          <EditCost
-            id={configModal.element.id}
-            handleClose={handleClose}
-            element={element}
-          />
-        )}
-        {configModal.action === "editProduct" && (
-          <EditProduct
-            id={configModal.element.id}
-            handleClose={handleClose}
-            element={element}
-          />
-        )}
+          {configModal.action === "editCost" && (
+            <EditCost
+              id={configModal.element.id}
+              handleClose={handleClose}
+              element={element}
+            />
+          )}
 
-        {configModal.action === "deleteMaterial" ||
-          (configModal.action === "deleteCost" && (
+          {configModal.action === "deleteMaterial"  ||configModal.action === "deleteCost"  && (
             <>
               <Button onClick={(e) => handleActions("accept")}>Aceptar</Button>
 
               <Button onClick={() => closeModal(false)}>Cancelar</Button>
             </>
-          ))}
-
-        {configModal.action === "deleteProduct" && (
-          <>
-            <Button onClick={(e) => handleActions("accept")}>Aceptar</Button>
-
-            <Button onClick={() => closeModal(false)}>Cancelar</Button>
-          </>
-        )}
+          )}
+        </Box>
       </Modal>
     </div>
   );

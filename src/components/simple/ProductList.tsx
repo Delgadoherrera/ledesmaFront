@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces/index";
-import { IonIcon } from "@ionic/react";
+import { IonBadge, IonIcon } from "@ionic/react";
 import { menu } from "ionicons/icons";
 import { Menu, MenuItem } from "@mui/material";
 import ModalList from "./Modals";
@@ -131,8 +131,11 @@ export default function BasicTable({
   }, [open, anchorEl]);
   return (
     <>
-
+    <div className="cargaMaterialesNav">
+    <IonBadge>Carga de materiales</IonBadge>
       <CargaMateriales />
+    </div>
+   
       {showMopdal && (
         <ModalList
           closeModal={setShowModal}

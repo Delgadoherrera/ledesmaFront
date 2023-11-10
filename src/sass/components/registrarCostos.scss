@@ -1,0 +1,26 @@
+.RegistrarCostoBox {
+    background-color: $light;
+    padding: 10px;
+
+    .contentBadgeNav {
+        margin: 10px;
+    }
+
+    .selectionCombo {
+        display: flex;
+        align-items: center;
+        align-content: center;
+
+        ion-icon {
+            color: $contrast
+        }
+    }
+
+    ion-badge {
+        margin: 10px;
+    }
+
+
+
+    .inputValor {}
+}

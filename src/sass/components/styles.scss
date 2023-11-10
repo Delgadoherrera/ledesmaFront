@@ -1,13 +1,6 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
 
-.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
-
-
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px !important;
-
-}
-
 
 * {
     font-family: 'Didact Gothic', sans-serif !important;
@@ -16,39 +9,23 @@
 $selected: rgba(172, 183, 207, 0.331);
 $secondary : rgba(186, 157, 192, 0.371);
 $contrast: rgb(55, 81, 159);
-$darki: rgba(63, 59, 102, 0.192);
+$darki: rgba(9, 9, 20, 0.767);
+$primary: rgba(88, 211, 149, 0.185);
+$light : rgba(196, 196, 196, 0.082);
 
 
 
 
-ion-toolbar {}
-
-ion-fab {
-    top: 0;
-    margin: 1px;
-
-
-}
-.LedesmaLogo{
-    width: 50px;
-    height: 50px;
-    border-radius: 20px;
-}
-.headerMain{
-    background-color: rgb(204, 228, 255);
+header {
+    background-color: rgba(142, 143, 223, 0.11) !important;
 }
 
-ion-fab-button {
-    background: transparent !important;
-    --box-shadow: none;
+input {
+    color: black !important;
 }
 
-/* button{
-    background-color: $contrast !important;
-    color:rgb(255, 255, 255) !important;
-} */
-ion-badge {
-    color: $contrast;
-    background-color: transparent;
-    margin-left: 15px;
+.imageAddIcon {
+    cursor: pointer;
+    padding: 0;
+    border-radius: 10px;
 }

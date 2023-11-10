@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import {Button} from 'antd'
+import { Button, Input } from "antd";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -11,7 +11,7 @@ import { Costos } from "../../interfaces/index";
 import { useDispatch } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
-import { IonToast } from "@ionic/react";
+import { IonBadge, IonToast } from "@ionic/react";
 export default function CargaCostos() {
   const [values, setValues] = useState<Costos>({
     idCostoItem: 0,
@@ -80,46 +80,39 @@ export default function CargaCostos() {
   };
 
   return (
-    <Box
-      component="form"
-      sx={{
-        "& > :not(style)": { m: 1, width: "25ch" },
-      }}
-      noValidate
-      autoComplete="off"
-      className="CargaMaterialesContainer"
-    >
-      <TextField
-        label="Costo"
-        variant="outlined"
-        value={values.costo}
-        onChange={(e) => setValues({ ...values, costo: e.target.value })}
-        error={!!formErrors.costo}
-        helperText={formErrors.costo}
-      />
-      <TextField
-        label="Concepto"
-        variant="outlined"
-        value={values.concepto}
-        onChange={(e) => setValues({ ...values, concepto: e.target.value })}
-        error={!!formErrors.concepto}
-        helperText={formErrors.concepto}
-      />
+    <div className="cargarCostosContainer">
+      <IonBadge> Cargar costos</IonBadge>
+      <Box
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+        className="CargaMaterialesContainer"
+      >
+        <Input
+          placeholder="Costo"
+          value={values.costo}
+          onChange={(e) => setValues({ ...values, costo: e.target.value })}
+        />
+        <Input
+          placeholder="Concepto"
+          value={values.concepto}
+          onChange={(e) => setValues({ ...values, concepto: e.target.value })}
+        />
 
-      <Button   onClick={handleSend}>
-        Enviar
-      </Button>
-      <Button  onClick={limpiarFormulario}>
-        Limpiar
-      </Button>
-      {alertMsg && (
-        <IonToast
-          isOpen={alertMsg}
-          message={configAlert.message}
-          onDidDismiss={() => setAlertMsg(false)}
-          duration={5000}
-        ></IonToast>
-      )}
-    </Box>
+        <Button onClick={handleSend}>Enviar</Button>
+        <Button onClick={limpiarFormulario}>Limpiar</Button>
+        {alertMsg && (
+          <IonToast
+            isOpen={alertMsg}
+            message={configAlert.message}
+            onDidDismiss={() => setAlertMsg(false)}
+            duration={5000}
+          ></IonToast>
+        )}
+      </Box>
+    </div>
   );
 }

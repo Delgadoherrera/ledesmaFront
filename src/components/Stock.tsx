@@ -22,10 +22,7 @@ const ExploreContainer: React.FC<any> = () => {
   const name = useSelector(menuSelectOpt);
   const [tabSelected, setTabSelected] = useState("");
 
-  console.log("namedenames", name);
-  useEffect(() => {
-    console.log("tab selected", tabSelected);
-  }, [tabSelected, name]);
+  useEffect(() => {}, [tabSelected, name]);
 
   const a = (a: any) => {
     console.log("a", a);
@@ -48,8 +45,8 @@ const ExploreContainer: React.FC<any> = () => {
 
       {name === "Cargar costos" && (
         <>
-          <CatalogoCostosButtons tab={a} />
-          <CargaGastos />
+{/*           <CatalogoCostosButtons tab={a} />
+ */}          <CargaGastos />
           <ReporteCostosList closeModal={a} />
         </>
       )}

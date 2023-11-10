@@ -2,9 +2,11 @@ import * as React from "react";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales, Costos } from "../../interfaces";
 import { useDispatch, useSelector } from "react-redux";
-import Select from "react-select";
+import { Select } from "antd";
 import {
+  IonHeader,
   IonSelect,
+  IonTitle,
   useIonViewDidEnter,
   useIonViewWillEnter,
 } from "@ionic/react";
@@ -26,6 +28,7 @@ import { InputText } from "primereact/inputtext";
 import { DatePicker } from "antd";
 import { Input } from "antd";
 import CategoriasList from "../simple/CategoriasList";
+import { Header } from "antd/es/layout/layout";
 
 export default function MultipleSelect({
   limpiarFormulario,
@@ -54,14 +57,13 @@ export default function MultipleSelect({
     null
   );
   const [refreshSelect, setRefreshSelect] = React.useState(true);
-  console.log("selectedDescriptionselectedDescription", selectedDescription);
   const dispatch = useDispatch();
   const sendCategory = async () => {
     try {
       const data = {
         detalle: selectedMeasure,
         descripcion: materialQuantity,
-        categoria: selectedDescription.value,
+        categoria: selectedDescription,
       };
 
       const response = await productService.AgregarItemCategoriaProducto(data);
@@ -70,7 +72,6 @@ export default function MultipleSelect({
       setMaterialValue("");
       setMaterialQuantity("");
       setRefreshSelect(false);
-      console.log("Respuestasolicitud: TENDRA STATUS ", response);
       response.status === 201 && dispatch(refreshThis(true));
       response.status === 201 && setSelectedDescription(null);
     } catch (error) {
@@ -107,22 +108,26 @@ export default function MultipleSelect({
   }, [refreshSelect]);
 
   return (
-    <div>
-      <div className="addItemProductCategory">
-        <div className="selectionCombo">
-          {refreshSelect === true && (
-            <>
-              <Select
-                options={uniqueDescriptions.map((description) => ({
-                  value: description,
-                  label: description,
-                }))}
-                onChange={(selectedOption: any) => {
-                  setSelectedDescription(selectedOption);
-                }}
-                placeholder={"Buscar categorias"}
-              />
-              {/*           <Select
+    <div className="CargaTipoItemContent">
+      {refreshSelect === true && (
+        <>
+          <IonTitle>
+            {" "}
+            <IonBadge>Carga tipo de producto</IonBadge>
+          </IonTitle>
+          <Select
+            options={uniqueDescriptions.map((description) => ({
+              value: description,
+              label: description,
+            }))}
+            onChange={(selectedOption: any) => {
+              setSelectedDescription(selectedOption);
+            }}
+            placeholder={"Categoria"}
+            className="inputSelect"
+          />
+
+          {/*           <Select
                 options={filteredMaterials.map((material) => ({
                   value: material.concepto,
                   label: `${material.concepto}`,
@@ -132,51 +137,29 @@ export default function MultipleSelect({
                 }}
                 placeholder={"Concepto"}
               /> */}
+          <Input
+            placeholder="Tipo de item:"
+            onChange={(e: any) => {
+              console.log('selectedmeasure',e.target.value)
 
-              <Input
-                placeholder="Tipo de item:"
-                onChange={(e: any) => {
-                  setSelectedMeasure(e.target.value);
-                }}
-              ></Input>
-            </>
-          )}
-        </div>
-        {/*        {selectedDescription && (
-          <div className="inputValor">
-            <IonBreadcrumb>Fecha:</IonBreadcrumb>
-            <DatePicker
-              onChange={(e: any) => {
-                setDate(e.target.value);
-              }}
-            />
-          </div>
-        )} */}
-        {/*   {selectedDescription && (
-          <div className="inputValor">
-            <IonBreadcrumb>Descripcion:</IonBreadcrumb>
-            <Input.TextArea
-              value={materialQuantity}
-              onChange={(e: any) => {
-                setMaterialQuantity(e.target.value);
-              }}
-            />
-          </div>
-        )} */}
-        <Button onClick={() => sendCategory()}>Cargar tipo de producto</Button>
-        <Button
-          onClick={() => {
-            setSelectedDescription(null); // Restablecer selectedDescription a null
-            setSelectedMeasure(null); // Restablecer selectedMeasure a null
-            setMaterialValue("");
-            setMaterialQuantity("");
-            setRefreshSelect(false);
-            limpiarFormulario();
-          }}
-        >
-          Limpiar
-        </Button>
-      </div>
+              setSelectedMeasure(e.target.value);
+            }}
+          ></Input>
+        </>
+      )}
+
+      <Button onClick={() => sendCategory()}>Cargar tipo de producto</Button>
+      <Button
+        onClick={() => {
+          setSelectedDescription(null); // Restablecer selectedDescription a null
+          setSelectedMeasure(null); // Restablecer selectedMeasure a null
+          setMaterialValue("");
+          setMaterialQuantity("");
+          setRefreshSelect(false);
+        }}
+      >
+        Limpiar
+      </Button>
 
       <CategoriasList elementCombo={elementCombo} setElementCombo={emptyList} />
     </div>

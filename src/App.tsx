@@ -4,8 +4,11 @@ import {
   IonBreadcrumb,
   IonChip,
   IonContent,
+  IonHeader,
+  IonItem,
   IonLabel,
   IonNote,
+  IonPage,
   IonRouterOutlet,
   IonSpinner,
   IonSplitPane,
@@ -53,25 +56,23 @@ const App: React.FC = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       {/*               <img className="LedesmaLogo" src={LedesmaLogo}></img>
        */}
-      <IonApp
-        className={isDarkMode ? "dark-theme" : "light-theme"}
-        style={{ display: "flex", flexDirection: "row" }}
-      >
+      <IonApp className={isDarkMode ? "dark-theme" : "light-theme"}>
         <IonReactRouter>
-          <MenuAnt />
+          <IonPage
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <MenuAnt />
 
-          <IonContent>
-            <Header className="headerMain">
-              <IonBadge>
-                Ledesma Cia {">"}
-                {/*     {name} */}
-                Trabajadores de la madera{"> "}
-                {name}
-              </IonBadge>
-            </Header>
-
-            <ExploreContainer />
-          </IonContent>
+            <IonContent
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
+    {/*           <Header>
+                {" "}
+                <IonBreadcrumb>{name}</IonBreadcrumb  >
+              </Header> */}
+              <ExploreContainer />
+            </IonContent>
+          </IonPage>
 
           {/*             <Menu />
            */}

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Select as Twek } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -9,16 +8,28 @@ import Typography from "@mui/material/Typography";
 import { Productos as Materiales } from "../../interfaces/index";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
+import emptyImage from "../../assets/icons/image-svgrepo-com(1).svg";
+
 import {
   imageValue,
   refreshThis,
 } from "../../features/dataReducer/dataReducer";
-import { IonBreadcrumb, IonIcon, IonToast } from "@ionic/react";
+import {
+  IonBadge,
+  IonBreadcrumb,
+  IonButton,
+  IonContent,
+  IonIcon,
+  IonItem,
+  IonText,
+  IonToast,
+} from "@ionic/react";
 import { Camera, CameraResultType, Photo } from "@capacitor/camera";
-import { camera } from "ionicons/icons";
+import { camera, checkmarkCircle, handRightOutline } from "ionicons/icons";
 import { Image } from "react-bootstrap";
-import Select from "react-select";
-import { Button, Input } from "antd";
+import { Button, Input, List, Select } from "antd";
+import { ListItem } from "@mui/material";
+import { StickyNote2 } from "@mui/icons-material";
 
 export default function CargaMateriales() {
   const [values, setValues] = useState<Materiales>({
@@ -45,6 +56,8 @@ export default function CargaMateriales() {
   const [selectedCategory, setSelectedCategory] = React.useState<any>(null);
   const [selectedType, setSelectedType] = React.useState<any>(null);
   const [items, setItems] = React.useState<any>([]);
+  const [categoria, setCategoria] = useState<any>(null);
+  const [type, setType] = useState<any>(null);
   const takePicture = async () => {
     const image = await Camera.getPhoto({
       quality: 50,
@@ -53,28 +66,6 @@ export default function CargaMateriales() {
     });
     dispatch(imageValue(image || 10));
     setImg(image.base64String ? image.base64String : "");
-  };
-
-  const validateForm = () => {
-    const errors: any = {};
-
-    if (!values.descripcion) {
-      errors.descripcion = "La descripción es requerida.";
-    }
-    if (!values.nombre) {
-      errors.nombre = "El nombre es requerido.";
-    }
-
-    if (!values.unidadMedida) {
-      errors.unidadMedida = "La unidad de medida es requerida.";
-    }
-
-    if (!values.medida) {
-      errors.medida = "La medida es requerida.";
-    }
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
   };
 
   const limpiarFormulario = () => {
@@ -87,8 +78,18 @@ export default function CargaMateriales() {
       img: "",
     });
     setFormErrors({});
+    setType(null);
+    setCategoria(null);
+    setSelectedDescription(null);
+    setImg("");
   };
-  console.log("selectedDescriptionselectedDescription", selectedDescription);
+  console.log("selectedType", selectedType);
+
+  useEffect(() => {
+    console.log("sELECTEDAGATA", selectedCategory);
+    setSelectedType(null);
+    setType(null);
+  }, [selectedCategory]);
 
   const handleSend = async () => {
     if (img === "") {
@@ -107,13 +108,15 @@ export default function CargaMateriales() {
     if (selectedCategory == null) {
       return console.log("ingrese una categoria de producto...");
     }
+
     const data = {
       descripcion: values.descripcion,
       medida: values.medida,
-      unidadMedida: values.unidadMedida,
+      unidadMedida: selectedDescription,
       img: img,
-      detalle: selectedDescription,
+      detalle: selectedCategory,
       categoria: selectedCategory.value,
+      categoriaId: selectedType,
     };
     try {
       const response = await productService.AgregarProducto(data);
@@ -132,10 +135,7 @@ export default function CargaMateriales() {
             message: ` ${data.descripcion} agregado con exito`,
           })
         : null;
-      response.status === 201 && setSelectedCategory(null);
-      response.status === 201 && setSelectedType(null);
-      response.status === 201 && setSelectedDescription(null);
-
+      response.status === 201 && limpiarFormulario();
       response.status === 201 && setAlertMsg(true);
     } catch (error) {
       console.error("Error al realizar la solicitud:", error);
@@ -154,96 +154,122 @@ export default function CargaMateriales() {
       setItems(filteredData);
     });
   }, [refresh]);
-  console.log("ITEMS", items);
   const uniqueDescriptions = [
     ...new Set(costos.map((material: any) => material)),
   ];
-
   const uniqueDetails = [...new Set(items.map((material: any) => material))];
-  console.log("uniqueDetailsuniqueDetails", uniqueDetails);
   return (
     <>
-      <Box
-        component="form"
-        sx={{
-          "& > :not(style)": { m: 1, width: "40ch" },
-        }}
-        noValidate
-        autoComplete="on"
-        className="controlPanelAddProduct"
-      >
-        <IonIcon
-          icon={camera}
-          size="large"
-          className="imageAddIcon"
-          onClick={() => takePicture()}
-        />
-
-        <Select
-          isMulti={false}
-          options={uniqueDescriptions.map((description: any) => ({
-            value: description.id,
-            label: description.detalle,
-          }))}
-          value={selectedCategory} // Usa el estado para el valor seleccionado
-          onChange={(selectedOption: any) => {
-            setSelectedCategory(selectedOption);
-          }}
-          placeholder={"Categorías"}
-        />
-        <Select
-          isMulti={false}
-          options={uniqueDetails
-            .filter(
-              (description: any) =>
-                description.categoria_id === selectedCategory?.value
-            )
-            .map((description: any) => ({
+      <IonContent className="contentAltaProductoNoDiv">
+        <div className="contentAltaProducto">
+          <div className="badgetNavs">
+            <IonBadge> Carga de productos</IonBadge>
+          </div>
+          <div>
+            {img.length > 0 ? (
+              <Image
+                src={`data:image/jpeg;base64,${img}`}
+                className="addPhotoPic"
+                onClick={() => takePicture()}
+              />
+            ) : (
+              <Image
+                src={emptyImage}
+                className="addPhotoPic"
+                onClick={() => takePicture()}
+              />
+            )}
+            {/*       <IonIcon
+              icon={camera}
+              size="large"
+              className="imageAddIcon"
+            /> */}
+          </div>
+          <Select
+            options={uniqueDescriptions.map((description: any) => ({
               value: description.id,
-              label: description.descripcion,
+              label: description.detalle,
             }))}
-          value={selectedType} // Usa el estado para el valor seleccionado
-          onChange={(selectedOption: any) => {
-            console.log("selectedOptionselectedOption", selectedOption);
-            setSelectedType(selectedOption);
-          }}
-          placeholder={"Tipos"}
-        />
-        <Select
-          options={[
-            { value: "Lts", label: "Litros" },
-            { value: "Kg", label: "Kilogramos" },
-            { value: "Cm", label: "Centímetros" },
-            { value: "Mts", label: "Metros" },
-            { value: "Uni", label: "Unidades" },
-            // Agrega más opciones según sea necesario
-          ]}
-          value={selectedDescription} // Usa el estado para el valor seleccionado
-          onChange={(selectedOption: any) => {
-            setSelectedDescription(selectedOption);
-          }}
-          placeholder={"Unidad"}
-        />
-        {/*         <Input
-          value={values.nombre}
-          onChange={(e) => setValues({ ...values, nombre: e.target.value })}
-          placeholder="Producto"
-          allowClear
-        /> */}
-        <Input
-          allowClear
-          placeholder="Medida"
-          value={values.medida}
-          onChange={(e) => setValues({ ...values, medida: e.target.value })}
-        />
-        <Input
-          allowClear
-          placeholder="Descripción"
-          value={values.descripcion}
-          onChange={(e) =>
-            setValues({ ...values, descripcion: e.target.value })
-          }
-        />
+            value={selectedCategory} // Usa el estado para el valor seleccionado
+            onChange={(selectedOption: any) => {
+              setSelectedCategory(selectedOption);
+              setCategoria(uniqueDescriptions[selectedOption - 1]);
+            }}
+            placeholder={"Categorías"}
+          />
+          <Select
+            value={selectedType}
+            onChange={(selectedValue) => {
+              setSelectedType(selectedValue);
+              uniqueDetails
+                .filter((description: any) => {
+                  description.categoria_id === selectedCategory;
+                })
+
+                .map((description: any) =>
+                  console.log("deski", description.descripcion)
+                );
+              setType(uniqueDetails[selectedValue - 1]);
+            }}
+            placeholder="Tipos"
+          >
+            {uniqueDetails
+              .filter(
+                (description: any) =>
+                  description.categoria_id === selectedCategory
+              )
+              .map((description: any) => (
+                <Select.Option key={description.id} value={description.id}>
+                  {description.descripcion}
+                </Select.Option>
+              ))}
+          </Select>
+          <Select
+            options={[
+              { value: "Lts", label: "Litros" },
+              { value: "Kg", label: "Kilogramos" },
+              { value: "Cm", label: "Centímetros" },
+              { value: "Mts", label: "Metros" },
+              { value: "Uni", label: "Unidades" },
+              // Agrega más opciones según sea necesario
+            ]}
+            value={selectedDescription} // Usa el estado para el valor seleccionado
+            onChange={(selectedOption: any) => {
+              setSelectedDescription(selectedOption);
+              console.log(selectedOption);
+            }}
+            placeholder={"Unidad"}
+          />
+          <Input
+            allowClear
+            placeholder="Medida"
+            value={values.medida}
+            onChange={(e) => setValues({ ...values, medida: e.target.value })}
+          />
+          <Input
+            allowClear
+            placeholder="Descripción"
+            value={values.descripcion}
+            onChange={(e) =>
+              setValues({ ...values, descripcion: e.target.value })
+            }
+          />{" "}
+          <div className="createProductButton">
+            <Button
+              onClick={() => {
+                setImg("");
+                limpiarFormulario();
+                setSelectedCategory(null);
+                setSelectedType(null);
+                setSelectedDescription(null);
+                setImg("");
+              }}
+            >
+              Limpiar
+            </Button>
+            <Button onClick={handleSend}>Registrar producto</Button>
+          </div>
+        </div>
 
         {alertMsg && (
           <IonToast
@@ -253,27 +279,57 @@ export default function CargaMateriales() {
             duration={5000}
           ></IonToast>
         )}
-        {img.length > 0 ? (
-          <Image
-            src={`data:image/jpeg;base64,${img}`}
-            className="addPhotoPic"
-          ></Image>
-        ) : null}
 
-        <Button onClick={handleSend}>Registrar producto</Button>
-        <Button
-          onClick={() => {
-            setImg("");
-            limpiarFormulario();
-            setSelectedCategory(null);
-            setSelectedType(null);
-            setSelectedDescription(null);
-            setImg("");
-          }}
-        >
-          Limpiar
-        </Button>
-      </Box>
+        {/*         <div className="imageNewPostProductContainer">
+        <List className="listNewProduct">
+              <ListItem>
+                {img.length > 0 ? (
+                  <Image
+                    src={`data:image/jpeg;base64,${img}`}
+                    className="addPhotoPic"
+                  />
+                ) : null}
+              </ListItem>
+            </List>
+          <div className="rightContainerNewPostProduct">
+       
+            <ListItem>
+              {categoria && (
+                <IonText>
+                  <IonIcon icon={checkmarkCircle} />
+                  {categoria.detalle}
+                </IonText>
+              )}
+            </ListItem>
+            <ListItem>
+              {type && (
+                <IonText>
+                  <IonIcon icon={checkmarkCircle} />
+                  {type.descripcion}
+                </IonText>
+              )}
+            </ListItem>
+            <ListItem>
+              {values.medida.length > 0
+                ? selectedDescription && (
+                    <IonText>
+                      <IonIcon icon={checkmarkCircle} />
+                      {values.medida} {selectedDescription}
+                    </IonText>
+                  )
+                : null}
+            </ListItem>
+            <ListItem>
+              {values.descripcion && (
+                <IonText>
+                  <IonIcon icon={checkmarkCircle} />
+                  {values.descripcion}
+                </IonText>
+              )}
+            </ListItem>
+          </div>
+        </div> */}
+      </IonContent>
     </>
   );
 }

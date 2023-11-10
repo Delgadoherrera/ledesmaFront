@@ -2,9 +2,9 @@ import * as React from "react";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces";
 import { useDispatch, useSelector } from "react-redux";
-import Select from "react-select";
 import {
   IonSelect,
+  IonText,
   useIonViewDidEnter,
   useIonViewWillEnter,
 } from "@ionic/react";
@@ -17,12 +17,20 @@ import {
   IonIcon,
   IonNote,
 } from "@ionic/react";
-import {  Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { components } from "react-select";
 import add from "../../assets/icons/add-circle-svgrepo-com(1).svg";
 import { Button } from "react-bootstrap";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
-import {Input} from 'antd'
+import { Input, Select } from "antd";
+import {
+  addCircle,
+  addCircleOutline,
+  addCircleSharp,
+  addOutline,
+} from "ionicons/icons";
+import { addIcons } from "ionicons";
+import { AddAPhoto } from "@mui/icons-material";
 
 export default function MultipleSelect() {
   const [materiales, setMateriales] = React.useState<Materiales[]>([]);
@@ -83,128 +91,121 @@ export default function MultipleSelect() {
     }
   }, [refreshSelect]);
 
-  console.log("REFRESH SELECTS", refreshSelect);
 
   return (
-    <div>
-      <div className="comboBox">
-        <div className="selectionCombo">
-          {refreshSelect === true && (
-            <>
-              <Select
-                options={uniqueDescriptions.map((description) => ({
-                  value: description,
-                  label: description,
-                }))}
-                onChange={(selectedOption: any) => {
-                  setSelectedDescription(selectedOption.value);
-                  setSelectedMeasure(null);
-                }}
-                placeholder={"Buscar materiales"}
-              />
-              <Select
-                options={filteredMaterials.map((material) => ({
-                  value: material.medida,
-                  label: `${material.medida} ${material.unidadMedida.unidadMedida}`,
-                }))}
-                onChange={(selectedOption: any) => {
-                  setSelectedMeasure(selectedOption.value);
-                }}
-                placeholder={"Medida"}
-              />
-            </>
-          )}
-        </div>
-
-        {selectedDescription && (
-          <div className="inputValor">
-            <IonBreadcrumb>Unidades:</IonBreadcrumb>
-            <Input
-              type="number"
-              value={materialQuantity}
-              onChange={(e: any) => {
-                const value = parseFloat(e.target.value);
-                if (!isNaN(value) && value >= 1) {
-                  setMaterialQuantity(value.toString());
-                }
+    <div className="compraMaterialesContent">
+      <IonBadge> Compra de materiales</IonBadge>
+      <div className="compraMaterialesNav">
+        {refreshSelect === true && (
+          <>
+            <Select
+              options={uniqueDescriptions.map((description) => ({
+                value: description,
+                label: description,
+              }))}
+              onChange={(selectedOption: any) => {
+                console.log("selectedOption", selectedOption);
+                setSelectedDescription(selectedOption);
+                setSelectedMeasure(null);
               }}
+              placeholder={"Material"}
             />
-          </div>
-        )}
-        {selectedDescription && (
-          <div className="inputValor">
-            <IonBreadcrumb>Precio unidad: $</IonBreadcrumb>
-            <Input
-              type="number"
-              value={materialValue}
-              onChange={(e: any) => {
-                const value = parseFloat(e.target.value);
-                if (!isNaN(value) && value >= 1) {
-                  setMaterialValue(value.toString());
-                }
+            <Select
+              options={filteredMaterials.map((material) => ({
+                value: material.medida,
+                label: `${material.medida} ${material.unidadMedida.unidadMedida}`,
+              }))}
+              onChange={(selectedOption: any) => {
+                setSelectedMeasure(selectedOption);
               }}
+              value={selectedMeasure}
+              placeholder={"Medida"}
             />
-          </div>
+          </>
         )}
-        <Button
-          onClick={() => {
-            if (
-              selectedDescription &&
-              selectedMeasure &&
-              materialValue &&
-              materialQuantity
-            ) {
-              const selectedMaterial: any = materiales.find(
-                (material) =>
-                  material.descripcion === selectedDescription &&
-                  material.medida === selectedMeasure
-              );
 
-              if (selectedMaterial) {
-                // Verificar si el elemento ya existe en elementCombo
-                const alreadyExists = elementCombo.find((item) => {
-                  return (
-                    item.material.descripcion === selectedDescription &&
-                    item.material.medida === selectedMeasure
-                  );
-                });
-
-                if (alreadyExists) {
-                  console.log("El elemento ya existe en la lista.");
-                } else {
-                  const materialWithPriceAndQuantity = {
-                    material: selectedMaterial,
-                    precio: materialValue,
-                    cantidad: materialQuantity,
-                  };
-
-                  // Agregar el nuevo material con precio y cantidad al arreglo existente en lugar de reemplazarlo
-                  setElementCombo([
-                    ...elementCombo,
-                    materialWithPriceAndQuantity,
-                  ]);
-
-                  // Limpiar los selects y los valores de entrada
-                  setSelectedDescription(null); // Restablecer selectedDescription a null
-                  setSelectedMeasure(null); // Restablecer selectedMeasure a null
-                  setMaterialValue("");
-                  setMaterialQuantity("");
-                  setRefreshSelect(false);
-                }
-              } else {
-                console.log("No se encontró el elemento seleccionado.");
-              }
+        <IonBadge>Unidades:</IonBadge>
+        <Input
+          type="number"
+          value={materialQuantity}
+          onChange={(e: any) => {
+            const value = parseFloat(e.target.value);
+            if (!isNaN(value) && value >= 1) {
+              setMaterialQuantity(value.toString());
             }
           }}
-        >
-          +
-        </Button>
+        />
+
+        <IonBadge>Precio unidad: $</IonBadge>
+        <Input
+          type="number"
+          value={materialValue}
+          onChange={(e: any) => {
+            const value = parseFloat(e.target.value);
+            if (!isNaN(value) && value >= 1) {
+              setMaterialValue(value.toString());
+            }
+          }}
+        />
+        <IonBadge>
+          <IonIcon
+            onClick={() => {
+              if (
+                selectedDescription &&
+                selectedMeasure &&
+                materialValue &&
+                materialQuantity
+              ) {
+                const selectedMaterial: any = materiales.find(
+                  (material) =>
+                    material.descripcion === selectedDescription &&
+                    material.medida === selectedMeasure
+                );
+
+                if (selectedMaterial) {
+                  // Verificar si el elemento ya existe en elementCombo
+                  const alreadyExists = elementCombo.find((item) => {
+                    return (
+                      item.material.descripcion === selectedDescription &&
+                      item.material.medida === selectedMeasure
+                    );
+                  });
+
+                  if (alreadyExists) {
+                    console.log("El elemento ya existe en la lista.");
+                  } else {
+                    const materialWithPriceAndQuantity = {
+                      material: selectedMaterial,
+                      precio: materialValue,
+                      cantidad: materialQuantity,
+                    };
+
+                    // Agregar el nuevo material con precio y cantidad al arreglo existente en lugar de reemplazarlo
+                    setElementCombo([
+                      ...elementCombo,
+                      materialWithPriceAndQuantity,
+                    ]);
+
+                    // Limpiar los selects y los valores de entrada
+                    setSelectedDescription(null); // Restablecer selectedDescription a null
+                    setSelectedMeasure(null); // Restablecer selectedMeasure a null
+                    setMaterialValue("");
+                    setMaterialQuantity("");
+                    setRefreshSelect(false);
+                  }
+                } else {
+                  console.log("No se encontró el elemento seleccionado.");
+                }
+              }
+            }}
+            icon={addOutline}
+            size="large"
+            color="white"
+          ></IonIcon>
+        </IonBadge>
       </div>
 
-      <ComboList
-        elementCombo={elementCombo}
-        setElementCombo={emptyList}
-      />
+      <ComboList elementCombo={elementCombo} setElementCombo={emptyList} />
     </div>
   );
 }

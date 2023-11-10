@@ -116,6 +116,25 @@ export class ProductServices {
       console.error("Error editando material:", error);
     }
   }
+  async EditarProducto(data: any, id: any): Promise<any> {
+    console.log("PRODUCIT EDIT", data, "IDMATERIAL", id);
+    try {
+      const response: AxiosResponse<any> = await axios.put(
+        `https://ledesma.missingpets.art/productos/editar/${id}`,
+        { data: data },
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error editando material:", error);
+    }
+  }
   async EditarCosto(data: any, id: any): Promise<any> {
     console.log("PRODUCIT EDIT", data, "IDMATERIAL", id);
     try {
@@ -336,6 +355,25 @@ export class ProductServices {
     try {
       const response: AxiosResponse<any> = await axios.post(
         `https://ledesma.missingpets.art/costos/eliminarCosto/${id}`,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("res", response);
+      return response;
+    } catch (error) {
+      console.error("Error eliminando material:", error);
+      return null;
+    }
+  }
+  async EliminarProducto(id: any): Promise<any> {
+    try {
+      const response: AxiosResponse<any> = await axios.post(
+        `https://ledesma.missingpets.art/productos/eliminarProducto/${id}`,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",

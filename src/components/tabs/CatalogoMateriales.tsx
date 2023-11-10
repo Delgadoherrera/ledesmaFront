@@ -13,19 +13,7 @@ function FillExample() {
   const a = (e: any) => {
     console.log(e);
   };
-  return (
-    <>
-      {/*       <CatalogoButtons tab={setTab} />
-       */}{" "}
-      {tab === "Carga de materiales" && <CargaMateriales />}
-      {tab === "Stock disponible" && <ProductList closeModal={a} />}
-      {/*       {tab === "Combo de materiales" && (
-        <>
-       <ComboMateriales closeModal={a} />
-        </>
-      )} */}
-    </>
-  );
+  return <>{tab === "Stock disponible" && <ProductList closeModal={a} />}</>;
 }
 
 export default FillExample;

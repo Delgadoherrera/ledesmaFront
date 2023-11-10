@@ -14,8 +14,10 @@ import { Button } from "primereact/button";
 import { Menu, MenuItem, Select } from "@mui/material";
 import ModalList from "./Modals";
 import axios from "axios";
-import { DatePicker, MobileDatePicker } from "@mui/x-date-pickers";
+import { MobileDatePicker } from "@mui/x-date-pickers";
 import { Input } from "antd";
+import { DatePicker, Space } from "antd";
+const { RangePicker } = DatePicker;
 
 export default function BasicTable({
   closeModal,
@@ -179,108 +181,105 @@ export default function BasicTable({
           configModal={configModal}
         />
       )}
-      <div className="search-container">
-        <Input
-          type="text"
-          placeholder="Buscar en costos..."
-          value={search}
-          onChange={handleSearch}
-        />
-        {(products.length > 0 && selectedMonth === "allYear" && (
-          <div className="containerGastoMes">
-            <IonNote>Total: ${calcularGastoDelMes()}</IonNote>
-          </div>
-        )) ||
-          (selectedMonth === "" && (
-            <div className="containerGastoMes">
-              <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
-            </div>
-          ))}
-        {selectedMonth !== "allYear" && selectedMonth !== "" ? (
-          <div className="containerGastoMes">
-            <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
-          </div>
-        ) : null}
+      <div className="reporteCostosContent">
+        <IonBadge> Reporte de costos</IonBadge>
+        <div className="search-container">
+          <Input
+            type="text"
+            placeholder="Buscar en costos..."
+            value={search}
+            onChange={handleSearch}
+          />
 
-        <div className="dateInputsContainer">
-          <IonBreadcrumb>
-            Fecha inicial:
-            <DatePicker
-              value={selectedFromDate}
+          <div className="dateInputsContainer">
+            <RangePicker
               className="datePickerCatalog"
               onChange={(e) => {
-                const fechaOriginal = new Date(e.$d);
+                console.log("eeeRangepicker", e);
+                const fechaOriginal = new Date(e[0].$d);
+                const fechaHasta = new Date(e[1].$d);
+
                 const año = fechaOriginal.getFullYear();
-                const mes = (fechaOriginal.getMonth() + 1)
+                const añoHasta = fechaHasta.getFullYear();
+
+                const mes = fechaOriginal.getMonth() + 1;
+                const mesHasta = (fechaHasta.getMonth() + 1)
                   .toString()
                   .padStart(2, "0"); // Agrega un 0 si es necesario
                 const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+                const diaHasta = fechaHasta
+                  .getDate()
+                  .toString()
+                  .padStart(2, "0"); // Agrega un 0 si es necesario
+
                 const fechaFormateada = `${año}-${mes}-${dia}`;
-                console.log("fechaOriginal", fechaFormateada);
+                const fechaFormateadaHasta = `${añoHasta}-${mesHasta}-${diaHasta}`;
+
+                console.log("DESDE", fechaFormateada);
+                console.log("HASTA", fechaFormateadaHasta);
+
                 setSelectedFromDate(fechaFormateada);
+                setSelectedToDate(fechaFormateadaHasta);
+
                 filterProductsByDate(fechaFormateada, selectedToDate);
               }}
             />
-          </IonBreadcrumb>
-          <IonBreadcrumb>
-            Fecha final:
-            <DatePicker
-              value={selectedToDate}
-              onChange={(e) => {
-                const fechaOriginal = new Date(e.$d);
-                const año = fechaOriginal.getFullYear();
-                const mes = (fechaOriginal.getMonth() + 1)
-                  .toString()
-                  .padStart(2, "0"); // Agrega un 0 si es necesario
-                const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
-                const fechaFormateada = `${año}-${mes}-${dia}`;
-                console.log("fechaOriginal", fechaFormateada);
-                setSelectedToDate(fechaFormateada);
-                filterProductsByDate(selectedFromDate, fechaFormateada);
-              }}
-            />
-          </IonBreadcrumb>
+          </div>
+          {(products.length > 0 && selectedMonth === "allYear" && (
+            <div className="containerGastoMes">
+              <IonNote>Total: ${calcularGastoDelMes()}</IonNote>
+            </div>
+          )) ||
+            (selectedMonth === "" && (
+              <div className="containerGastoMes">
+                <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
+              </div>
+            ))}
+          {selectedMonth !== "allYear" && selectedMonth !== "" ? (
+            <div className="containerGastoMes">
+              <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
+            </div>
+          ) : null}
         </div>
-      </div>
-      <TableContainer component={Paper} className="tableCompras">
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Fecha</TableCell>
+        <TableContainer component={Paper} className="tableCompras">
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Fecha</TableCell>
 
-              <TableCell>Costo</TableCell>
-              <TableCell>Concepto</TableCell>
+                <TableCell>Costo</TableCell>
+                <TableCell>Concepto</TableCell>
 
-              <TableCell>Detalle</TableCell>
-              <TableCell>Valor ARS</TableCell>
+                <TableCell>Detalle</TableCell>
+                <TableCell>Valor ARS</TableCell>
 
-              {/*      <TableCell >
+                {/*      <TableCell >
                 <IonIcon icon={options}></IonIcon>
               </TableCell> */}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Array.isArray(filteredProducts) &&
-              filteredProducts.map((row, index) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>{row.fecha}</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Array.isArray(filteredProducts) &&
+                filteredProducts.map((row, index) => (
+                  <TableRow
+                    key={row.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell>{row.fecha}</TableCell>
 
-                  <TableCell>{row.catalogo_costo.costo}</TableCell>
-                  {/*                   <TableCell component="th" scope="row" >
+                    <TableCell>{row.catalogo_costo.costo}</TableCell>
+                    {/*                   <TableCell component="th" scope="row" >
                     {row.unidades}
                   </TableCell> */}
 
-                  <TableCell>{row.catalogo_costo.concepto}</TableCell>
+                    <TableCell>{row.catalogo_costo.concepto}</TableCell>
 
-                  <TableCell>{row.detalle}</TableCell>
+                    <TableCell>{row.detalle}</TableCell>
 
-                  <TableCell onClick={() => console.log("clic on table")}>
-                    {row.valor}
-                  </TableCell>
-                  {/*                   <TableCell >
+                    <TableCell onClick={() => console.log("clic on table")}>
+                      {row.valor}
+                    </TableCell>
+                    {/*                   <TableCell >
                     <Button>
                       <div>
                         <IonIcon
@@ -343,11 +342,12 @@ export default function BasicTable({
                       </div>
                     </Button>
                   </TableCell> */}
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
     </>
   );
 }

@@ -1,0 +1,54 @@
+.contentAltaProducto {
+    border: solid 1px $selected;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100px;
+    align-items: center;
+    background-color: $light;
+
+    .badgetNavs {
+        width: 100%;
+        margin: 5px;
+    }
+
+    ion-badge {
+        margin: 5px;
+    }
+
+    img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border: solid 1px $selected;
+        margin: 4px;
+
+    }
+
+    .ant-select {
+        min-width: 190px;
+        height: 30px;
+    }
+
+    ion-icon {
+        color: $contrast;
+        min-width: 40px;
+        min-height: 40px;
+    }
+
+
+    .ant-input-affix-wrapper {
+        max-width: 190px;
+        height: 30px;
+
+    }
+
+    button {
+        max-width: 190px;
+        height: 30px;
+
+    }
+
+
+
+
+}

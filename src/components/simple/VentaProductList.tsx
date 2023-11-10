@@ -8,14 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces/index";
-import { IonIcon } from "@ionic/react";
+import { IonBadge, IonIcon } from "@ionic/react";
 import { menu } from "ionicons/icons";
-import { Input, Menu, MenuItem } from "@mui/material";
+import { Menu, MenuItem } from "@mui/material";
 import ModalList from "./Modals";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
-import CargaProductos from "../gestiones/CargaProductos";
-import { Image } from "react-bootstrap";
+import { Input } from "antd";
 
 export default function BasicTable({
   closeModal,
@@ -75,19 +74,19 @@ export default function BasicTable({
         setShowModal(true);
         setConfigModal({
           ...configModal,
-          bodyReq: "Deseas eliminar este material?",
-          tittle: "Eliminar material",
-          action: "deleteMaterial",
+          bodyReq: "Deseas eliminar este producto?",
+          tittle: "Eliminar Producto",
+          action: "deleteProduct",
         });
 
         break;
-      case "editMaterial":
+      case "editProduct":
         setShowModal(true);
         setConfigModal({
           ...configModal,
-          bodyReq: "Editar material?",
-          tittle: "Editar material",
-          action: "editMaterial",
+          bodyReq: "Editar producto?",
+          tittle: "Editar Producto",
+          action: "editProduct",
         });
 
         break;
@@ -99,28 +98,45 @@ export default function BasicTable({
           tittle: "Comprar material",
           action: "buyMaterial",
         });
+
+      case "deleteProduct":
+        setShowModal(true);
+        setConfigModal({
+          ...configModal,
+          bodyReq: "Eliminar producto?",
+          tittle: "Eliminar producto",
+          action: "deleteProduct",
+        });
       default:
         break;
     }
   };
   React.useEffect(() => {
-    productService.ListarProductos().then((data) => {
-      setFilteredProducts(data);
-      setProducts(data);
+    productService.ListarProductos().then((data: any) => {
+      const filteredData = data.filter(
+        (product: any) => product.descripcion !== "hide"
+      );
+
+      setFilteredProducts(filteredData);
+      setProducts(filteredData);
     });
   }, [refresh]);
 
-  Array.isArray(filteredProducts) &&
-    filteredProducts.map((row, index) => {
-      console.log("ROW", row);
-    });
+  Array.isArray(filteredProducts) && filteredProducts.map((row, index) => {});
   return (
     <>
-      {/*       <CargaProductos />
-       */}{" "}
       {showMopdal && (
         <ModalList
-          closeModal={setShowModal}
+          closeModal={() => {
+            setShowModal(false);
+            handleClose();
+            setConfigModal({
+              action: "",
+              tittle: "",
+              bodyReq: "",
+              element: null,
+            });
+          }}
           action={todo}
           tittle="Eliminar material?"
           bodyReq={`eliminar?`}
@@ -128,120 +144,116 @@ export default function BasicTable({
           configModal={configModal}
         />
       )}
-      <div className="search-container">
-        <Input
-          type="text"
-          placeholder="Buscar productos..."
-          value={search}
-          onChange={handleSearch}
-        />
-      </div>
-      {Array.isArray(filteredProducts) && filteredProducts.length > 0 && (
-        <TableContainer component={Paper} className="tableMateriales">
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Imagen</TableCell>
-                <TableCell>Descripción</TableCell>
-                <TableCell>Medida</TableCell>
-                <TableCell>Categoria</TableCell>
-                <TableCell>Tipo</TableCell>
+      <div className="reportProductosContent">
+        <IonBadge> Reporte de productos</IonBadge>
+        <div className="search-container">
+          <Input
+            type="text"
+            placeholder="Buscar productos..."
+            value={search}
+            onChange={handleSearch}
+          />
+        </div>
+        {Array.isArray(filteredProducts) && filteredProducts.length > 0 && (
+          <TableContainer component={Paper} className="tableProductos">
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Imagen</TableCell>
+                  <TableCell>Descripción</TableCell>
+                  <TableCell>Medida</TableCell>
+                  <TableCell>Categoria</TableCell>
+                  <TableCell>Tipo</TableCell>
 
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {Array.isArray(filteredProducts) &&
-                filteredProducts.map((row, index) => (
-                  <TableRow
-                    key={row.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell>
-                      <img
-                        src={`data:image/jpeg;base64,${row.imagenes[0].blobImage}`}
-                        className="imgListProduct"
-                      ></img>
-                    </TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {Array.isArray(filteredProducts) &&
+                  filteredProducts.map((row, index) => (
+                    <TableRow
+                      key={row.id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell>
+                        <img
+                          src={`data:image/jpeg;base64,${row.imagenes[0].blobImage}`}
+                          className="imgListProduct"
+                        ></img>
+                      </TableCell>
 
-                    <TableCell>{row.descripcion}</TableCell>
-                    {/*                 <TableCell onClick={() => console.log("clic on table")}>
+                      <TableCell>{row.descripcion}</TableCell>
+                      {/*                 <TableCell onClick={() => console.log("clic on table")}>
                     {row.unidadMedida.unidadMedida}
                   </TableCell> */}
-                    <TableCell>
-                      {row.medida} {row.unidadMedida.unidadMedida}
-                    </TableCell>
-                    <TableCell>{row.producto.categoria.detalle}</TableCell>
-                    <TableCell>{row.producto.descripcion}</TableCell>
+                      <TableCell>
+                        {row.medida} {row.unidadMedida.unidadMedida}
+                      </TableCell>
+                      <TableCell>{row.producto.categoria.detalle}</TableCell>
+                      <TableCell>{row.producto.descripcion}</TableCell>
 
-                    <TableCell>
-                      <div>
-                        <IonIcon
-                          size="small"
-                          icon={menu}
-                          onClick={(e: any) => {
-                            handleClick(e);
-                            setElement(row);
-                            setConfigModal({
-                              ...configModal,
-                              element: row,
-                            });
-                          }}
-                        ></IonIcon>
-                        <Menu
-                          id="basic-menu"
-                          anchorEl={anchorEl}
-                          open={open}
-                          onClose={handleClose}
-                          MenuListProps={{
-                            "aria-labelledby": "basic-button",
-                          }}
-                        >
-                          <MenuItem
-                            onClick={(e) => {
-                              setTodo("editMaterial");
+                      <TableCell>
+                        <div>
+                          <IonIcon
+                            size="small"
+                            icon={menu}
+                            onClick={(e: any) => {
+                              setElement(row);
                               setConfigModal({
                                 ...configModal,
-                                action: "editMaterial",
+                                element: row,
                               });
-                              handleAction(e, "editMaterial", row);
+                              // Establece `anchorEl` en el elemento que activa el menú
+                              setAnchorEl(e.currentTarget);
+                            }}
+                          ></IonIcon>
+                          <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                              "aria-labelledby": "basic-button",
                             }}
                           >
-                            Editar
-                          </MenuItem>
-                          <MenuItem
-                            onClick={(e) => {
-                              setTodo("buyMaterial");
-                              setConfigModal({
-                                ...configModal,
-                                action: "buyMaterial",
-                              });
-                              handleAction(e, "buyMaterial", row);
-                            }}
-                          >
-                            Comprar
-                          </MenuItem>
-                          <MenuItem
-                            onClick={(e) => {
-                              setTodo("deleteMaterial");
-                              setConfigModal({
-                                ...configModal,
-                                action: "deleteMaterial",
-                              });
-                              handleAction(e, "deleteMaterial", row);
-                            }}
-                          >
-                            Eliminar
-                          </MenuItem>
-                        </Menu>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+                            <MenuItem
+                              onClick={(e) => {
+                                setTodo("editProduct");
+                                setConfigModal({
+                                  ...configModal,
+                                  action: "editProduct",
+                                });
+                                handleAction(e, "editProduct", row);
+                                // Cierra el menú después de seleccionar la opción
+                                handleClose();
+                              }}
+                            >
+                              Editar
+                            </MenuItem>
+                            <MenuItem
+                              onClick={(e) => {
+                                setTodo("deleteProduct");
+                                setConfigModal({
+                                  ...configModal,
+                                  action: "deleteProduct",
+                                });
+                                handleAction(e, "deleteProduct", row);
+                                // Cierra el menú después de seleccionar la opción
+                                handleClose();
+                              }}
+                            >
+                              Eliminar
+                            </MenuItem>
+                          </Menu>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </div>
     </>
   );
 }

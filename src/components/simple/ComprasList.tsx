@@ -15,7 +15,8 @@ import { Menu, MenuItem, Select } from "@mui/material";
 import { Input } from "antd";
 import ModalList from "./Modals";
 import axios from "axios";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker, Space } from "antd";
+const { RangePicker } = DatePicker;
 
 export default function BasicTable({
   closeModal,
@@ -149,11 +150,12 @@ export default function BasicTable({
   const calcularGastoDelMes = () => {
     let totalExpense = 0;
     Array.isArray(filteredProducts) &&
-      filteredProducts.forEach((product: any) => {
-        // Verificar que precioPesos sea un número
+      filteredProducts.forEach((product) => {
+        // Asegurarse de que precioPesos y unidades sean números
         const price = parseFloat(product.precioPesos);
-        if (!isNaN(price)) {
-          totalExpense += price;
+        const units = parseInt(product.unidades);
+        if (!isNaN(price) && !isNaN(units)) {
+          totalExpense += price * units; // Multiplicar precio por unidades
         }
       });
 
@@ -168,9 +170,6 @@ export default function BasicTable({
     });
   }, []);
 
-  console.log("filteredProducts", filteredProducts);
-
-  console.log("COMPRAS REALIZADAS:", products);
   return (
     <>
       {showMopdal && (
@@ -183,6 +182,12 @@ export default function BasicTable({
           configModal={configModal}
         />
       )}
+
+      <div className="reporteComprasContainer">
+        <IonBadge>
+          Reporte de compras
+        </IonBadge>
+
       <div className="search-container">
         <Input
           type="text"
@@ -209,24 +214,42 @@ export default function BasicTable({
         <div className="dateInputsContainer">
           <IonBreadcrumb>
             Fecha inicial:
-            <DatePicker
-              value={selectedFromDate}
+
+            
+            <RangePicker
               className="datePickerCatalog"
               onChange={(e) => {
-                const fechaOriginal = new Date(e.$d);
+                console.log("eeeRangepicker", e);
+                const fechaOriginal = new Date(e[0].$d);
+                const fechaHasta = new Date(e[1].$d);
+
                 const año = fechaOriginal.getFullYear();
-                const mes = (fechaOriginal.getMonth() + 1)
+                const añoHasta = fechaHasta.getFullYear();
+
+                const mes = fechaOriginal.getMonth() + 1;
+                const mesHasta = (fechaHasta.getMonth() + 1)
                   .toString()
                   .padStart(2, "0"); // Agrega un 0 si es necesario
                 const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+                const diaHasta = fechaHasta
+                  .getDate()
+                  .toString()
+                  .padStart(2, "0"); // Agrega un 0 si es necesario
+
                 const fechaFormateada = `${año}-${mes}-${dia}`;
+                const fechaFormateadaHasta = `${añoHasta}-${mesHasta}-${diaHasta}`;
+
                 console.log("DESDE", fechaFormateada);
+                console.log("HASTA", fechaFormateadaHasta);
+
                 setSelectedFromDate(fechaFormateada);
+                setSelectedToDate(fechaFormateadaHasta);
+
                 filterProductsByDate(fechaFormateada, selectedToDate);
               }}
             />
           </IonBreadcrumb>
-          <IonBreadcrumb>
+          {/*           <IonBreadcrumb>
             Fecha final:
             <DatePicker
               value={selectedToDate}
@@ -242,7 +265,7 @@ export default function BasicTable({
                 filterProductsByDate(selectedFromDate, fechaFormateada);
               }}
             />
-          </IonBreadcrumb>
+          </IonBreadcrumb> */}
         </div>
       </div>
       <TableContainer component={Paper} className="tableCompras">
@@ -283,11 +306,11 @@ export default function BasicTable({
                   <TableCell>{row.unidades}</TableCell>
 
                   <TableCell>{row.cotizacion.conversion}</TableCell>
-                  <TableCell onClick={() => console.log("clic on table")}>
-                    {row.precioPesos}
-                  </TableCell>
-                  <TableCell onClick={() => console.log("clic on table")}>
-                    {row.precioPesos * row.unidades}
+                  <TableCell>{row.precioPesos}</TableCell>
+                  <TableCell>
+                    <TableCell>
+                      {(row.precioPesos * row.unidades).toFixed(2)}
+                    </TableCell>
                   </TableCell>
                   {/*                   <TableCell >
                     <Button>
@@ -357,6 +380,8 @@ export default function BasicTable({
           </TableBody>
         </Table>
       </TableContainer>
+      </div>
+
     </>
   );
 }
