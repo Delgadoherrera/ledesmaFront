@@ -64,6 +64,7 @@ const items: MenuItem[] = [
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
+  const [openKeys, setOpenKeys] = useState(['sub1', 'sub2', 'sub3']);
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -80,7 +81,7 @@ const App: React.FC = () => {
       </Button>
       <Menu
         defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
+        defaultOpenKeys={openKeys}
         mode="inline"
         theme="light"
         inlineCollapsed={collapsed}

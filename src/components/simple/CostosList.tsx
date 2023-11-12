@@ -25,12 +25,12 @@ import {
   refresh,
   remove,
 } from "ionicons/icons";
-import { Button } from "primereact/button";
 import { Alert, AlertTitle, Input, Menu, MenuItem } from "@mui/material";
 import ModalList from "./Modals";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
 import { InputText } from "primereact/inputtext";
+import { Button } from "antd";
 
 export default function BasicTable({
   elementCombo,
@@ -242,7 +242,7 @@ export default function BasicTable({
         </Table>
         {elementCombo.length > 0 ? (
           <div className="comboBoxBottom">
-            <IonButton
+            <Button
               id="present-alert"
               onClick={(e) => {
                 const prices = Object.fromEntries(
@@ -256,7 +256,7 @@ export default function BasicTable({
               }}
             >
               Guardar
-            </IonButton>
+            </Button>
           </div>
         ) : null}
       </TableContainer>

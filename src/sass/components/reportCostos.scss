@@ -1,0 +1,33 @@
+.reporteCostosContent {
+    background-color: $light;
+
+    ion-badge {
+        margin: 10px;
+    }
+
+    .navContentReportCostos {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 20px;
+
+        .datePickerCatalog {
+            width: 200px;
+        }
+
+        input-antd {
+            background-color: yellow;
+        }
+    }
+
+    /*     display: flex;
+ */
+}
+
+.searchCostos {}
+
+.search-container-costos {
+    margin: 10px;
+    border-radius: 10px;
+
+}

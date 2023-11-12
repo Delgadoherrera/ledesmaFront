@@ -183,6 +183,7 @@ export default function BasicTable({
       )}
       <div className="reporteCostosContent">
         <IonBadge> Reporte de costos</IonBadge>
+        <div className="navContentReportCostos">
         <div className="search-container">
           <Input
             type="text"
@@ -191,7 +192,6 @@ export default function BasicTable({
             onChange={handleSearch}
           />
 
-          <div className="dateInputsContainer">
             <RangePicker
               className="datePickerCatalog"
               onChange={(e) => {
@@ -225,6 +225,7 @@ export default function BasicTable({
               }}
             />
           </div>
+       
           {(products.length > 0 && selectedMonth === "allYear" && (
             <div className="containerGastoMes">
               <IonNote>Total: ${calcularGastoDelMes()}</IonNote>

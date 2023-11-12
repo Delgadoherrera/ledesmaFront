@@ -142,12 +142,13 @@ export default function BasicTable({
           configModal={configModal}
         />
       )}
-      <div className="search-container">
+      <div className="search-container-costos">
         <Input
           type="text"
           placeholder="Buscar costos..."
           value={search}
           onChange={handleSearch}
+          className="searchCostos"
         />
       </div>
       {Array.isArray(filteredProducts) && filteredProducts.length > 0 && (

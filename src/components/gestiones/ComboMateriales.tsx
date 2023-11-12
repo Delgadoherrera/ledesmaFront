@@ -124,7 +124,7 @@ export default function MultipleSelect() {
           </>
         )}
 
-        <IonBadge>Unidades:</IonBadge>
+        <IonNote>Unidades:  </IonNote>
         <Input
           type="number"
           value={materialQuantity}
@@ -136,7 +136,7 @@ export default function MultipleSelect() {
           }}
         />
 
-        <IonBadge>Precio unidad: $</IonBadge>
+        <IonNote>Precio unidad: $</IonNote>
         <Input
           type="number"
           value={materialValue}

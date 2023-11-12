@@ -108,9 +108,8 @@ export default function CargaMateriales() {
           { value: "Uni", label: "Unidades" },
           // Agrega más opciones según sea necesario
         ]}
-        value={values.unidadMedida} // Usa el estado para el valor seleccionado
         onChange={(e) => setValues({ ...values, unidadMedida: e })}
-        placeholder={"Unidad"}
+        placeholder={"Unidad de medida"}
       />
       <Input
         placeholder="Medida"
