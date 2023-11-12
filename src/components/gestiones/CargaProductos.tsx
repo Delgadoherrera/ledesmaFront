@@ -30,6 +30,8 @@ import { Image } from "react-bootstrap";
 import { Button, Input, List, Select } from "antd";
 import { ListItem } from "@mui/material";
 import { StickyNote2 } from "@mui/icons-material";
+import { Upload } from 'antd';
+import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 
 export default function CargaMateriales() {
   const [values, setValues] = useState<Materiales>({
@@ -58,6 +60,33 @@ export default function CargaMateriales() {
   const [items, setItems] = React.useState<any>([]);
   const [categoria, setCategoria] = useState<any>(null);
   const [type, setType] = useState<any>(null);
+  const [fileList, setFileList] = useState<UploadFile[]>([
+    {
+      uid: '-1',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.',
+    },
+  ]);
+
+  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+
+  const onPreview = async (file: UploadFile) => {
+    let src = file.url as string;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj as RcFile);
+        reader.onload = () => resolve(reader.result as string);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
   const takePicture = async () => {
     const image = await Camera.getPhoto({
       quality: 50,
@@ -67,6 +96,10 @@ export default function CargaMateriales() {
     dispatch(imageValue(image || 10));
     setImg(image.base64String ? image.base64String : "");
   };
+  useEffect(()=>{
+      console.log('filesList',fileList)
+
+  },[fileList])
 
   const limpiarFormulario = () => {
     setValues({
@@ -92,9 +125,9 @@ export default function CargaMateriales() {
   }, [selectedCategory]);
 
   const handleSend = async () => {
-    if (img === "") {
+/*     if (img === "") {
       return console.log("ingrese una imagen para continuar...");
-    }
+    } */
     if (values.descripcion.length < 1) {
       return console.log("ingrese una descripcion para continuar...");
     }
@@ -117,6 +150,7 @@ export default function CargaMateriales() {
       detalle: selectedCategory,
       categoria: selectedCategory.value,
       categoriaId: selectedType,
+      imagenes: fileList
     };
     try {
       const response = await productService.AgregarProducto(data);
@@ -173,11 +207,14 @@ export default function CargaMateriales() {
                 onClick={() => takePicture()}
               />
             ) : (
-              <Image
-                src={emptyImage}
-                className="addPhotoPic"
-                onClick={() => takePicture()}
-              />
+              <Upload
+              action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+              listType="picture-card"
+              onChange={onChange}
+              onPreview={onPreview}
+            >
+              {fileList.length < 5 && '+ Imagen'}
+            </Upload>
             )}
             {/*       <IonIcon
               icon={camera}

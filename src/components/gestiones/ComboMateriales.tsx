@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,9 +21,8 @@ import {
 import { Typography } from "@mui/material";
 import { components } from "react-select";
 import add from "../../assets/icons/add-circle-svgrepo-com(1).svg";
-import { Button } from "react-bootstrap";
-import { refreshThis } from "../../features/dataReducer/dataReducer";
-import { Input, Select } from "antd";
+import { dialogAdvText, dialogText, refreshThis, showDialogAdv } from "../../features/dataReducer/dataReducer";
+import { Button, Input, Select } from "antd";
 import {
   addCircle,
   addCircleOutline,
@@ -30,28 +30,85 @@ import {
   addOutline,
 } from "ionicons/icons";
 import { addIcons } from "ionicons";
-import { AddAPhoto } from "@mui/icons-material";
+import { AddAPhoto, VoiceChat } from "@mui/icons-material";
+import Icon from "@ant-design/icons/lib/components/Icon";
+import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
+import Dialog from "../simple/DialogAdv";
 
 export default function MultipleSelect() {
-  const [materiales, setMateriales] = React.useState<Materiales[]>([]);
-  const [resetSelects, setResetSelects] = React.useState(false);
+  const [materiales, setMateriales] = useState<Materiales[]>([]);
+  const [resetSelects, setResetSelects] = useState(false);
   const productService = new ProductServices();
-  const [selectedUnit, setSelectedUnit] = React.useState<string | null>(null);
-  const [materialValue, setMaterialValue] = React.useState<string>("");
-  const [materialQuantity, setMaterialQuantity] = React.useState<string>("");
-  const [elementCombo, setElementCombo] = React.useState<
+  const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
+  const [materialValue, setMaterialValue] = useState<string>("");
+  const [materialQuantity, setMaterialQuantity] = useState<string>("");
+  const [elementCombo, setElementCombo] = useState<
     Array<{ material: Materiales; precio: string; cantidad: string }>
   >([]);
   const refresh = useSelector(
     (refreshThis: any) => refreshThis.counter.refreshThis
   );
-  const [selectedDescription, setSelectedDescription] = React.useState<
-    string | null
-  >(null);
-  const [selectedMeasure, setSelectedMeasure] = React.useState<string | null>(
+  const [selectedDescription, setSelectedDescription] = useState<string | null>(
     null
   );
-  const [refreshSelect, setRefreshSelect] = React.useState(true);
+  const [selectedMeasure, setSelectedMeasure] = useState<string | null>(null);
+  const [refreshSelect, setRefreshSelect] = useState(true);
+  const [dialog,setShowDialog]=useState(false)
+  const dispatch = useDispatch()
+
+  const handleAddMaterial = () => {
+    if (
+      selectedDescription &&
+      selectedMeasure &&
+      materialValue &&
+      materialQuantity
+    ) {
+      const selectedMaterial: any = materiales.find(
+        (material) =>
+          material.descripcion === selectedDescription &&
+          material.medida === selectedMeasure
+      );
+
+      if (selectedMaterial) {
+        // Verificar si el elemento ya existe en elementCombo
+        const alreadyExists = elementCombo.find((item) => {
+          return (
+            item.material.descripcion === selectedDescription &&
+            item.material.medida === selectedMeasure
+          );
+        });
+
+        if (alreadyExists) {
+          console.log("El elemento ya existe en la lista.");
+        } else {
+          const materialWithPriceAndQuantity = {
+            material: selectedMaterial,
+            precio: materialValue,
+            cantidad: materialQuantity,
+          };
+
+          // Agregar el nuevo material con precio y cantidad al arreglo existente en lugar de reemplazarlo
+          setElementCombo([...elementCombo, materialWithPriceAndQuantity]);
+
+          // Limpiar los selects y los valores de entrada
+          setSelectedDescription(null);
+          setSelectedMeasure(null);
+          setMaterialValue("");
+          setMaterialQuantity("");
+          setRefreshSelect(false);
+        }
+      } else {
+        console.log("No se encontró el elemento seleccionado.");
+      }
+    } else {
+      // Mostrar el Dialog con un mensaje de error porque falta algún campo
+      console.log("Falta completar algún campo.");
+      dispatch(showDialogAdv(true))
+      dispatch(dialogText('Faltan completar campos'))
+      // Aquí puedes mostrar el Dialog con el mensaje de error
+    }
+  };
+
 
   React.useEffect(() => {
     productService.ListarMateriales().then((data: Materiales[]) => {
@@ -91,7 +148,6 @@ export default function MultipleSelect() {
     }
   }, [refreshSelect]);
 
-
   return (
     <div className="compraMaterialesContent">
       <IonBadge> Compra de materiales</IonBadge>
@@ -124,7 +180,7 @@ export default function MultipleSelect() {
           </>
         )}
 
-        <IonNote>Unidades:  </IonNote>
+        <IonNote>Unidades: </IonNote>
         <Input
           type="number"
           value={materialQuantity}
@@ -147,62 +203,9 @@ export default function MultipleSelect() {
             }
           }}
         />
-        <IonBadge>
-          <IonIcon
-            onClick={() => {
-              if (
-                selectedDescription &&
-                selectedMeasure &&
-                materialValue &&
-                materialQuantity
-              ) {
-                const selectedMaterial: any = materiales.find(
-                  (material) =>
-                    material.descripcion === selectedDescription &&
-                    material.medida === selectedMeasure
-                );
-
-                if (selectedMaterial) {
-                  // Verificar si el elemento ya existe en elementCombo
-                  const alreadyExists = elementCombo.find((item) => {
-                    return (
-                      item.material.descripcion === selectedDescription &&
-                      item.material.medida === selectedMeasure
-                    );
-                  });
-
-                  if (alreadyExists) {
-                    console.log("El elemento ya existe en la lista.");
-                  } else {
-                    const materialWithPriceAndQuantity = {
-                      material: selectedMaterial,
-                      precio: materialValue,
-                      cantidad: materialQuantity,
-                    };
-
-                    // Agregar el nuevo material con precio y cantidad al arreglo existente en lugar de reemplazarlo
-                    setElementCombo([
-                      ...elementCombo,
-                      materialWithPriceAndQuantity,
-                    ]);
-
-                    // Limpiar los selects y los valores de entrada
-                    setSelectedDescription(null); // Restablecer selectedDescription a null
-                    setSelectedMeasure(null); // Restablecer selectedMeasure a null
-                    setMaterialValue("");
-                    setMaterialQuantity("");
-                    setRefreshSelect(false);
-                  }
-                } else {
-                  console.log("No se encontró el elemento seleccionado.");
-                }
-              }
-            }}
-            icon={addOutline}
-            size="large"
-            color="white"
-          ></IonIcon>
-        </IonBadge>
+        <Button onClick={handleAddMaterial} icon={<PlusOutlined />}>
+        Agregar
+      </Button>
       </div>
 
       <ComboList elementCombo={elementCombo} setElementCombo={emptyList} />

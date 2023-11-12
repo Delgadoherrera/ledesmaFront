@@ -6,13 +6,17 @@ interface DataState {
   openMenu: boolean;
   file: string;
   mainMenuOpt:string;
+  showDialogAdv:boolean;
+  dialogText:string;
 }
 
 const initialState: DataState = {
   refreshThis: false,
   openMenu: false,
   file: "",
-  mainMenuOpt:""
+  mainMenuOpt:"",
+  showDialogAdv:false,
+  dialogText:""
 };
 
 const dataReducer = createSlice({
@@ -20,11 +24,11 @@ const dataReducer = createSlice({
   initialState,
   reducers: {
     refreshThis: (state, action: PayloadAction<any>) => {
-      console.log("REFRESCANDO,", action.payload);
+      console.log("refreshThis,", action.payload);
       state.refreshThis = action.payload;
     },
     openMenu: (state, action: PayloadAction<any>) => {
-      console.log("REFRESCANDO,", action.payload);
+      console.log("openMenu,", action.payload);
       state.openMenu = action.payload;
     },
     imageValue: (state, action: PayloadAction<any>) => {
@@ -35,16 +39,28 @@ const dataReducer = createSlice({
       console.log("menuSeleccionado:", action.payload);
       state.mainMenuOpt = action.payload;
     },
+    showDialogAdv: (state, action: PayloadAction<any>) => {
+      console.log("showDialogAdv:", action.payload);
+      state.showDialogAdv = action.payload;
+    },
+    dialogText: (state, action: PayloadAction<any>) => {
+      console.log("dialogText:", action.payload);
+      state.dialogText = action.payload;
+    },
   },
 });
 
-export const { refreshThis, openMenu, imageValue , menuSelect} = dataReducer.actions;
+export const { refreshThis, openMenu, imageValue , menuSelect, showDialogAdv,dialogText} = dataReducer.actions;
 
 const selectCounterState = (state: { counter: DataState }) => state.counter;
 
 export const selectCount = createSelector(
   [selectCounterState],
   (counter) => counter.refreshThis
+);
+export const dialogAdvText = createSelector(
+  [selectCounterState],
+  (counter) => counter.dialogText
 );
 export const imagen = createSelector(
   [selectCounterState],
@@ -53,6 +69,10 @@ export const imagen = createSelector(
 export const isOpenMenu = createSelector(
   [selectCounterState],
   (counter) => counter.openMenu
+);
+export const openAdv = createSelector(
+  [selectCounterState],
+  (counter) => counter.showDialogAdv
 );
 export const menuSelectOpt = createSelector(
   [selectCounterState],

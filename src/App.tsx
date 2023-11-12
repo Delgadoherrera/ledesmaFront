@@ -35,22 +35,29 @@ import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuAnt from "./components/MenuAntd";
 import ExploreContainer from "./components/Stock";
 import { Header } from "antd/es/layout/layout";
 import LedesmaLogo from "./assets/icons/e2617862-caa8-4f65-a61c-319d6c474b85.png";
 import { Avatar } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { menuSelectOpt } from "./features/dataReducer/dataReducer";
+import { menuSelectOpt, openAdv, showDialogAdv } from "./features/dataReducer/dataReducer";
+import {dialogAdvText,dialogText} from './features/dataReducer/dataReducer'
+import Dialog from "./components/simple/DialogAdv";
 
 setupIonicReact();
 
 const App: React.FC = () => {
   const isDarkMode = false; // Siempre en modo claro
   const name = useSelector(menuSelectOpt);
+  const dialog = useSelector(openAdv)
+  const dispatch = useDispatch()
 
-  console.log("namenamename", name);
+  useEffect(()=>{
+    console.log('dialogg',dialog)
+
+  },[dialog])
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -61,12 +68,13 @@ const App: React.FC = () => {
           <IonPage
             style={{ display: "flex", flexDirection: "row", width: "100%" }}
           >
+            {dialog && <Dialog />}
             <MenuAnt />
 
             <IonContent
               style={{ display: "flex", flexDirection: "row", width: "100%" }}
             >
-    {/*           <Header>
+              {/*           <Header>
                 {" "}
                 <IonBreadcrumb>{name}</IonBreadcrumb  >
               </Header> */}

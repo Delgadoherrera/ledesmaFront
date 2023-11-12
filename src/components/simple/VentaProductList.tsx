@@ -14,7 +14,8 @@ import { Menu, MenuItem } from "@mui/material";
 import ModalList from "./Modals";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
-import { Input } from "antd";
+import { Avatar, Input } from "antd";
+import { VerifiedUserOutlined } from "@mui/icons-material";
 
 export default function BasicTable({
   closeModal,
@@ -176,10 +177,19 @@ export default function BasicTable({
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell>
-                        <img
-                          src={`data:image/jpeg;base64,${row.imagenes[0].blobImage}`}
-                          className="imgListProduct"
-                        ></img>
+                        <div className="imagenesContainerProductsList">
+                          {row.imagenes.map((imagen, index) => (
+                            <Avatar
+                              shape="square"
+                              size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
+                              icon={<VerifiedUserOutlined/>}
+                              key={index}
+                              src={imagen.blobImage}
+                              className="imgListProduct"
+                              alt={`Imagen ${index}`}
+                            />
+                          ))}
+                        </div>
                       </TableCell>
 
                       <TableCell>{row.descripcion}</TableCell>
