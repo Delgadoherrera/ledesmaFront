@@ -14,7 +14,20 @@ $primary: rgba(88, 211, 149, 0.185);
 $light : rgba(196, 196, 196, 0.082);
 
 
+.containerGastoMes{
+    color: $contrast;
+    
+}
+.ant-badge {
+    padding: 5px;
+    border-radius: 10px;
+    margin: 5px;
 
+    input{
+        margin: 5px;
+    }
+
+}
 
 header {
     background-color: rgba(142, 143, 223, 0.11) !important;

@@ -18,11 +18,16 @@ import { menuSelectOpt } from "../features/dataReducer/dataReducer";
 import CargarProductos from "./gestiones/CargaProductos";
 import CategoriasList from "./simple/ProductList";
 import VentaProductList from "./simple/VentaProductList";
+import Calendario from './complex/Calendario'
+import Listas from '../components/simple/Listas'
 const ExploreContainer: React.FC<any> = () => {
   const name = useSelector(menuSelectOpt);
   const [tabSelected, setTabSelected] = useState("");
 
-  useEffect(() => {}, [tabSelected, name]);
+  useEffect(() => {
+
+    console.log('CalendarioCalendario',name,tabSelected)
+  }, [tabSelected, name]);
 
   const a = (a: any) => {
     console.log("a", a);
@@ -57,7 +62,12 @@ const ExploreContainer: React.FC<any> = () => {
 
       {name === "Categorias y tipos" && <CargaCategorias />}
 
-      {name === "Reporte de productos" && <VentaProductList closeModal={a} />}
+{/*       {name === "Reporte de productos" && <VentaProductList closeModal={a} />}
+ */}      {name === "Reporte de productos" && <Listas  />}
+
+
+      {name === "Calendario" && <Calendario />}
+
     </>
   );
 };

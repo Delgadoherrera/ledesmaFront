@@ -21,8 +21,13 @@ import {
 import { Typography } from "@mui/material";
 import { components } from "react-select";
 import add from "../../assets/icons/add-circle-svgrepo-com(1).svg";
-import { dialogAdvText, dialogText, refreshThis, showDialogAdv } from "../../features/dataReducer/dataReducer";
-import { Button, Input, Select } from "antd";
+import {
+  dialogAdvText,
+  dialogText,
+  refreshThis,
+  showDialogAdv,
+} from "../../features/dataReducer/dataReducer";
+import { Badge, Button, Input, Select } from "antd";
 import {
   addCircle,
   addCircleOutline,
@@ -53,9 +58,16 @@ export default function MultipleSelect() {
   );
   const [selectedMeasure, setSelectedMeasure] = useState<string | null>(null);
   const [refreshSelect, setRefreshSelect] = useState(true);
-  const [dialog,setShowDialog]=useState(false)
-  const dispatch = useDispatch()
+  const [dialog, setShowDialog] = useState(false);
+  const [campoFaltante, setCampoFaltante] = useState<string | null>(null);
+  const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    if (campoFaltante !== null) {
+      dispatch(showDialogAdv(true));
+      dispatch(dialogText(`Falta completar el campo: ${campoFaltante}`));
+    }
+  }, [campoFaltante]);
   const handleAddMaterial = () => {
     if (
       selectedDescription &&
@@ -101,14 +113,18 @@ export default function MultipleSelect() {
         console.log("No se encontró el elemento seleccionado.");
       }
     } else {
-      // Mostrar el Dialog con un mensaje de error porque falta algún campo
-      console.log("Falta completar algún campo.");
-      dispatch(showDialogAdv(true))
-      dispatch(dialogText('Faltan completar campos'))
-      // Aquí puedes mostrar el Dialog con el mensaje de error
+      if (!selectedDescription) {
+        setCampoFaltante("Material");
+      } else if (!selectedMeasure) {
+        setCampoFaltante("Medida");
+      } else if (!materialQuantity) {
+        setCampoFaltante("Unidades");
+      } else if (!materialValue) {
+        setCampoFaltante("Precio unidad");
+      }
+      dispatch(showDialogAdv(true));
     }
   };
-
 
   React.useEffect(() => {
     productService.ListarMateriales().then((data: Materiales[]) => {
@@ -117,19 +133,19 @@ export default function MultipleSelect() {
   }, [refresh]);
 
   // Obtener descripciones únicas
-  const uniqueDescriptions = [
-    ...new Set(materiales.map((material) => material.descripcion)),
-  ];
+  const uniqueDescriptions = materiales
+    ? [...new Set(materiales.map((material) => material.descripcion))]
+    : [];
 
   // Filtrar los materiales con la descripción seleccionada
-  const filteredMaterials = materiales.filter(
-    (material) => material.descripcion === selectedDescription
-  );
+  const filteredMaterials = selectedDescription
+  ? materiales.filter((material) => material.descripcion === selectedDescription)
+  : [];
 
   // Obtener las medidas únicas para la descripción seleccionada
-  const uniqueMeasures = [
-    ...new Set(filteredMaterials.map((material) => material.medida)),
-  ];
+  const uniqueMeasures = filteredMaterials
+    ? [...new Set(filteredMaterials.map((material) => material.medida))]
+    : [];
   const unidadMedidaFilter = [
     ...new Set(
       filteredMaterials.map((material) => material.unidadMedida.unidadMedida)
@@ -180,32 +196,35 @@ export default function MultipleSelect() {
           </>
         )}
 
-        <IonNote>Unidades: </IonNote>
-        <Input
-          type="number"
-          value={materialQuantity}
-          onChange={(e: any) => {
-            const value = parseFloat(e.target.value);
-            if (!isNaN(value) && value >= 1) {
-              setMaterialQuantity(value.toString());
-            }
-          }}
-        />
-
-        <IonNote>Precio unidad: $</IonNote>
-        <Input
-          type="number"
-          value={materialValue}
-          onChange={(e: any) => {
-            const value = parseFloat(e.target.value);
-            if (!isNaN(value) && value >= 1) {
-              setMaterialValue(value.toString());
-            }
-          }}
-        />
+        <Badge>
+          Unidades
+          <Input
+            type="number"
+            value={materialQuantity}
+            onChange={(e: any) => {
+              const value = parseFloat(e.target.value);
+              if (!isNaN(value) && value >= 1) {
+                setMaterialQuantity(value.toString());
+              }
+            }}
+          />
+        </Badge>
+        <Badge>
+          Precio unidad
+          <Input
+            type="number"
+            value={materialValue}
+            onChange={(e: any) => {
+              const value = parseFloat(e.target.value);
+              if (!isNaN(value) && value >= 1) {
+                setMaterialValue(value.toString());
+              }
+            }}
+          />
+        </Badge>
         <Button onClick={handleAddMaterial} icon={<PlusOutlined />}>
-        Agregar
-      </Button>
+          Agregar
+        </Button>
       </div>
 
       <ComboList elementCombo={elementCombo} setElementCombo={emptyList} />

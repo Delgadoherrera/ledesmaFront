@@ -12,7 +12,7 @@ const Dialog: any = () => {
   const showDialog = useSelector(openAdv);
   const [isModalOpen, setIsModalOpen] = useState(showDialog);
   const dispatch = useDispatch();
-  const message = useSelector(dialogAdvText)
+  const message = useSelector(dialogAdvText);
 
   console.log("shwodialog", showDialog);
   const showModal = () => {

@@ -50,10 +50,10 @@ export default function ModalList({
   const materials = new ProductServices();
   const dispatch = useDispatch();
 
-  const handleActions = (j: any) => {
-    if (j === "accept") {
-      console.log("j", j);
+  console.log("ELEMENT MODAL", action);
 
+  const handleActions = async (j: any) => {
+    if (j === "accept") {
       switch (action) {
         case "deleteMaterial":
           console.log("deleteMaterial:", element, "action:", action);
@@ -81,8 +81,9 @@ export default function ModalList({
         case "deleteProduct":
           console.log("deleteProduct:", element, "action:", action);
           try {
-            const response = materials.EliminarProducto(element.id);
-            dispatch(refreshThis(true));
+            const response = await materials.EliminarProducto(element.id);
+            console.log("RESPONSE", response);
+            response.status === 200 && dispatch(refreshThis(true));
             closeModal(false);
           } catch (err) {
             console.log("err", err);
@@ -131,7 +132,7 @@ export default function ModalList({
         )}
         {configModal.action === "editProduct" && (
           <EditProduct
-            id={configModal.element.id}
+            id={element.id}
             handleClose={handleClose}
             element={element}
           />

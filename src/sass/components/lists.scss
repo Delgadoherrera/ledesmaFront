@@ -1,0 +1,27 @@
+.ant-list-items {
+
+    .ant-list-item {
+        display: flex;
+        flex-direction: row;
+
+    }
+
+    .picturesListProducts {
+        border: 1px solid $primary;
+      width: 280px;
+
+        .ant-avatar{
+            width: 50px;
+            height: 50px;
+            border: 10px;
+            background-color: $light;
+            padding: 0;
+        }
+
+        img {
+           
+           object-fit: contain;
+        }
+
+    }
+}

@@ -68,7 +68,9 @@ const App: React.FC = () => {
           <IonPage
             style={{ display: "flex", flexDirection: "row", width: "100%" }}
           >
+
             {dialog && <Dialog />}
+            
             <MenuAnt />
 
             <IonContent

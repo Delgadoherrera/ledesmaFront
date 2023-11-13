@@ -73,7 +73,8 @@ export default function CargaMateriales({
       descripcion: values.descripcion,
     };
     try {
-      const response = await productService.EditarProducto(data, id);
+      console.log('DATASEND',element.id)
+      const response = await productService.EditarProducto(data, element.id);
       console.log("Respuesta de la solicitud:", response);
       handleClose();
       response.status === 200 && limpiarFormulario();

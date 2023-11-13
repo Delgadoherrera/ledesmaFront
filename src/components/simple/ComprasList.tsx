@@ -195,7 +195,7 @@ export default function BasicTable({
           value={search}
           onChange={handleSearch}
         />
-        {(selectedMonth === "allYear" && products.length > 0 && (
+        {(selectedMonth === "allYear" && products && products.length > 0 && (
           <div className="containerGastoMes">
             <IonNote>Total: ${calcularGastoDelMes()}</IonNote>
           </div>

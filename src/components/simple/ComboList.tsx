@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces/index";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 import {
   IonAlert,
   IonBadge,
@@ -28,13 +28,14 @@ import {
   refresh,
   remove,
 } from "ionicons/icons";
-import { Button } from "primereact/button";
 import { Alert, AlertTitle, Input, Menu, MenuItem } from "@mui/material";
 import ModalList from "./Modals";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
 import { InputText } from "primereact/inputtext";
-import { DatePicker } from "antd";
+import { Button, DatePicker } from "antd";
+import Icon from "@ant-design/icons/lib/components/Icon";
+import { CloseOutlined, MinusOutlined } from "@ant-design/icons";
 
 export default function BasicTable({
   elementCombo,
@@ -203,17 +204,17 @@ export default function BasicTable({
   const fechaOriginal = fechaHoy;
   const fechaFormateada = cambiarFormatoFecha(fechaOriginal);
 
-  const dateFormat = 'YYYY/MM/DD';
+  const dateFormat = "YYYY/MM/DD";
 
-console.log('nowDate',fechaHoy)
+  console.log("nowDate", fechaHoy);
   return (
     <>
       <div className="fechaCompraRegistros">
         <IonNote>Fecha de compra</IonNote>
         <DatePicker
-        defaultValue={dayjs(fechaHoy, dateFormat)}
+          defaultValue={dayjs(fechaHoy, dateFormat)}
           onChange={(e) => {
-            console.log('FECHA EJEMPLO',e)
+            console.log("FECHA EJEMPLO", e);
             const fechaOriginal = new Date(e.$d);
             const año = fechaOriginal.getFullYear();
             const mes = (fechaOriginal.getMonth() + 1)
@@ -260,11 +261,7 @@ console.log('nowDate',fechaHoy)
                   <TableCell> {row.precio * row.cantidad}</TableCell>
 
                   <TableCell>
-                    <div key={index}>
-                      <button onClick={() => setElementCombo(row)}>
-                        <IonIcon icon={remove}></IonIcon>
-                      </button>
-                    </div>
+                    <MinusOutlined onClick={() => setElementCombo(row)} />
                   </TableCell>
                 </TableRow>
               ))}
@@ -272,7 +269,7 @@ console.log('nowDate',fechaHoy)
         </Table>
         {elementCombo.length > 0 ? (
           <div className="comboBoxBottom">
-            <IonButton
+            <Button
               id="present-alert"
               onClick={(e) => {
                 const prices = Object.fromEntries(
@@ -285,7 +282,7 @@ console.log('nowDate',fechaHoy)
               }}
             >
               Comprar
-            </IonButton>
+            </Button>
           </div>
         ) : null}
       </TableContainer>

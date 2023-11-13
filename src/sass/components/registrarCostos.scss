@@ -8,8 +8,9 @@
 
     .selectionCombo {
         display: flex;
-        align-items: center;
-        align-content: center;
+        flex-wrap: wrap;
+        
+
 
         ion-icon {
             color: $contrast

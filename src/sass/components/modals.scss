@@ -15,3 +15,16 @@
 
 
 }
+
+.ant-modal {
+    display: flex !important;
+    align-content: center !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+
+    .ant-modal-content {
+        width: 100%;
+    }
+
+}

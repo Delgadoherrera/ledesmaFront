@@ -147,7 +147,6 @@ export default function BasicTable({
     filterProductsByMonth(selectedMonth, selectedYear); // También pasa el año
   };
 
-  console.log("Reportes filteredProducts", filteredProducts);
   const calcularGastoDelMes = () => {
     let totalExpense = 0;
     Array.isArray(filteredProducts) &&
@@ -184,13 +183,13 @@ export default function BasicTable({
       <div className="reporteCostosContent">
         <IonBadge> Reporte de costos</IonBadge>
         <div className="navContentReportCostos">
-        <div className="search-container">
-          <Input
-            type="text"
-            placeholder="Buscar en costos..."
-            value={search}
-            onChange={handleSearch}
-          />
+          <div className="search-container">
+            <Input
+              type="text"
+              placeholder="Buscar en costos..."
+              value={search}
+              onChange={handleSearch}
+            />
 
             <RangePicker
               className="datePickerCatalog"
@@ -225,20 +224,26 @@ export default function BasicTable({
               }}
             />
           </div>
-       
-          {(products.length > 0 && selectedMonth === "allYear" && (
+
+          {Array.isArray(products) &&
+            products.length > 0 &&
+            selectedMonth === "allYear" && (
+              <div className="containerGastoMes">
+                <IonNote>Total: ${calcularGastoDelMes()}</IonNote>
+              </div>
+            )}
+
+          {Array.isArray(selectedMonth) && selectedMonth === "" && (
             <div className="containerGastoMes">
               <IonNote>Total: ${calcularGastoDelMes()}</IonNote>
             </div>
-          )) ||
-            (selectedMonth === "" && (
-              <div className="containerGastoMes">
-                <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
-              </div>
-            ))}
-          {selectedMonth !== "allYear" && selectedMonth !== "" ? (
+          )}
+
+          {Array.isArray(selectedMonth) &&
+          selectedMonth !== "allYear" &&
+          selectedMonth !== "" ? (
             <div className="containerGastoMes">
-              <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
+              <IonNote>Total: ${calcularGastoDelMes()}</IonNote>
             </div>
           ) : null}
         </div>
