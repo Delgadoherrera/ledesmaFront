@@ -4,7 +4,7 @@ export class ProductServices {
   async AgregarMaterial(data: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
-        `https://ledesma.missingpets.art/materiales/nuevoMaterial`,
+        `https://ledesma.devingfor.art/materiales/nuevoMaterial`,
         data,
         {
           headers: {
@@ -24,7 +24,7 @@ export class ProductServices {
   async eliminarMaterial(id: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
-        `https://ledesma.missingpets.art/materiales/borrarMaterial/${id}`,
+        `https://ledesma.devingfor.art/materiales/borrarMaterial/${id}`,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -43,7 +43,7 @@ export class ProductServices {
   async ListarMateriales(): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.get(
-        `https://ledesma.missingpets.art/materiales/listarTodos`,
+        `https://ledesma.devingfor.art/materiales/listarTodos`,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -62,7 +62,7 @@ export class ProductServices {
   async ListarProductos(): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.get(
-        `https://ledesma.missingpets.art/productos/listarTodos`,
+        `https://ledesma.devingfor.art/productos/listarTodos`,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -81,7 +81,7 @@ export class ProductServices {
   async ListarCostos(): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.get(
-        `https://ledesma.missingpets.art/costos/listarTodos`,
+        `https://ledesma.devingfor.art/costos/listarTodos`,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -101,7 +101,7 @@ export class ProductServices {
     console.log("PRODUCIT EDIT", data, "IDMATERIAL", id);
     try {
       const response: AxiosResponse<any> = await axios.put(
-        `https://ledesma.missingpets.art/materiales/editar/${id}`,
+        `https://ledesma.devingfor.art/materiales/editar/${id}`,
         { data: data },
         {
           headers: {
@@ -120,7 +120,7 @@ export class ProductServices {
     console.log("PRODUCIT EDIT", data, "IDMATERIAL", id);
     try {
       const response: AxiosResponse<any> = await axios.put(
-        `https://ledesma.missingpets.art/productos/editar/${id}`,
+        `https://ledesma.devingfor.art/productos/editar/${id}`,
         { data: data },
         {
           headers: {
@@ -139,7 +139,7 @@ export class ProductServices {
     console.log("PRODUCIT EDIT", data, "IDMATERIAL", id);
     try {
       const response: AxiosResponse<any> = await axios.put(
-        `https://ledesma.missingpets.art/costos/editar/${id}`,
+        `https://ledesma.devingfor.art/costos/editar/${id}`,
         { data: data },
         {
           headers: {
@@ -158,7 +158,7 @@ export class ProductServices {
     console.log("PRODUCIT EDIT", data, "IDMATERIAL", id);
     try {
       const response: AxiosResponse<any> = await axios.post(
-        `https://ledesma.missingpets.art/materiales/comprar/${id}`,
+        `https://ledesma.devingfor.art/materiales/comprar/${id}`,
         { data: data },
         {
           headers: {
@@ -176,7 +176,7 @@ export class ProductServices {
   async ListarCompras(): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.get(
-        `https://ledesma.missingpets.art/compras/listarTodas`,
+        `https://ledesma.devingfor.art/compras/listarTodas`,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -195,7 +195,7 @@ export class ProductServices {
   async AgregarCombo(data: any, comboName: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
-        `https://ledesma.missingpets.art/combos/nuevoCombo/${comboName}`,
+        `https://ledesma.devingfor.art/combos/nuevoCombo/${comboName}`,
         data,
         {
           headers: {
@@ -215,7 +215,7 @@ export class ProductServices {
   async AgregarProducto(data: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
-        `https://ledesma.missingpets.art/productos/nuevoProducto`,
+        `https://ledesma.devingfor.art/productos/nuevoProducto`,
         data,
         {
           headers: {
@@ -235,7 +235,7 @@ export class ProductServices {
   async AgregarGasto(data: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
-        `https://ledesma.missingpets.art/costos/nuevoCosto`,
+        `https://ledesma.devingfor.art/costos/nuevoCosto`,
         data,
         {
           headers: {
@@ -255,7 +255,7 @@ export class ProductServices {
   async AgregarCategoriaProducto(data: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
-        `https://ledesma.missingpets.art/categorias/nuevaCategoriaProducto`,
+        `https://ledesma.devingfor.art/categorias/nuevaCategoriaProducto`,
         data,
         {
           headers: {
@@ -275,7 +275,7 @@ export class ProductServices {
   async AgregarItemCategoriaProducto(data: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
-        `https://ledesma.missingpets.art/categorias/nuevoItemProducto`,
+        `https://ledesma.devingfor.art/categorias/nuevoItemProducto`,
         data,
         {
           headers: {
@@ -295,7 +295,7 @@ export class ProductServices {
   async ConcretarCosto(data: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
-        `https://ledesma.missingpets.art/costos/itemCosto`,
+        `https://ledesma.devingfor.art/costos/itemCosto`,
         data,
         {
           headers: {
@@ -315,7 +315,7 @@ export class ProductServices {
   async ListarItemCosto(): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.get(
-        `https://ledesma.missingpets.art/costos/listarItems`,
+        `https://ledesma.devingfor.art/costos/listarItems`,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -335,7 +335,7 @@ export class ProductServices {
   async ListarCategoriaProductos(): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.get(
-        `https://ledesma.missingpets.art/categoriasProductos/listarTodos`,
+        `https://ledesma.devingfor.art/categoriasProductos/listarTodos`,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -354,7 +354,7 @@ export class ProductServices {
   async EliminarCosto(id: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
-        `https://ledesma.missingpets.art/costos/eliminarCosto/${id}`,
+        `https://ledesma.devingfor.art/costos/eliminarCosto/${id}`,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -373,7 +373,7 @@ export class ProductServices {
   async EliminarProducto(id: any): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.post(
-        `https://ledesma.missingpets.art/productos/eliminarProducto/${id}`,
+        `https://ledesma.devingfor.art/productos/eliminarProducto/${id}`,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -392,7 +392,7 @@ export class ProductServices {
   async ListarItemProducto(): Promise<any> {
     try {
       const response: AxiosResponse<any> = await axios.get(
-        `https://ledesma.missingpets.art/categorias/listarItemsProductos`,
+        `https://ledesma.devingfor.art/categorias/listarItemsProductos`,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",

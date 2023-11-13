@@ -7,7 +7,7 @@ import { Materiales } from "../../interfaces";
 import ModalList from "./Modals";
 
 const count = 3; // Cambia el número de productos que deseas mostrar
-const fakeDataUrl = `https://ledesma.missingpets.art/productos/listarTodos`; // Reemplaza esto con tu endpoint real de productos
+const fakeDataUrl = `https://ledesma.devingfor.art/productos/listarTodos`; // Reemplaza esto con tu endpoint real de productos
 
 const App: React.FC = () => {
   const [initLoading, setInitLoading] = useState(true);
@@ -246,7 +246,7 @@ const App: React.FC = () => {
                 ))}
               </div>
               <List.Item.Meta
-                title={<a href="https://missingpets.art">{item.name?.first}</a>}
+                title={<a href="https://devinfor.art">{item.name?.first}</a>}
                 description={` ${item.email}`}
               />
 
