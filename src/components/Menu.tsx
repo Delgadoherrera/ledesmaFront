@@ -48,6 +48,7 @@ import carpinteria from "../assets/icons/carpenter-svgrepo-com.svg";
 import costos from "../assets/icons/cost-per-unit-industry-svgrepo-com.svg";
 import cash from "../assets/icons/cash-register-solid-svgrepo-com.svg";
 import report from "../assets/icons/report-svgrepo-com.svg";
+import BannerInicio from './simple/BannerInicio'
 
 interface AppPage {
   url: string;
@@ -136,6 +137,9 @@ const Menu: React.FC = () => {
   const open = useSelector((isOpenMenu: any) => isOpenMenu.counter.openMenu);
   const dispatch = useDispatch();
   return (
+
+    <>
+    <BannerInicio/>
     <IonMenu contentId="main" type="overlay" menuId="first" hidden={open}>
       <IonContent>
         <IonList id="inbox-list">
@@ -180,6 +184,8 @@ const Menu: React.FC = () => {
       </IonContent>
     </IonMenu>
   );
+    </>
+
 };
 
 export default Menu;

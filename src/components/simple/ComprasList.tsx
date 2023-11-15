@@ -184,72 +184,64 @@ export default function BasicTable({
       )}
 
       <div className="reporteComprasContainer">
-        <IonBadge>
-          Reporte de compras
-        </IonBadge>
+        <IonBadge>Reporte de compras</IonBadge>
 
-      <div className="search-container">
-        <Input
-          type="text"
-          placeholder="Buscar en compras..."
-          value={search}
-          onChange={handleSearch}
-        />
-        {(selectedMonth === "allYear" && products && products.length > 0 && (
-          <div className="containerGastoMes">
-            <IonNote>Total: ${calcularGastoDelMes()}</IonNote>
-          </div>
-        )) ||
-          (selectedMonth === "" && (
+        <div className="search-container">
+          <RangePicker
+          
+            className="datePickerCatalog"
+            onChange={(e) => {
+              console.log("eeeRangepicker", e);
+              const fechaOriginal = new Date(e[0].$d);
+              const fechaHasta = new Date(e[1].$d);
+
+              const año = fechaOriginal.getFullYear();
+              const añoHasta = fechaHasta.getFullYear();
+
+              const mes = fechaOriginal.getMonth() + 1;
+              const mesHasta = (fechaHasta.getMonth() + 1)
+                .toString()
+                .padStart(2, "0"); // Agrega un 0 si es necesario
+              const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+              const diaHasta = fechaHasta.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+
+              const fechaFormateada = `${año}-${mes}-${dia}`;
+              const fechaFormateadaHasta = `${añoHasta}-${mesHasta}-${diaHasta}`;
+
+              console.log("DESDE", fechaFormateada);
+              console.log("HASTA", fechaFormateadaHasta);
+
+              setSelectedFromDate(fechaFormateada);
+              setSelectedToDate(fechaFormateadaHasta);
+
+              filterProductsByDate(fechaFormateada, selectedToDate);
+            }}
+          />
+          <Input
+            type="text"
+            placeholder="Buscar en compras..."
+            value={search}
+            onChange={handleSearch}
+          />
+
+          {(selectedMonth === "allYear" && products && products.length > 0 && (
+            <div className="containerGastoMes">
+              <IonNote>Total: ${calcularGastoDelMes()}</IonNote>
+            </div>
+          )) ||
+            (selectedMonth === "" && (
+              <div className="containerGastoMes">
+                <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
+              </div>
+            ))}
+
+          {selectedMonth !== "allYear" && selectedMonth !== "" ? (
             <div className="containerGastoMes">
               <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
             </div>
-          ))}
-
-        {selectedMonth !== "allYear" && selectedMonth !== "" ? (
-          <div className="containerGastoMes">
-            <IonNote>Total: ${calcularGastoDelMes()}</IonNote>{" "}
-          </div>
-        ) : null}
-        <div className="dateInputsContainer">
-          <IonBreadcrumb>
-            Fecha inicial:
-
-            
-            <RangePicker
-              className="datePickerCatalog"
-              onChange={(e) => {
-                console.log("eeeRangepicker", e);
-                const fechaOriginal = new Date(e[0].$d);
-                const fechaHasta = new Date(e[1].$d);
-
-                const año = fechaOriginal.getFullYear();
-                const añoHasta = fechaHasta.getFullYear();
-
-                const mes = fechaOriginal.getMonth() + 1;
-                const mesHasta = (fechaHasta.getMonth() + 1)
-                  .toString()
-                  .padStart(2, "0"); // Agrega un 0 si es necesario
-                const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
-                const diaHasta = fechaHasta
-                  .getDate()
-                  .toString()
-                  .padStart(2, "0"); // Agrega un 0 si es necesario
-
-                const fechaFormateada = `${año}-${mes}-${dia}`;
-                const fechaFormateadaHasta = `${añoHasta}-${mesHasta}-${diaHasta}`;
-
-                console.log("DESDE", fechaFormateada);
-                console.log("HASTA", fechaFormateadaHasta);
-
-                setSelectedFromDate(fechaFormateada);
-                setSelectedToDate(fechaFormateadaHasta);
-
-                filterProductsByDate(fechaFormateada, selectedToDate);
-              }}
-            />
-          </IonBreadcrumb>
-          {/*           <IonBreadcrumb>
+          ) : null}
+          <div className="dateInputsContainer">
+            {/*           <IonBreadcrumb>
             Fecha final:
             <DatePicker
               value={selectedToDate}
@@ -266,53 +258,53 @@ export default function BasicTable({
               }}
             />
           </IonBreadcrumb> */}
+          </div>
         </div>
-      </div>
-      <TableContainer component={Paper} className="tableCompras">
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Descripción</TableCell>
-              <TableCell>Fecha</TableCell>
-              <TableCell>Medida</TableCell>
-              <TableCell>Unidades</TableCell>
+        <TableContainer component={Paper} className="tableCompras">
+          <Table sx={{ minWidth: 450 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Descripción</TableCell>
+                <TableCell>Fecha</TableCell>
+                <TableCell>Medida</TableCell>
+                <TableCell>Unidades</TableCell>
 
-              <TableCell>USD/Unid</TableCell>
-              <TableCell>ARS/Unid</TableCell>
-              <TableCell>Total ARS</TableCell>
+                <TableCell>USD/Unid</TableCell>
+                <TableCell>ARS/Unid</TableCell>
+                <TableCell>Total ARS</TableCell>
 
-              {/*      <TableCell >
+                {/*      <TableCell >
                 <IonIcon icon={options}></IonIcon>
               </TableCell> */}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Array.isArray(filteredProducts) &&
-              filteredProducts.map((row, index) => (
-                <TableRow
-                  key={row.idCompra}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>{row.catalogo_material.descripcion}</TableCell>
-                  <TableCell>{row.fechaCompra}</TableCell>
-                  {/*                   <TableCell component="th" scope="row" >
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Array.isArray(filteredProducts) &&
+                filteredProducts.map((row, index) => (
+                  <TableRow
+                    key={row.idCompra}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell>{row.catalogo_material.descripcion}</TableCell>
+                    <TableCell>{row.fechaCompra}</TableCell>
+                    {/*                   <TableCell component="th" scope="row" >
                     {row.unidades}
                   </TableCell> */}
 
-                  <TableCell>
-                    {row.catalogo_material.medida}
-                    {row.unidadMedida.unidadMedida}
-                  </TableCell>
-                  <TableCell>{row.unidades}</TableCell>
-
-                  <TableCell>{row.cotizacion.conversion}</TableCell>
-                  <TableCell>{row.precioPesos}</TableCell>
-                  <TableCell>
                     <TableCell>
-                      {(row.precioPesos * row.unidades).toFixed(2)}
+                      {row.catalogo_material.medida}
+                      {row.unidadMedida.unidadMedida}
                     </TableCell>
-                  </TableCell>
-                  {/*                   <TableCell >
+                    <TableCell>{row.unidades}</TableCell>
+
+                    <TableCell>{row.cotizacion.conversion}</TableCell>
+                    <TableCell>{row.precioPesos}</TableCell>
+                    <TableCell>
+                      <TableCell>
+                        {(row.precioPesos * row.unidades).toFixed(2)}
+                      </TableCell>
+                    </TableCell>
+                    {/*                   <TableCell >
                     <Button>
                       <div>
                         <IonIcon
@@ -375,13 +367,12 @@ export default function BasicTable({
                       </div>
                     </Button>
                   </TableCell> */}
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
-
     </>
   );
 }

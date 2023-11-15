@@ -184,13 +184,6 @@ export default function BasicTable({
         <IonBadge> Reporte de costos</IonBadge>
         <div className="navContentReportCostos">
           <div className="search-container">
-            <Input
-              type="text"
-              placeholder="Buscar en costos..."
-              value={search}
-              onChange={handleSearch}
-            />
-
             <RangePicker
               className="datePickerCatalog"
               onChange={(e) => {
@@ -222,6 +215,12 @@ export default function BasicTable({
 
                 filterProductsByDate(fechaFormateada, selectedToDate);
               }}
+            />
+            <Input
+              type="text"
+              placeholder="Buscar en costos..."
+              value={search}
+              onChange={handleSearch}
             />
           </div>
 

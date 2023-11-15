@@ -6,11 +6,31 @@
 
 
     .editCargaMaterialesContainer {
-        display: flex;
-        flex-direction: column;
-        width: 200px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+        align-content: center;
+        align-items: center;
 
+        input {
+            width: 100% !important
+        }
 
+        ant-badge {
+            width: 100% !important;
+        }
+
+        .ant-select {
+            width: 100%;
+        }
+
+        .ant-input {
+            width: 100%;
+        }
+
+        .ant-input-group-wrapper {
+            width: 100%;
+        }
     }
 
 

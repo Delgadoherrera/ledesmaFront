@@ -5,10 +5,11 @@
     min-height: 100px;
     align-items: center;
     background-color: $light;
+    padding: 20px;
+
 
     .badgetNavs {
         width: 100%;
-        margin: 5px;
     }
 
     ion-badge {

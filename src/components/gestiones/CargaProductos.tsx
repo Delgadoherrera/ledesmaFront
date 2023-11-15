@@ -9,7 +9,7 @@ import { Productos as Materiales } from "../../interfaces/index";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
 import emptyImage from "../../assets/icons/image-svgrepo-com(1).svg";
-import ImageCompressor from 'image-compressor';
+import ImageCompressor from "image-compressor";
 
 import {
   imageValue,
@@ -31,8 +31,8 @@ import { Image } from "react-bootstrap";
 import { Button, Input, List, Select } from "antd";
 import { ListItem } from "@mui/material";
 import { StickyNote2 } from "@mui/icons-material";
-import { Upload } from 'antd';
-import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
+import { Upload } from "antd";
+import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 
 export default function CargaMateriales() {
   const [values, setValues] = useState<Materiales>({
@@ -61,16 +61,8 @@ export default function CargaMateriales() {
   const [items, setItems] = React.useState<any>([]);
   const [categoria, setCategoria] = useState<any>(null);
   const [type, setType] = useState<any>(null);
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.',
-    },
-  ]);
-
-  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const onChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
 
@@ -88,19 +80,9 @@ export default function CargaMateriales() {
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
-  const takePicture = async () => {
-    const image = await Camera.getPhoto({
-      quality: 50,
-      allowEditing: false,
-      resultType: CameraResultType.Base64,
-    });
-    dispatch(imageValue(image || 10));
-    setImg(image.base64String ? image.base64String : "");
-  };
-  useEffect(()=>{
-      console.log('filesList',fileList)
-
-  },[fileList])
+  useEffect(() => {
+    console.log("filesList", fileList);
+  }, [fileList]);
 
   const limpiarFormulario = () => {
     setValues({
@@ -116,6 +98,9 @@ export default function CargaMateriales() {
     setCategoria(null);
     setSelectedDescription(null);
     setImg("");
+    setSelectedCategory(null);
+    setSelectedType(null);
+    setFileList([])
   };
   console.log("selectedType", selectedType);
 
@@ -126,7 +111,7 @@ export default function CargaMateriales() {
   }, [selectedCategory]);
 
   const handleSend = async () => {
-/*     if (img === "") {
+    /*     if (img === "") {
       return console.log("ingrese una imagen para continuar...");
     } */
     if (values.descripcion.length < 1) {
@@ -146,7 +131,7 @@ export default function CargaMateriales() {
       const compressedImage = await compressImage(img); // Llama a la función de compresión
       setImg(compressedImage); // Actualiza la imagen con la versión comprimida
     }
-  
+
     const data = {
       descripcion: values.descripcion,
       medida: values.medida,
@@ -155,7 +140,7 @@ export default function CargaMateriales() {
       detalle: selectedCategory,
       categoria: selectedCategory.value,
       categoriaId: selectedType,
-      imagenes: fileList
+      imagenes: fileList,
     };
     try {
       const response = await productService.AgregarProducto(data);
@@ -205,22 +190,17 @@ export default function CargaMateriales() {
             <IonBadge> Carga de productos</IonBadge>
           </div>
           <div>
-            {img.length > 0 ? (
-              <Image
-                src={`data:image/jpeg;base64,${img}`}
-                className="addPhotoPic"
-                onClick={() => takePicture()}
-              />
-            ) : (
-              <Upload
+            <Upload
               action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
               listType="picture-card"
               onChange={onChange}
               onPreview={onPreview}
-            >
-              {fileList.length < 5 && '+ Imagen'}
+              fileList={fileList} // Establece fileList como el valor de la propiedad
+
+            > 
+              {fileList.length < 5 && "+ Imagen"}
             </Upload>
-            )}
+
             {/*       <IonIcon
               icon={camera}
               size="large"
@@ -301,10 +281,7 @@ export default function CargaMateriales() {
               onClick={() => {
                 setImg("");
                 limpiarFormulario();
-                setSelectedCategory(null);
-                setSelectedType(null);
-                setSelectedDescription(null);
-                setImg("");
+                
               }}
             >
               Limpiar

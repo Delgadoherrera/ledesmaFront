@@ -229,7 +229,7 @@ export default function BasicTable({
       </div>
 
       <TableContainer component={Paper} className="tableMateriales">
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 450 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Descripcion</TableCell>
@@ -246,7 +246,7 @@ export default function BasicTable({
               elementCombo.map((row, index) => (
                 <TableRow
                   key={index}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  sx={{ "&:last-child td, &:last-child th": { border:0 } }}
                 >
                   <TableCell component="th" scope="row" align="left">
                     {row.material.descripcion}

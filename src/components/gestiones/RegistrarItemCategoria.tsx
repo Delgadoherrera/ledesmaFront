@@ -56,7 +56,6 @@ export default function MultipleSelect({
   const [selectedMeasure, setSelectedMeasure] = React.useState<string | null>(
     null
   );
-  const [refreshSelect, setRefreshSelect] = React.useState(true);
   const dispatch = useDispatch();
   const sendCategory = async () => {
     try {
@@ -71,7 +70,6 @@ export default function MultipleSelect({
       setSelectedMeasure(null); // Restablecer selectedMeasure a null
       setMaterialValue("");
       setMaterialQuantity("");
-      setRefreshSelect(false);
       response.status === 201 && dispatch(refreshThis(true));
       response.status === 201 && setSelectedDescription(null);
     } catch (error) {
@@ -101,33 +99,28 @@ export default function MultipleSelect({
   const emptyList = (itemToRemove: any) => {
     setElementCombo([]);
   };
-  React.useEffect(() => {
-    if (refreshSelect === false) {
-      setRefreshSelect(true);
-    }
-  }, [refreshSelect]);
 
   return (
     <div className="CargaTipoItemContent">
-      {refreshSelect === true && (
-        <>
-          <IonTitle>
-            {" "}
-            <IonBadge>Carga tipo de producto</IonBadge>
-          </IonTitle>
-          <Select
-            options={uniqueDescriptions.map((description) => ({
-              value: description,
-              label: description,
-            }))}
-            onChange={(selectedOption: any) => {
-              setSelectedDescription(selectedOption);
-            }}
-            placeholder={"Categoria"}
-            className="inputSelect"
-          />
+      <>
+        <IonTitle>
+          {" "}
+          <IonBadge>Carga tipo de producto</IonBadge>
+        </IonTitle>
+        <Select
+          options={uniqueDescriptions.map((description) => ({
+            value: description,
+            label: description,
+          }))}
+          onChange={(selectedOption: any) => {
+            setSelectedDescription(selectedOption);
+          }}
+          placeholder={"Categoria"}
+          className="inputSelect"
+          value={selectedDescription}
+        />
 
-          {/*           <Select
+        {/*           <Select
                 options={filteredMaterials.map((material) => ({
                   value: material.concepto,
                   label: `${material.concepto}`,
@@ -137,16 +130,16 @@ export default function MultipleSelect({
                 }}
                 placeholder={"Concepto"}
               /> */}
-          <Input
-            placeholder="Tipo de item:"
-            onChange={(e: any) => {
-              console.log('selectedmeasure',e.target.value)
+        <Input
+          placeholder="Tipo de item:"
+          onChange={(e: any) => {
+            console.log("selectedmeasure", e.target.value);
 
-              setSelectedMeasure(e.target.value);
-            }}
-          ></Input>
-        </>
-      )}
+            setSelectedMeasure(e.target.value);
+          }}
+          value={selectedMeasure ? selectedMeasure : ""}
+        ></Input>
+      </>
 
       <Button onClick={() => sendCategory()}>Cargar tipo de producto</Button>
       <Button
@@ -155,7 +148,6 @@ export default function MultipleSelect({
           setSelectedMeasure(null); // Restablecer selectedMeasure a null
           setMaterialValue("");
           setMaterialQuantity("");
-          setRefreshSelect(false);
         }}
       >
         Limpiar

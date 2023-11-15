@@ -225,9 +225,11 @@ export default function MultipleSelect() {
         <Button onClick={handleAddMaterial} icon={<PlusOutlined />}>
           Agregar
         </Button>
-      </div>
 
+
+      </div>
       <ComboList elementCombo={elementCombo} setElementCombo={emptyList} />
+
     </div>
   );
 }

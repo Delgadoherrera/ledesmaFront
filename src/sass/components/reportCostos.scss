@@ -1,5 +1,6 @@
 .reporteCostosContent {
     background-color: $light;
+    padding: 15px;
 
     ion-badge {
         margin: 10px;
@@ -9,25 +10,24 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        padding: 20px;
 
         .datePickerCatalog {
-            width: 200px;
+            min-width: 460px;
         }
-
-        input-antd {
-            background-color: yellow;
+        input{
+            width: 100%;
         }
+      
     }
 
     /*     display: flex;
  */
 }
 
-.searchCostos {}
 
 .search-container-costos {
-    margin: 10px;
     border-radius: 10px;
+    background-color: $light;
+    margin-left: 20px;
 
 }

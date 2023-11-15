@@ -2,11 +2,11 @@ import * as React from "react";
 1;
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Button, MenuItem } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
-import { Input, Select } from "antd";
+import { Button, Input, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 
 export default function CargaMateriales({
@@ -73,7 +73,7 @@ export default function CargaMateriales({
       descripcion: values.descripcion,
     };
     try {
-      console.log('DATASEND',element.id)
+      console.log("DATASEND", element.id);
       const response = await productService.EditarProducto(data, element.id);
       console.log("Respuesta de la solicitud:", response);
       handleClose();
@@ -188,11 +188,8 @@ export default function CargaMateriales({
           }
         />
 
-        <Button variant="outlined" onClick={() => handleSend()}>
-          Enviar
-        </Button>
+        <Button onClick={() => handleSend()}>Enviar</Button>
         <Button
-          variant="outlined"
           onClick={(e) => {
             handleClose();
           }}

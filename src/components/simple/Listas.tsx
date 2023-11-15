@@ -38,7 +38,7 @@ const App: React.FC = () => {
       );
       const adaptedData = filteredData.map((product: any) => ({
         name: {
-          first: product.descripcion,
+          first: `${product.descripcion}`,
           last: product.producto.descripcion,
           third: product.producto.categoria.detalle,
         },
@@ -229,7 +229,7 @@ const App: React.FC = () => {
                 onClick={(e) => {
                   setElement(item.item);
                   handleAction(e, "deleteProduct", item.item);
-                  setTodo('deleteProduct')
+                  setTodo("deleteProduct");
                 }}
               >
                 Eliminar
@@ -245,12 +245,12 @@ const App: React.FC = () => {
                   <Avatar key={index} src={image} />
                 ))}
               </div>
+
               <List.Item.Meta
                 title={<a href="https://devinfor.art">{item.name?.first}</a>}
                 description={` ${item.email}`}
               />
-
-              <Badge>{item.medida}</Badge>
+              <IonBadge>{item.medida}</IonBadge>
             </Skeleton>
           </List.Item>
         )}

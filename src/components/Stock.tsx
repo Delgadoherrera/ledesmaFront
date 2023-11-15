@@ -18,15 +18,15 @@ import { menuSelectOpt } from "../features/dataReducer/dataReducer";
 import CargarProductos from "./gestiones/CargaProductos";
 import CategoriasList from "./simple/ProductList";
 import VentaProductList from "./simple/VentaProductList";
-import Calendario from './complex/Calendario'
-import Listas from '../components/simple/Listas'
+import Calendario from "./complex/Calendario";
+import Listas from "../components/simple/Listas";
+import BannerInicio from "../components/simple/BannerInicio";
 const ExploreContainer: React.FC<any> = () => {
   const name = useSelector(menuSelectOpt);
   const [tabSelected, setTabSelected] = useState("");
 
   useEffect(() => {
-
-    console.log('CalendarioCalendario',name,tabSelected)
+    console.log("name", name);
   }, [tabSelected, name]);
 
   const a = (a: any) => {
@@ -35,39 +35,30 @@ const ExploreContainer: React.FC<any> = () => {
 
   return (
     <>
+      <BannerInicio />
       {name === "Cargar materiales" && <CatalogoMateriales />}
-
       {name === "Compra de materiales" && <ComboMateriales />}
-
       {name === "Alta producto" && <CargarProductos />}
-
       {name === "Reporte de compras" && (
         <>
-          <ComprasNav tabSelected={a} />
           <ComprasList closeModal={a} />
         </>
       )}
-
       {name === "Cargar costos" && (
         <>
-{/*           <CatalogoCostosButtons tab={a} />
- */}          <CargaGastos />
+          {/*           <CatalogoCostosButtons tab={a} />
+           */}{" "}
+          <CargaGastos />
           <ReporteCostosList closeModal={a} />
         </>
       )}
-
       {name === "Registrar costos" && <RegistrarCostos />}
-
       {name === "Reporte de costos" && <ListaReportes closeModal={a} />}
-
       {name === "Categorias y tipos" && <CargaCategorias />}
-
-{/*       {name === "Reporte de productos" && <VentaProductList closeModal={a} />}
- */}      {name === "Reporte de productos" && <Listas  />}
-
-
+      {/*       {name === "Reporte de productos" && <VentaProductList closeModal={a} />}
+       */}{" "}
+      {name === "Reporte de productos" && <Listas />}
       {name === "Calendario" && <Calendario />}
-
     </>
   );
 };

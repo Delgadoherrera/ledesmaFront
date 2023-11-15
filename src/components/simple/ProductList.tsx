@@ -64,7 +64,6 @@ export default function BasicTable({
     setFilteredProducts(filtered);
   };
 
-  console.log("element", element);
   const handleClose = () => {
     setAnchorEl(null);
   };
