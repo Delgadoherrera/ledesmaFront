@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Badge, Button, Input, List, Skeleton } from "antd";
+import { Avatar, Badge, Button, Input, List, Skeleton, Tag } from "antd";
 import { ProductServices } from "../../Services/ProductService";
 import { useSelector } from "react-redux";
-import { IonBadge } from "@ionic/react";
+import { IonBadge, IonTitle } from "@ionic/react";
 import { Materiales } from "../../interfaces";
 import ModalList from "./Modals";
 
@@ -196,7 +196,9 @@ const App: React.FC = () => {
         />
       )}
       <div className="reportProductosContent">
-        <IonBadge> Reporte de productos</IonBadge>
+        <IonTitle>
+          <Tag> Reporte de productos</Tag>
+        </IonTitle>
         <div className="search-container">
           <Input
             type="text"

@@ -23,12 +23,13 @@ import {
   IonIcon,
   IonItem,
   IonText,
+  IonTitle,
   IonToast,
 } from "@ionic/react";
 import { Camera, CameraResultType, Photo } from "@capacitor/camera";
 import { camera, checkmarkCircle, handRightOutline } from "ionicons/icons";
 import { Image } from "react-bootstrap";
-import { Button, Input, List, Select } from "antd";
+import { Button, Input, List, Select, Tag } from "antd";
 import { ListItem } from "@mui/material";
 import { StickyNote2 } from "@mui/icons-material";
 import { Upload } from "antd";
@@ -100,7 +101,7 @@ export default function CargaMateriales() {
     setImg("");
     setSelectedCategory(null);
     setSelectedType(null);
-    setFileList([])
+    setFileList([]);
   };
   console.log("selectedType", selectedType);
 
@@ -186,8 +187,10 @@ export default function CargaMateriales() {
     <>
       <IonContent className="contentAltaProductoNoDiv">
         <div className="contentAltaProducto">
-          <div className="badgetNavs">
-            <IonBadge> Carga de productos</IonBadge>
+          <div className="contentTitle">
+            <IonTitle>
+              <Tag> Carga de productos</Tag>
+            </IonTitle>
           </div>
           <div>
             <Upload
@@ -196,8 +199,7 @@ export default function CargaMateriales() {
               onChange={onChange}
               onPreview={onPreview}
               fileList={fileList} // Establece fileList como el valor de la propiedad
-
-            > 
+            >
               {fileList.length < 5 && "+ Imagen"}
             </Upload>
 
@@ -281,7 +283,6 @@ export default function CargaMateriales() {
               onClick={() => {
                 setImg("");
                 limpiarFormulario();
-                
               }}
             >
               Limpiar

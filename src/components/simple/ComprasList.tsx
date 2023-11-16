@@ -8,11 +8,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Compras, Materiales } from "../../interfaces/index";
-import { IonBadge, IonBreadcrumb, IonIcon, IonNote } from "@ionic/react";
+import { IonBadge, IonBreadcrumb, IonIcon, IonNote, IonTitle } from "@ionic/react";
 import { menu, options, optionsOutline, optionsSharp } from "ionicons/icons";
 import { Button } from "primereact/button";
 import { Menu, MenuItem, Select } from "@mui/material";
-import { Input } from "antd";
+import { Input, Tag } from "antd";
 import ModalList from "./Modals";
 import axios from "axios";
 import { DatePicker, Space } from "antd";
@@ -169,7 +169,9 @@ export default function BasicTable({
       setFilteredProducts(data);
     });
   }, []);
-
+  React.useEffect(() => {
+    filterProductsByDate(selectedFromDate, selectedToDate);
+  }, [selectedFromDate, selectedToDate]);
   return (
     <>
       {showMopdal && (
@@ -184,11 +186,13 @@ export default function BasicTable({
       )}
 
       <div className="reporteComprasContainer">
-        <IonBadge>Reporte de compras</IonBadge>
+        <IonTitle>
+        <Tag>Reporte de compras</Tag>
+
+        </IonTitle>
 
         <div className="search-container">
           <RangePicker
-          
             className="datePickerCatalog"
             onChange={(e) => {
               console.log("eeeRangepicker", e);
@@ -211,8 +215,8 @@ export default function BasicTable({
               console.log("DESDE", fechaFormateada);
               console.log("HASTA", fechaFormateadaHasta);
 
-              setSelectedFromDate(fechaFormateada);
-              setSelectedToDate(fechaFormateadaHasta);
+              setSelectedFromDate((prevState) => fechaFormateada);
+              setSelectedToDate((prevState) => fechaFormateadaHasta);
 
               filterProductsByDate(fechaFormateada, selectedToDate);
             }}

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Button, Input } from "antd";
+import { Breadcrumb, Button, Input, Tag } from "antd";
 import { useDispatch } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
 import {
   IonBadge,
+  IonBreadcrumb,
   IonContent,
   IonItem,
   IonTitle,
@@ -76,8 +77,7 @@ export default function Cargadetalles() {
 
       <div className="contentCargaCategoriaProducto">
           <IonTitle>
-            {" "}
-            <IonBadge>Carga de categorias</IonBadge>
+            <Tag>Carga de categorias</Tag>
           </IonTitle>
           <Input
             value={values.detalle}

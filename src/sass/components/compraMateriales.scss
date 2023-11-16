@@ -11,18 +11,21 @@
         flex-wrap: wrap;
 
     }
-    ion-badge{
+
+    ion-badge {
         margin: 10px;
     }
-    ion-note{
+
+    ion-note {
         margin: 5px;
     }
+
     ion-icon {
         color: $contrast;
         width: 20px;
         height: 20px;
         display: flex;
-        
+
     }
 
     .ant-input {
@@ -34,5 +37,14 @@
         min-width: 160px;
         height: 30px;
         margin: 10px;
+    }
+
+    button {
+        margin: 10px;
+      
+    }
+    #present-alert {
+        background-color: rgba(1, 10, 146, 0.719) !important;
+        font-size:1rem;
     }
 }

@@ -39,15 +39,15 @@ const items: MenuItem[] = [
   getItem('Option 2', '2', <DesktopOutlined />),
   getItem('Option 3', '3', <ContainerOutlined />),
   
- */ getItem("Productos", "sub3", <HeatMapOutlined />, [
+ *//*  getItem("Productos", "sub3", <HeatMapOutlined />, [
     getItem("Categorias y tipos", "Categorias y tipos"),
     getItem("Alta producto", "Alta producto"),
     getItem("Reporte de productos", "Reporte de productos"),
-  ]),
+  ]), */
   getItem("Materiales", "sub1", <BorderHorizontalOutlined />, [
     getItem("Cargar materiales", "Cargar materiales"),
     getItem("Compra de materiales", "Compra de materiales"),
-    getItem("Reporte de compras", "Reporte de compras"),
+    getItem("Reporte de compra de materiales", "Reporte de compras"),
   ]),
 
   getItem("Costos", "sub2", <DollarCircleOutlined />, [
@@ -59,8 +59,8 @@ const items: MenuItem[] = [
       getItem("Option 12", "12"),
     ]), */
   ]),
-  getItem("Calendario","Calendario", [
-  ]),
+/*   getItem("Calendario","Calendario", [
+  ]), */
 ];
 
 const App: React.FC = () => {
@@ -73,7 +73,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div style={collapsed ? { width: "90px" } : { width: "200px" }}>
+    <div style={collapsed ? { width: "90px" } : { width: "AUTO" }}>
       <Button
         type="primary"
         onClick={toggleCollapsed}

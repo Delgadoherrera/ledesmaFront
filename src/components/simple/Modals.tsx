@@ -137,6 +137,13 @@ export default function ModalList({
             element={element}
           />
         )}
+        {configModal.action === "deleteMaterial" && (
+          <>
+            <Button onClick={(e) => handleActions("accept")}>Aceptar</Button>
+
+            <Button onClick={() => closeModal(false)}>Cancelar</Button>
+          </>
+        )}
 
         {configModal.action === "deleteMaterial" ||
           (configModal.action === "deleteCost" && (

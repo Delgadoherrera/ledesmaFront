@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   IonSelect,
   IonText,
+  IonTitle,
   useIonViewDidEnter,
   useIonViewWillEnter,
 } from "@ionic/react";
@@ -27,7 +28,7 @@ import {
   refreshThis,
   showDialogAdv,
 } from "../../features/dataReducer/dataReducer";
-import { Badge, Button, Input, Select } from "antd";
+import { Badge, Button, DatePicker, Input, Select, Tag } from "antd";
 import {
   addCircle,
   addCircleOutline,
@@ -39,6 +40,7 @@ import { AddAPhoto, VoiceChat } from "@mui/icons-material";
 import Icon from "@ant-design/icons/lib/components/Icon";
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons";
 import Dialog from "../simple/DialogAdv";
+import dayjs from "dayjs";
 
 export default function MultipleSelect() {
   const [materiales, setMateriales] = useState<Materiales[]>([]);
@@ -60,6 +62,8 @@ export default function MultipleSelect() {
   const [refreshSelect, setRefreshSelect] = useState(true);
   const [dialog, setShowDialog] = useState(false);
   const [campoFaltante, setCampoFaltante] = useState<string | null>(null);
+  const [date, setDate] = React.useState("");
+
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -139,8 +143,10 @@ export default function MultipleSelect() {
 
   // Filtrar los materiales con la descripción seleccionada
   const filteredMaterials = selectedDescription
-  ? materiales.filter((material) => material.descripcion === selectedDescription)
-  : [];
+    ? materiales.filter(
+        (material) => material.descripcion === selectedDescription
+      )
+    : [];
 
   // Obtener las medidas únicas para la descripción seleccionada
   const uniqueMeasures = filteredMaterials
@@ -163,10 +169,29 @@ export default function MultipleSelect() {
       setRefreshSelect(true);
     }
   }, [refreshSelect]);
+  const objetoFecha = Date.now();
+  const nowDate = new Date(objetoFecha);
+  const fechaHoy = nowDate.toLocaleDateString("en-ZA");
+  const fechaOriginal = fechaHoy;
+
+  function cambiarFormatoFecha(fecha: any) {
+    // Divide la cadena de fecha en partes usando el carácter "/"
+    const partesFecha = fecha.split("/");
+
+    // Une las partes de la fecha con el carácter "-"
+    const fechaFormateada = partesFecha.join("-");
+
+    return fechaFormateada;
+  }
+  const fechaFormateada = cambiarFormatoFecha(fechaOriginal);
+  const dateFormat = "YYYY/MM/DD";
 
   return (
     <div className="compraMaterialesContent">
-      <IonBadge> Compra de materiales</IonBadge>
+      <IonTitle>
+      <Tag> Compra de materiales</Tag>
+
+      </IonTitle>
       <div className="compraMaterialesNav">
         {refreshSelect === true && (
           <>
@@ -222,14 +247,27 @@ export default function MultipleSelect() {
             }}
           />
         </Badge>
-        <Button onClick={handleAddMaterial} icon={<PlusOutlined />}>
-          Agregar
-        </Button>
+        <IonNote>Fecha de compra</IonNote>
 
+        <DatePicker
+          defaultValue={dayjs(fechaHoy, dateFormat)}
+          onChange={(e) => {
+            console.log("FECHA EJEMPLO", e);
+            const fechaOriginal = new Date(e.$d);
+            const año = fechaOriginal.getFullYear();
+            const mes = (fechaOriginal.getMonth() + 1)
+              .toString()
+              .padStart(2, "0"); // Agrega un 0 si es necesario
+            const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+            const fechaFormateada = `${año}-${mes}-${dia}`;
+            console.log("fechaOriginal", fechaFormateada);
+            setDate(fechaFormateada);
+          }}
+        ></DatePicker>
+        <Button  onClick={handleAddMaterial} icon={<PlusOutlined />}></Button>
 
+        <ComboList elementCombo={elementCombo} setElementCombo={emptyList} />
       </div>
-      <ComboList elementCombo={elementCombo} setElementCombo={emptyList} />
-
     </div>
   );
 }

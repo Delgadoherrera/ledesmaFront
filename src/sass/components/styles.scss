@@ -1,6 +1,10 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
 
+.ant-tag {
+    margin: 10px !important;
+
+}
 
 * {
     font-family: 'Didact Gothic', sans-serif !important;
@@ -8,22 +12,27 @@
 
 $selected: rgba(172, 183, 207, 0.331);
 $secondary : rgba(186, 157, 192, 0.371);
-$contrast: rgb(55, 81, 159);
+$contrast: rgba(24, 38, 82, 0.753);
 $darki: rgba(9, 9, 20, 0.767);
 $primary: rgba(88, 211, 149, 0.185);
 $light : rgba(196, 196, 196, 0.082);
 
 
-.containerGastoMes{
-    color: $contrast;
-    
+.contentTitle {
+    width: 100%;
 }
+
+.containerGastoMes {
+    color: $contrast;
+
+}
+
 .ant-badge {
     padding: 5px;
     border-radius: 10px;
     margin: 5px;
 
-    input{
+    input {
         margin: 5px;
     }
 

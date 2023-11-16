@@ -8,14 +8,20 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Compras, Costos, Materiales } from "../../interfaces/index";
-import { IonBadge, IonBreadcrumb, IonIcon, IonNote } from "@ionic/react";
+import {
+  IonBadge,
+  IonBreadcrumb,
+  IonIcon,
+  IonNote,
+  IonTitle,
+} from "@ionic/react";
 import { menu, options, optionsOutline, optionsSharp } from "ionicons/icons";
 import { Button } from "primereact/button";
 import { Menu, MenuItem, Select } from "@mui/material";
 import ModalList from "./Modals";
 import axios from "axios";
 import { MobileDatePicker } from "@mui/x-date-pickers";
-import { Input } from "antd";
+import { Input, Tag } from "antd";
 import { DatePicker, Space } from "antd";
 const { RangePicker } = DatePicker;
 
@@ -48,26 +54,19 @@ export default function BasicTable({
     setSelectedYear(selectedYear);
     filterProductsByMonth(selectedMonth, selectedYear);
   };
-
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value;
+    const searchTerm = event.target.value.toLowerCase();
     setSearch(searchTerm);
-
-    // Filtrar los productos en base al término de búsqueda
-    const filtered = searchTerm
-      ? products.filter(
-          (product) =>
-            product.catalogo_material.descripcion
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase()) ||
-            product.idCompra
-              .toString()
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase())
-        )
-      : products;
-
-    setFilteredProducts(filtered); // Update the filtered products here
+  
+    const filtered = products.filter((product) => {
+      const costo = product.catalogo_costo?.costo?.toLowerCase() || "";
+      const detalle = product.detalle?.toLowerCase() || "";
+      const valorAsString = product.valor.toString();
+  
+      return costo.includes(searchTerm) || detalle.includes(searchTerm) || valorAsString.includes(searchTerm);
+    });
+  
+    setFilteredProducts(filtered);
     setSelectedMonth("");
     calcularGastoDelMes();
   };
@@ -167,6 +166,9 @@ export default function BasicTable({
       setFilteredProducts(data);
     });
   }, []);
+  React.useEffect(() => {
+    filterProductsByDate(selectedFromDate, selectedToDate);
+  }, [selectedFromDate, selectedToDate]);
 
   return (
     <>
@@ -181,7 +183,9 @@ export default function BasicTable({
         />
       )}
       <div className="reporteCostosContent">
-        <IonBadge> Reporte de costos</IonBadge>
+        <IonTitle>
+          <Tag> Reporte de costos</Tag>
+        </IonTitle>
         <div className="navContentReportCostos">
           <div className="search-container">
             <RangePicker
@@ -210,8 +214,8 @@ export default function BasicTable({
                 console.log("DESDE", fechaFormateada);
                 console.log("HASTA", fechaFormateadaHasta);
 
-                setSelectedFromDate(fechaFormateada);
-                setSelectedToDate(fechaFormateadaHasta);
+                setSelectedFromDate((prevState) => fechaFormateada);
+                setSelectedToDate((prevState) => fechaFormateadaHasta);
 
                 filterProductsByDate(fechaFormateada, selectedToDate);
               }}

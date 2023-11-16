@@ -1,15 +1,12 @@
 .RegistrarCostoBox {
     background-color: $light;
-    padding: 10px;
 
-    .contentBadgeNav {
-        margin: 10px;
-    }
 
     .selectionCombo {
         display: flex;
         flex-wrap: wrap;
-        
+        padding: 10px;
+
 
 
         ion-icon {
@@ -17,15 +14,9 @@
         }
     }
 
-    ion-badge {
-        margin: 10px;
-    }
 
 
 
-  
-}  .comboBoxBottom {
-    button{
-        
-    }
+
+
 }

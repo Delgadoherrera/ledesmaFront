@@ -192,6 +192,7 @@ export default function BasicTable({
 
   return (
     <>
+    
       {/*     <div>
         <IonBadge>Fecha de compra:</IonBadge>
         <InputText
@@ -203,6 +204,26 @@ export default function BasicTable({
       </div> */}
 
       <TableContainer component={Paper} className="tableMateriales">
+      {elementCombo.length > 0 ? (
+          <div className="comboBoxBottom">
+            <Button
+            className="buyButton"
+              id="present-alert"
+              onClick={(e) => {
+                const prices = Object.fromEntries(
+                  elementCombo.map((item: any) => [
+                    item.material.id,
+                    item.precio,
+                    item.fecha,
+                  ])
+                );
+                return handleSend(selectedMaterials, prices);
+              }}
+            >
+              Guardar lista 
+            </Button>
+          </div>
+        ) : null}
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -240,25 +261,7 @@ export default function BasicTable({
               ))}
           </TableBody>
         </Table>
-        {elementCombo.length > 0 ? (
-          <div className="comboBoxBottom">
-            <Button
-              id="present-alert"
-              onClick={(e) => {
-                const prices = Object.fromEntries(
-                  elementCombo.map((item: any) => [
-                    item.material.id,
-                    item.precio,
-                    item.fecha,
-                  ])
-                );
-                return handleSend(selectedMaterials, prices);
-              }}
-            >
-              Guardar
-            </Button>
-          </div>
-        ) : null}
+  
       </TableContainer>
       {alertMsg && (
         <Alert severity="success">

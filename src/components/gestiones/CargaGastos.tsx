@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Button, Input } from "antd";
+import { Button, Input, Tag } from "antd";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -11,7 +11,7 @@ import { Costos } from "../../interfaces/index";
 import { useDispatch } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
-import { IonBadge, IonToast } from "@ionic/react";
+import { IonBadge, IonTitle, IonToast } from "@ionic/react";
 export default function CargaCostos() {
   const [values, setValues] = useState<Costos>({
     idCostoItem: 0,
@@ -81,7 +81,10 @@ export default function CargaCostos() {
 
   return (
     <div className="cargarCostosContainer">
-      <IonBadge> Cargar costos</IonBadge>
+      <IonTitle>
+      <Tag> Cargar costos</Tag>
+
+      </IonTitle>
       <Box
         component="form"
         sx={{

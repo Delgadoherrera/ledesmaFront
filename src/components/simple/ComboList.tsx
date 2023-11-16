@@ -209,24 +209,36 @@ export default function BasicTable({
   console.log("nowDate", fechaHoy);
   return (
     <>
-      <div className="fechaCompraRegistros">
-        <IonNote>Fecha de compra</IonNote>
-        <DatePicker
-          defaultValue={dayjs(fechaHoy, dateFormat)}
-          onChange={(e) => {
-            console.log("FECHA EJEMPLO", e);
-            const fechaOriginal = new Date(e.$d);
-            const año = fechaOriginal.getFullYear();
-            const mes = (fechaOriginal.getMonth() + 1)
-              .toString()
-              .padStart(2, "0"); // Agrega un 0 si es necesario
-            const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
-            const fechaFormateada = `${año}-${mes}-${dia}`;
-            console.log("fechaOriginal", fechaFormateada);
-            setDate(fechaFormateada);
+  {/*     <DatePicker
+        defaultValue={dayjs(fechaHoy, dateFormat)}
+        onChange={(e) => {
+          console.log("FECHA EJEMPLO", e);
+          const fechaOriginal = new Date(e.$d);
+          const año = fechaOriginal.getFullYear();
+          const mes = (fechaOriginal.getMonth() + 1)
+            .toString()
+            .padStart(2, "0"); // Agrega un 0 si es necesario
+          const dia = fechaOriginal.getDate().toString().padStart(2, "0"); // Agrega un 0 si es necesario
+          const fechaFormateada = `${año}-${mes}-${dia}`;
+          console.log("fechaOriginal", fechaFormateada);
+          setDate(fechaFormateada);
+        }}
+      ></DatePicker> */}
+      {elementCombo.length > 0 ? (
+        <Button
+        className="buyButton"
+          id="present-alert"
+          onClick={(e) => {
+            const prices = Object.fromEntries(
+              elementCombo.map((item: any) => [item.material.id, item.precio])
+            );
+            return handleSend(selectedMaterials, prices);
           }}
-        ></DatePicker>
-      </div>
+        >
+          Guardar reporte
+        </Button>
+      ) : null}
+
 
       <TableContainer component={Paper} className="tableMateriales">
         <Table sx={{ minWidth: 450 }} aria-label="simple table">
@@ -246,7 +258,7 @@ export default function BasicTable({
               elementCombo.map((row, index) => (
                 <TableRow
                   key={index}
-                  sx={{ "&:last-child td, &:last-child th": { border:0 } }}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row" align="left">
                     {row.material.descripcion}
@@ -267,30 +279,12 @@ export default function BasicTable({
               ))}
           </TableBody>
         </Table>
-        {elementCombo.length > 0 ? (
-          <div className="comboBoxBottom">
-            <Button
-              id="present-alert"
-              onClick={(e) => {
-                const prices = Object.fromEntries(
-                  elementCombo.map((item: any) => [
-                    item.material.id,
-                    item.precio,
-                  ])
-                );
-                return handleSend(selectedMaterials, prices);
-              }}
-            >
-              Comprar
-            </Button>
-          </div>
-        ) : null}
       </TableContainer>
       {alertMsg && (
         <Alert severity="success">
           <AlertTitle>Compra realizada</AlertTitle>
           Compra realizada con éxito{" "}
-          <strong>Podrás ver el reporte en el catálogo de compras.</strong>
+          <strong>Agregado al reporte de compras.</strong>
         </Alert>
       )}
     </>

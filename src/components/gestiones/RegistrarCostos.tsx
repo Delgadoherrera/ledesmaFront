@@ -4,6 +4,7 @@ import { Materiales, Costos } from "../../interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import {
   IonSelect,
+  IonTitle,
   useIonViewDidEnter,
   useIonViewWillEnter,
 } from "@ionic/react";
@@ -19,9 +20,13 @@ import {
 import { Box, Typography } from "@mui/material";
 import { components } from "react-select";
 import add from "../../assets/icons/add-circle-svgrepo-com(1).svg";
-import { refreshThis } from "../../features/dataReducer/dataReducer";
+import {
+  dialogText,
+  refreshThis,
+  showDialogAdv,
+} from "../../features/dataReducer/dataReducer";
 import { InputText } from "primereact/inputtext";
-import { Button, DatePicker, Select } from "antd";
+import { Button, DatePicker, Select, Tag } from "antd";
 import { Input } from "antd";
 import moment from "moment";
 import { addCircle } from "ionicons/icons";
@@ -49,6 +54,7 @@ export default function MultipleSelect() {
     null
   );
   const [refreshSelect, setRefreshSelect] = React.useState(true);
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     productService.ListarCostos().then((data: any) => {
@@ -89,7 +95,10 @@ export default function MultipleSelect() {
     <div>
       <Box className="RegistrarCostoBox">
         <div className="contentBadgeNav">
-          <IonBadge>Registrar costos</IonBadge>
+          <IonTitle>
+          <Tag>Registrar costos</Tag>
+
+          </IonTitle>
         </div>
 
         <div className="selectionCombo">
@@ -157,6 +166,33 @@ export default function MultipleSelect() {
           </div>
           <Button
             onClick={() => {
+              if (!selectedDescription) {
+                dispatch(showDialogAdv(true));
+                dispatch(dialogText("Falta seleccionar costo"));
+                return; // Sale de la función si no hay descripción seleccionada
+              }
+              if (!selectedMeasure) {
+                dispatch(showDialogAdv(true));
+                dispatch(dialogText("Falta seleccionar concepto"));
+                return; // Sale de la función si no hay medida seleccionada
+              }
+              if (!date) {
+                dispatch(showDialogAdv(true));
+                dispatch(dialogText("Falta ingresar la fecha"));
+                return; // Sale de la función si no hay valor ingresado
+              }
+              if (!materialQuantity) {
+                dispatch(showDialogAdv(true));
+
+                dispatch(dialogText("Falta ingresar el detalle"));
+                return; // Sale de la función si no hay cantidad ingresada
+              }
+              if (!materialValue) {
+                dispatch(showDialogAdv(true));
+
+                dispatch(dialogText("Falta ingresar el valor"));
+                return; // Sale de la función si no hay cantidad ingresada
+              }
               if (
                 selectedDescription &&
                 selectedMeasure &&
@@ -203,12 +239,14 @@ export default function MultipleSelect() {
               }
             }}
           >
-            +
+            + Agregar a lista
           </Button>
+
         </div>
+        <CostosList elementCombo={elementCombo} setElementCombo={emptyList} />
+
       </Box>
 
-      <CostosList elementCombo={elementCombo} setElementCombo={emptyList} />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import * as React from "react";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales, Costos } from "../../interfaces";
 import { useDispatch, useSelector } from "react-redux";
-import { Select } from "antd";
+import { Breadcrumb, Select, Tag } from "antd";
 import {
   IonHeader,
   IonSelect,
@@ -104,8 +104,7 @@ export default function MultipleSelect({
     <div className="CargaTipoItemContent">
       <>
         <IonTitle>
-          {" "}
-          <IonBadge>Carga tipo de producto</IonBadge>
+          <Tag>Carga tipo de producto</Tag>
         </IonTitle>
         <Select
           options={uniqueDescriptions.map((description) => ({

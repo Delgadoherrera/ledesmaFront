@@ -1,25 +1,27 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Typography from "@mui/material/Typography";
 import { Materiales } from "../../interfaces/index";
 import { useDispatch } from "react-redux";
 import { ProductServices } from "../../Services/ProductService";
-import { refreshThis } from "../../features/dataReducer/dataReducer";
+import {
+  dialogAdvText,
+  dialogText,
+  refreshThis,
+  showDialogAdv,
+} from "../../features/dataReducer/dataReducer";
 import { IonToast } from "@ionic/react";
 import { Button, Input, Select } from "antd";
+
 export default function CargaMateriales() {
   const [values, setValues] = useState<Materiales>({
     descripcion: "",
     medida: "",
-    unidadMedida: "",
+    unidadMedida: "Unidad medida",
     id: null,
   });
   const [formErrors, setFormErrors] = useState<any>({});
   const [alertMsg, setAlertMsg] = useState(false);
+  const [showMsg, setShowMsg] = useState(false);
   const [configAlert, setConfigAlert] = React.useState({
     message: `${values.descripcion} agregado con éxito!`,
   });
@@ -30,9 +32,10 @@ export default function CargaMateriales() {
 
     if (!values.descripcion) {
       errors.descripcion = "La descripción es requerida.";
+      dispatch(dialogText("Falta descripcion"));
     }
 
-    if (!values.unidadMedida) {
+    if (!values.unidadMedida || values.unidadMedida === "Unidad medida") {
       errors.unidadMedida = "La unidad de medida es requerida.";
     }
 
@@ -48,12 +51,11 @@ export default function CargaMateriales() {
     setValues({
       descripcion: "",
       medida: "",
-      unidadMedida: "",
+      unidadMedida: "Unidad medida",
       id: null,
     });
     setFormErrors({});
   };
-
   const handleSend = async () => {
     const data = {
       descripcion: values.descripcion,
@@ -81,6 +83,21 @@ export default function CargaMateriales() {
       } catch (error) {
         console.error("Error al realizar la solicitud:", error);
       }
+    } else {
+      if (!values.descripcion) {
+        dispatch(dialogText("Faltan descripcion"));
+        dispatch(showDialogAdv(true));
+      }
+
+      if (!values.unidadMedida || values.unidadMedida === "Unidad medida") {
+        dispatch(dialogText("Falta unidad de medida"));
+        dispatch(showDialogAdv(true));
+      }
+    }
+
+    if (!values.medida) {
+      dispatch(dialogText("Falta medida"));
+      dispatch(showDialogAdv(true));
     }
   };
 
@@ -106,10 +123,10 @@ export default function CargaMateriales() {
           { value: "Cm", label: "Centímetros" },
           { value: "Mts", label: "Metros" },
           { value: "Uni", label: "Unidades" },
-          // Agrega más opciones según sea necesario
         ]}
         onChange={(e) => setValues({ ...values, unidadMedida: e })}
         placeholder={"Unidad de medida"}
+        value={values.unidadMedida}
       />
       <Input
         placeholder="Medida"
@@ -120,7 +137,7 @@ export default function CargaMateriales() {
       <Button color="primary" onClick={handleSend}>
         Enviar
       </Button>
-      <Button color="secondary" onClick={limpiarFormulario}>
+      <Button color="secondary" onClick={() => limpiarFormulario()}>
         Limpiar
       </Button>
       {alertMsg && (

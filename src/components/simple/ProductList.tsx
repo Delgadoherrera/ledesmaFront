@@ -8,14 +8,14 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ProductServices } from "../../Services/ProductService";
 import { Materiales } from "../../interfaces/index";
-import { IonBadge, IonIcon } from "@ionic/react";
+import { IonBadge, IonIcon, IonTitle } from "@ionic/react";
 import { menu } from "ionicons/icons";
 import { Menu, MenuItem } from "@mui/material";
 import ModalList from "./Modals";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshThis } from "../../features/dataReducer/dataReducer";
 import CargaMateriales from "../gestiones/CargaMateriales";
-import { Input } from "antd";
+import { Input, Tag } from "antd";
 
 export default function BasicTable({
   closeModal,
@@ -131,14 +131,17 @@ export default function BasicTable({
   return (
     <>
     <div className="cargaMaterialesNav">
-    <IonBadge>Carga de materiales</IonBadge>
+      <IonTitle>
+      <Tag>Carga de materiales</Tag>
+
+      </IonTitle>
       <CargaMateriales />
     </div>
    
       {showMopdal && (
         <ModalList
           closeModal={setShowModal}
-          action={todo}
+          action={configModal.action}
           tittle="Eliminar material?"
           bodyReq={`eliminar?`}
           element={element}

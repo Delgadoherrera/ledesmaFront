@@ -4,9 +4,16 @@
 
 .cargaMaterialesNav {
     background-color: rgba(180, 170, 197, 0.089);
-    padding: 10px;
-    ion-badge{
-        margin: 10px;
-    }
+
 }
 
+
+.buyButton {
+    background-color: $contrast;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    width: 100%;
+    padding: 20px;
+}

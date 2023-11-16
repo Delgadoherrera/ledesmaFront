@@ -2,25 +2,20 @@
 
     .contentCargaCategoriaProducto {
         background-color: rgba(196, 196, 196, 0.082);
-        padding: 10px;
         border-radius: 10px !important;
 
         input {
             max-width: 200px;
-            margin: 5px;
         }
 
-        border: solid 1px $selected;
     }
 
     
+    border: solid 1px $selected;
 
     .CargaTipoItemContent {
         border-bottom: solid 1px $selected;
-
         background-color: rgba(196, 196, 196, 0.082);
-
-        padding: 10px;
         border-radius: 10px !important;
 
         button {
